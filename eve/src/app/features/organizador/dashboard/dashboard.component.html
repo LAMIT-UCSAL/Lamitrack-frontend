@@ -1,0 +1,111 @@
+<div class="page-offset">
+  <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 1152px;">
+
+    <div class="mb-4">
+      <h1 class="fs-2 fw-bold text-eve-navy mb-1">Painel do organizador</h1>
+      <p class="small text-eve-secondary mb-0">
+        Acompanhe o desempenho dos seus eventos. A EVE cobra uma comissão de
+        <strong class="text-eve-navy">5%</strong> sobre os ingressos vendidos pela plataforma.
+      </p>
+    </div>
+
+    <div class="row g-3 mb-4">
+      <div class="col-6 col-lg-3">
+        <div class="eve-card p-3 h-100">
+          <p class="small fw-medium text-eve-secondary mb-1">Total de inscritos</p>
+          <p class="fs-5 fw-bold text-eve-navy mb-0">{{ resumo.totalInscritos }}</p>
+          <p class="small text-eve-secondary mb-0">nos seus eventos</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="eve-card p-3 h-100">
+          <p class="small fw-medium text-eve-secondary mb-1">Receita projetada</p>
+          <p class="fs-5 fw-bold text-eve-navy mb-0">R$ {{ resumo.receitaTotal | number:'1.0-2' }}</p>
+          <p class="small text-eve-secondary mb-0">todos os eventos</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="eve-card p-3 h-100">
+          <p class="small fw-medium text-eve-secondary mb-1">Comissão EVE (5%)</p>
+          <p class="fs-5 fw-bold text-eve-navy mb-0">R$ {{ resumo.comissaoTotal | number:'1.0-2' }}</p>
+          <p class="small text-eve-secondary mb-0">a descontar</p>
+        </div>
+      </div>
+      <div class="col-6 col-lg-3">
+        <div class="eve-card p-3 h-100">
+          <p class="small fw-medium text-eve-secondary mb-1">Receita líquida</p>
+          <p class="fs-5 fw-bold text-eve-navy mb-0">R$ {{ resumo.liquidoTotal | number:'1.0-2' }}</p>
+          <p class="small text-eve-secondary mb-0">estimativa</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="eve-card p-4 mb-4">
+      <h2 class="fs-6 fw-semibold text-eve-navy mb-4">Ocupação dos eventos</h2>
+      <div class="d-flex align-items-end gap-4" style="height: 180px;">
+        <div class="d-flex flex-column align-items-center flex-grow-1" *ngFor="let m of metricas">
+          <div class="d-flex align-items-end gap-1" style="height: 140px;">
+            <div class="rounded-top" style="width: 20px; background-color: #E9E8E2;" [style.height.%]="100"></div>
+            <div class="rounded-top" style="width: 20px; background-color: var(--eve-azul);" [style.height.%]="m.ocupacao"></div>
+          </div>
+          <span class="small text-eve-secondary mt-2 text-center">{{ m.evento.titulo.split(' ').slice(0,2).join(' ') }}</span>
+        </div>
+      </div>
+      <div class="d-flex gap-4 mt-3 small text-eve-secondary">
+        <span><span class="d-inline-block rounded-circle me-1" style="width:8px;height:8px;background-color:#E9E8E2;"></span>Capacidade</span>
+        <span><span class="d-inline-block rounded-circle me-1" style="width:8px;height:8px;background-color:var(--eve-azul);"></span>Inscritos</span>
+      </div>
+    </div>
+
+    <div class="d-flex flex-column gap-4">
+      <div class="eve-card p-4" *ngFor="let m of metricas">
+        <div class="d-flex flex-column flex-sm-row justify-content-between gap-3 mb-3">
+          <div>
+            <span [class]="'badge-cat badge-cat-' + m.evento.categoria.toLowerCase()" class="mb-2 d-inline-block">{{ m.evento.categoria }}</span>
+            <h3 class="fs-5 fw-bold text-eve-navy mb-0">{{ m.evento.titulo }}</h3>
+            <p class="small text-eve-secondary mb-0">{{ m.evento.dataFormatada }} · {{ m.evento.local }}</p>
+          </div>
+          <button type="button" class="btn btn-eve-outline btn-sm flex-shrink-0 align-self-start" (click)="irParaCheckin(m.evento)">Check-in</button>
+        </div>
+
+        <div class="mb-3">
+          <div class="d-flex justify-content-between small mb-1">
+            <span class="text-eve-secondary">{{ m.evento.inscritos }} inscritos de {{ m.evento.capacidadeTotal }} vagas</span>
+            <span class="fw-semibold text-eve-navy">{{ m.ocupacao }}%</span>
+          </div>
+          <div class="eve-progress-track">
+            <div class="eve-progress-fill" [style.width.%]="m.ocupacao" style="background-color: var(--eve-azul);"></div>
+          </div>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-6 col-sm-3">
+            <div class="rounded-eve-lg border p-2" style="border-color: var(--eve-cinza-borda); background-color: var(--eve-cream);">
+              <p class="small text-eve-secondary mb-1">Ocupação</p>
+              <p class="small fw-bold mb-0" [style.color]="m.ocupacao >= 80 ? 'var(--eve-laranja)' : 'var(--eve-navy)'">{{ m.ocupacao }}%</p>
+            </div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="rounded-eve-lg border p-2" style="border-color: var(--eve-cinza-borda); background-color: var(--eve-cream);">
+              <p class="small text-eve-secondary mb-1">Receita</p>
+              <p class="small fw-bold text-eve-navy mb-0">R$ {{ m.receitaProjetada | number:'1.0-2' }}</p>
+            </div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="rounded-eve-lg border p-2" style="border-color: var(--eve-cinza-borda); background-color: var(--eve-cream);">
+              <p class="small text-eve-secondary mb-1">Comissão 5%</p>
+              <p class="small fw-bold text-eve-secondary mb-0">R$ {{ m.comissao | number:'1.0-2' }}</p>
+            </div>
+          </div>
+          <div class="col-6 col-sm-3">
+            <div class="rounded-eve-lg border p-2" style="border-color: var(--eve-cinza-borda); background-color: var(--eve-cream);">
+              <p class="small text-eve-secondary mb-1">Receita líquida</p>
+              <p class="small fw-bold mb-0" style="color: var(--eve-verde);">R$ {{ m.receitaLiquida | number:'1.0-2' }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

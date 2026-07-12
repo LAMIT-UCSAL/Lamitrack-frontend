@@ -1,0 +1,4 @@
+[
+  { "id": 1, "eventoId": 1, "autor": "SENAI CIMATEC", "iniciais": "SC", "mensagem": "Check-in libera às 8h no local. Tragam documento com foto.", "tempo": "há 2 horas" },
+  { "id": 2, "eventoId": 1, "autor": "SENAI CIMATEC", "iniciais": "SC", "mensagem": "Lista de mentores por trilha já está disponível no mural.", "tempo": "ontem" }
+]

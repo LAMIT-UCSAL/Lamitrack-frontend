@@ -1,0 +1,36 @@
+<div class="page-offset" style="min-height: 100vh;">
+  <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 720px;">
+
+    <a routerLink="/" class="d-inline-flex align-items-center gap-2 small fw-medium text-eve-secondary text-decoration-none mb-4">
+      ← Voltar
+    </a>
+
+    <span class="d-inline-flex align-items-center gap-2 small fw-semibold px-3 py-1 rounded-eve-full mb-3" style="background-color: #E6F1FB; color: #0C447C;">
+      Conformidade LGPD
+    </span>
+
+    <h1 class="fs-2 fw-bold text-eve-navy mb-2">Política de Privacidade</h1>
+    <p class="small text-eve-secondary mb-2">EVE — Ecossistema Virtual de Eventos · Versão 1.0 · Julho de 2025</p>
+    <p class="small text-eve-secondary mb-5" style="line-height: 1.7;">
+      Esta Política descreve como coletamos, usamos e protegemos seus dados pessoais em cumprimento à Lei Geral de Proteção de Dados (Lei 13.709/2018) e demais legislações aplicáveis.
+    </p>
+
+    <div class="d-flex flex-column gap-4">
+      <div *ngFor="let s of secoes; let i = index">
+        <div class="d-flex align-items-start gap-3 mb-2">
+          <span class="rounded-circle flex-shrink-0 d-flex align-items-center justify-content-center text-white fw-bold small" style="width: 24px; height: 24px; background-color: var(--eve-azul);">{{ i + 1 }}</span>
+          <h2 class="fs-6 fw-bold text-eve-navy mb-0 pt-1">{{ s.titulo }}</h2>
+        </div>
+        <p class="small text-eve-secondary mb-0" style="line-height: 1.7; padding-left: 36px;">{{ s.texto }}</p>
+      </div>
+    </div>
+
+    <div class="mt-5 p-4 rounded-eve-xl border" style="border-color: var(--eve-cinza-borda); background-color: #fff;">
+      <p class="small fw-semibold text-eve-navy mb-1">Dúvidas ou solicitações?</p>
+      <p class="small text-eve-secondary mb-0">
+        Fale com nossa equipe pelo e-mail <span class="text-eve-azul text-decoration-underline">privacidade&#64;eve.app.br</span> ou acesse o portal de direitos do titular em eve.app.br/direitos.
+      </p>
+    </div>
+
+  </div>
+</div>

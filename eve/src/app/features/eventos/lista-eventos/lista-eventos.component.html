@@ -1,0 +1,37 @@
+<div class="page-offset">
+  <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 1152px;">
+    <h1 class="fs-2 fw-bold text-eve-navy mb-1">Todos os eventos</h1>
+    <p class="small text-eve-secondary mb-4">{{ eventos.length }} eventos cadastrados no ecossistema de Salvador</p>
+
+    <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
+      <div class="position-relative" style="max-width: 280px; width: 100%;">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Buscar eventos..."
+          [(ngModel)]="busca"
+          (ngModelChange)="aplicarFiltros()">
+      </div>
+      <div class="d-flex gap-2 flex-wrap">
+        <button
+          *ngFor="let categoria of categorias"
+          type="button"
+          class="pill-filter"
+          [class.active]="categoriaAtiva === categoria"
+          (click)="filtrar(categoria)">
+          {{ categoria }}
+        </button>
+      </div>
+    </div>
+
+    <p *ngIf="eventosFiltrados.length === 0" class="text-center text-eve-secondary py-5">
+      Nenhum evento encontrado.
+    </p>
+
+    <div class="row g-4" *ngIf="eventosFiltrados.length > 0">
+      <div class="col-12 col-sm-6 col-lg-4" *ngFor="let evento of eventosFiltrados">
+        <app-evento-card [evento]="evento"></app-evento-card>
+      </div>
+    </div>
+  </div>
+</div>

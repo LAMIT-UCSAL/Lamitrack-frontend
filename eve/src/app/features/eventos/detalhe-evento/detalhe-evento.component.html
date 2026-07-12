@@ -1,0 +1,158 @@
+<div class="page-offset" *ngIf="evento" style="min-height: 100vh;">
+  <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 1152px;">
+
+    <a routerLink="/eventos" class="d-inline-flex align-items-center gap-2 small fw-medium text-eve-secondary text-decoration-none mb-4">
+      ← Voltar aos eventos
+    </a>
+
+    <div class="row g-4">
+      <div class="col-12 col-lg-8">
+        <div class="rounded-eve-xl overflow-hidden mb-4 border" style="border-color: var(--eve-cinza-borda);">
+          <img [src]="evento.imagemUrl" [alt]="evento.titulo" class="w-100" style="height: 280px; object-fit: cover;">
+        </div>
+
+        <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
+          <span [class]="'badge-cat badge-cat-' + evento.categoria.toLowerCase()">{{ evento.categoria }}</span>
+          <span *ngIf="evento.precoIngresso === 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: var(--eve-verde-bg); color: var(--eve-verde-escuro);">Evento gratuito</span>
+          <span *ngIf="evento.precoIngresso > 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: #FFF3E0; color: #A04010;">R$ {{ evento.precoIngresso }},00</span>
+        </div>
+
+        <h1 class="fs-2 fw-bold text-eve-navy mb-3">{{ evento.titulo }}</h1>
+
+        <div class="row g-3 mb-4">
+          <div class="col-12 col-sm-4">
+            <div class="eve-card p-3 h-100">
+              <p class="small fw-medium text-eve-secondary mb-1">Data</p>
+              <p class="small fw-semibold text-eve-navy mb-0">{{ evento.dataFormatada }}</p>
+            </div>
+          </div>
+          <div class="col-12 col-sm-4">
+            <div class="eve-card p-3 h-100">
+              <p class="small fw-medium text-eve-secondary mb-1">Local</p>
+              <p class="small fw-semibold text-eve-navy mb-0">{{ evento.local }}</p>
+            </div>
+          </div>
+          <div class="col-12 col-sm-4">
+            <div class="eve-card p-3 h-100">
+              <p class="small fw-medium text-eve-secondary mb-1">Inscritos</p>
+              <p class="small fw-semibold text-eve-navy mb-0">{{ evento.inscritos }} / {{ evento.capacidadeTotal }}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4">
+          <h2 class="fs-5 fw-semibold text-eve-navy mb-2">Sobre o evento</h2>
+          <p class="small text-eve-secondary" style="line-height: 1.7;">{{ evento.descricao }}</p>
+        </div>
+
+        <div class="eve-card p-3 d-flex align-items-center justify-content-between flex-wrap gap-3">
+          <div>
+            <p class="small fw-medium text-eve-secondary mb-0">Organizado por</p>
+            <p class="small fw-semibold text-eve-navy mb-0">{{ evento.organizador }}</p>
+          </div>
+          <button type="button" class="btn btn-link text-decoration-none small fw-medium text-eve-azul p-0" (click)="irParaComunidade()">Ver comunidade →</button>
+        </div>
+      </div>
+
+      <div class="col-12 col-lg-4">
+        <div class="eve-card p-4" style="position: sticky; top: 88px;">
+
+          <ng-container *ngIf="!inscricaoConfirmada; else confirmado">
+            <h2 class="fs-5 fw-bold text-eve-navy mb-1">
+              {{ evento.precoIngresso === 0 ? 'Inscrição gratuita' : 'Ingresso — R$ ' + evento.precoIngresso + ',00' }}
+            </h2>
+            <p class="small text-eve-secondary mb-3">Preencha os dados para garantir sua vaga.</p>
+
+            <div class="d-flex align-items-center gap-2 mb-1">
+              <div class="eve-progress-track flex-grow-1">
+                <div class="eve-progress-fill" [style.width.%]="percentualOcupacao" style="background-color: var(--eve-azul);"></div>
+              </div>
+              <span class="small text-eve-secondary flex-shrink-0">{{ percentualOcupacao }}%</span>
+            </div>
+            <p class="small text-eve-secondary mb-3">{{ vagasRestantes }} vagas restantes</p>
+
+            <form [formGroup]="form" (ngSubmit)="confirmarInscricao()" class="d-flex flex-column gap-3">
+
+              <ng-container *ngIf="etapa === 'dados'">
+                <p class="small fw-semibold text-eve-azul mb-0">Etapa 1 de 2 — Seus dados</p>
+                <div>
+                  <label class="form-label small fw-medium text-eve-navy">Nome completo</label>
+                  <input type="text" class="form-control" placeholder="Seu nome" formControlName="nome">
+                  <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="nome?.invalid && nome?.touched">Nome é obrigatório.</div>
+                </div>
+                <div>
+                  <label class="form-label small fw-medium text-eve-navy">E-mail</label>
+                  <input type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
+                  <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="email?.invalid && email?.touched">E-mail inválido.</div>
+                </div>
+                <div>
+                  <label class="form-label small fw-medium text-eve-navy">CPF <span class="text-eve-secondary fw-normal">(opcional)</span></label>
+                  <input type="text" class="form-control" placeholder="000.000.000-00" formControlName="cpf">
+                  <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="cpf?.invalid && cpf?.touched">CPF inválido — verifique os 11 dígitos.</div>
+                </div>
+                <button type="button" class="btn btn-eve-primary w-100 py-2" (click)="avancarParaConsentimento()">
+                  Continuar
+                </button>
+              </ng-container>
+
+              <ng-container *ngIf="etapa === 'consentimento'">
+                <p class="small fw-semibold text-eve-azul mb-0">Etapa 2 de 2 — Consentimento LGPD</p>
+                <div class="p-3 rounded-eve-lg border" style="background-color: var(--eve-cream);" [style.border-color]="aceiteLgpd?.invalid && aceiteLgpd?.touched ? 'var(--eve-vermelho)' : 'var(--eve-cinza-borda)'">
+                  <p class="small text-eve-secondary mb-2" style="line-height: 1.5;">
+                    Coletamos apenas nome e e-mail (CPF é opcional) para emitir seu ingresso e permitir seu check-in no evento. Seus dados não são compartilhados com terceiros. Saiba mais na nossa <a routerLink="/institucional/privacidade" class="text-eve-azul">política de privacidade</a>.
+                  </p>
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" formControlName="aceiteLgpd" id="aceiteLgpd">
+                    <label class="form-check-label small text-eve-secondary" for="aceiteLgpd" style="line-height: 1.5;">
+                      Li e concordo com o uso dos meus dados para fins deste evento, conforme a LGPD.
+                    </label>
+                  </div>
+                  <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="aceiteLgpd?.invalid && aceiteLgpd?.touched">Você precisa aceitar os termos para continuar.</div>
+                </div>
+                <div class="d-flex gap-2">
+                  <button type="button" class="btn btn-eve-outline w-50 py-2" (click)="voltarParaDados()">Voltar</button>
+                  <button type="submit" class="btn btn-eve-primary w-50 py-2">
+                    {{ evento.precoIngresso === 0 ? 'Confirmar inscrição' : 'Confirmar e pagar' }}
+                  </button>
+                </div>
+              </ng-container>
+
+            </form>
+          </ng-container>
+
+          <ng-template #confirmado>
+            <div class="d-flex flex-column align-items-center text-center">
+              <div class="rounded-circle d-flex align-items-center justify-content-center mb-3" style="width: 48px; height: 48px; background-color: var(--eve-verde-bg);">
+                <span style="color: var(--eve-verde); font-size: 1.25rem;">✓</span>
+              </div>
+              <h2 class="fs-5 fw-bold text-eve-navy mb-1">Inscrição confirmada!</h2>
+              <p class="small text-eve-secondary mb-4">Seu ingresso digital foi gerado. Apresente o QR code no credenciamento.</p>
+
+              <div class="w-100 rounded-eve-xl border p-3 mb-3" style="border-color: var(--eve-cinza-borda); background-color: var(--eve-cream);">
+                <div class="d-flex justify-content-center mb-3">
+                  <img *ngIf="qrCodeDataUrl" [src]="qrCodeDataUrl" width="176" height="176" alt="QR code do ingresso">
+                </div>
+                <hr style="border-color: var(--eve-cinza-borda);">
+                <div class="text-start">
+                  <p class="small fw-medium text-eve-secondary mb-0">Evento</p>
+                  <p class="small fw-bold text-eve-navy mb-2">{{ evento.titulo }}</p>
+                  <p class="small fw-medium text-eve-secondary mb-0">Data</p>
+                  <p class="small fw-semibold text-eve-navy mb-2">{{ evento.dataFormatada }}</p>
+                  <p class="small fw-medium text-eve-secondary mb-0">Participante</p>
+                  <p class="small fw-semibold text-eve-navy mb-0">{{ nome?.value || 'Participante' }}</p>
+                </div>
+              </div>
+
+              <span class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: var(--eve-verde-bg); color: var(--eve-verde-escuro);">
+                Ingresso #{{ numeroIngresso }}
+              </span>
+
+              <button type="button" class="btn btn-eve-outline w-100 mt-4 py-2" (click)="irParaComunidade()">Acessar comunidade do evento</button>
+            </div>
+          </ng-template>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,71 @@
+<div class="page-offset">
+
+  <section class="border-bottom py-5" style="border-color: var(--eve-cinza-borda) !important; padding-top: 3rem;">
+    <div class="container-xxl px-3 px-md-4" style="max-width: 1152px;">
+      <div style="max-width: 620px;">
+        <span class="d-inline-flex align-items-center gap-2 small fw-semibold px-3 py-1 rounded-eve-full mb-3" style="background-color: #E6F1FB; color: #0C447C;">
+          <span class="rounded-circle d-inline-block" style="width: 6px; height: 6px; background-color: var(--eve-azul);"></span>
+          Salvador, Bahia · Ecossistema de Inovação
+        </span>
+        <h1 class="fw-bold mb-3 text-eve-navy" style="font-size: 2.75rem; line-height: 1.15; letter-spacing: -0.02em;">
+          Descubra o ecossistema de inovação de Salvador
+        </h1>
+        <p class="fs-5 text-eve-secondary mb-4">
+          Hackathons, ideathons, maratonas de programação e editais de aceleradoras — tudo em um só lugar. Garanta seu ingresso e conecte-se com quem está construindo o futuro da Bahia.
+        </p>
+        <div class="d-flex gap-3 flex-wrap">
+          <button type="button" class="btn btn-eve-primary px-4 py-2" (click)="irParaEventos()">Explorar eventos</button>
+          <button type="button" class="btn btn-eve-outline px-4 py-2">Para organizadores</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="border-bottom bg-white py-3" style="border-color: var(--eve-cinza-borda) !important;">
+    <div class="container-xxl px-3 px-md-4 d-flex gap-5 flex-wrap" style="max-width: 1152px;">
+      <div class="d-flex flex-column" *ngFor="let s of stats">
+        <span class="fs-4 fw-bold text-eve-navy">{{ s.value }}</span>
+        <span class="small text-eve-secondary">{{ s.label }}</span>
+      </div>
+    </div>
+  </div>
+
+  <section class="py-5">
+    <div class="container-xxl px-3 px-md-4" style="max-width: 1152px;">
+      <div class="d-flex align-items-center justify-content-between flex-wrap gap-3 mb-4">
+        <h2 class="fs-3 fw-bold text-eve-navy mb-0">Próximos eventos</h2>
+        <button type="button" class="btn btn-link text-decoration-none small fw-medium text-eve-azul p-0" (click)="irParaEventos()">Ver todos →</button>
+      </div>
+
+      <div class="d-flex gap-2 flex-wrap mb-4">
+        <button
+          *ngFor="let categoria of categorias"
+          type="button"
+          class="pill-filter"
+          [class.active]="categoriaAtiva === categoria"
+          (click)="filtrar(categoria)">
+          {{ categoria }}
+        </button>
+      </div>
+
+      <p *ngIf="eventosFiltrados.length === 0" class="text-center text-eve-secondary py-5">
+        Nenhum evento encontrado para esta categoria.
+      </p>
+
+      <div class="row g-4" *ngIf="eventosFiltrados.length > 0">
+        <div class="col-12 col-sm-6 col-lg-4" *ngFor="let evento of eventosFiltrados">
+          <app-evento-card [evento]="evento"></app-evento-card>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="mx-3 mx-md-4 mb-5 p-4 p-md-5 rounded-eve-xl d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-4" style="background-color: var(--eve-navy);">
+    <div>
+      <h3 class="fs-4 fw-bold text-white mb-2">Organize seu evento com a EVE</h3>
+      <p class="small mb-0" style="color: #A8B5C2;">Bilheteria digital, comunidade de participantes e métricas em tempo real. Apenas 5% de comissão sobre ingressos vendidos.</p>
+    </div>
+    <button type="button" class="btn btn-eve-primary px-4 py-2 flex-shrink-0">Criar evento</button>
+  </section>
+
+</div>

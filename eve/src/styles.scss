@@ -1,0 +1,182 @@
+$eve-azul: #0A69C4;
+$eve-azul-escuro: #0C447C;
+$eve-navy: #0E1B27;
+$eve-cream: #FBFAF8;
+$eve-laranja: #E8722C;
+$eve-cinza-borda: #D3D1C7;
+$eve-cinza-texto: #5F5E5A;
+$eve-verde: #2E7D32;
+$eve-verde-bg: #E8F5E9;
+$eve-verde-escuro: #1B5E20;
+$eve-vermelho: #C62828;
+
+$primary: $eve-azul;
+$secondary: $eve-cinza-texto;
+$warning: $eve-laranja;
+$body-color: $eve-navy;
+$body-bg: $eve-cream;
+$border-radius: 0.5rem;
+$font-family-base: 'Inter', system-ui, -apple-system, sans-serif;
+
+@import "bootstrap/scss/bootstrap";
+
+:root {
+  --eve-azul: #{$eve-azul};
+  --eve-azul-escuro: #{$eve-azul-escuro};
+  --eve-navy: #{$eve-navy};
+  --eve-cream: #{$eve-cream};
+  --eve-laranja: #{$eve-laranja};
+  --eve-cinza-borda: #{$eve-cinza-borda};
+  --eve-cinza-texto: #{$eve-cinza-texto};
+  --eve-verde: #{$eve-verde};
+  --eve-verde-bg: #{$eve-verde-bg};
+  --eve-verde-escuro: #{$eve-verde-escuro};
+  --eve-vermelho: #{$eve-vermelho};
+}
+
+body {
+  background-color: var(--eve-cream);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+/* ---------- Utilitários de marca ---------- */
+
+.rounded-eve-xl { border-radius: 12px !important; }
+.rounded-eve-lg { border-radius: 8px !important; }
+.rounded-eve-full { border-radius: 999px !important; }
+
+.eve-card {
+  background: #fff;
+  border: 1px solid var(--eve-cinza-borda);
+  border-radius: 12px;
+  transition: box-shadow 0.2s ease;
+}
+.eve-card-hover:hover {
+  box-shadow: 0 4px 14px rgba(14, 27, 39, 0.08);
+}
+
+.btn-eve-primary {
+  background-color: var(--eve-laranja);
+  border-color: var(--eve-laranja);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  &:hover, &:focus {
+    background-color: var(--eve-laranja);
+    opacity: 0.9;
+    color: #fff;
+  }
+}
+
+.btn-eve-outline {
+  background: transparent;
+  border: 1px solid var(--eve-azul);
+  color: var(--eve-azul);
+  border-radius: 8px;
+  font-weight: 600;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  &:hover {
+    background-color: var(--eve-azul);
+    color: #fff;
+  }
+}
+
+.text-eve-azul { color: var(--eve-azul) !important; }
+.text-eve-navy { color: var(--eve-navy) !important; }
+.text-eve-secondary { color: var(--eve-cinza-texto) !important; }
+
+/* Pills de filtro */
+.pill-filter {
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--eve-cinza-borda);
+  background: transparent;
+  color: var(--eve-cinza-texto);
+  transition: all 0.15s ease;
+}
+.pill-filter.active {
+  background-color: var(--eve-azul);
+  border-color: var(--eve-azul);
+  color: #fff;
+}
+
+/* Badges de categoria (cores herdadas do protótipo Figma) */
+.badge-cat {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.badge-cat-hackathon { background-color: #E6F1FB; color: #0C447C; }
+.badge-cat-ideathon  { background-color: #FFF3E0; color: #A04010; }
+.badge-cat-maratona  { background-color: #E8F5E9; color: #1B5E20; }
+.badge-cat-edital    { background-color: #F3E8FF; color: #5B21B6; }
+
+.badge-free {
+  background-color: var(--eve-verde);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+.badge-paid {
+  background-color: var(--eve-navy);
+  color: var(--eve-cream);
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+/* Navbar fixa */
+.navbar-eve-fixed {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  z-index: 1030;
+  background-color: var(--eve-cream);
+  border-bottom: 1px solid var(--eve-cinza-borda);
+  height: 56px;
+}
+.page-offset { padding-top: 80px; }
+
+/* Progress bar customizada */
+.eve-progress-track {
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background-color: #E9E8E2;
+  overflow: hidden;
+}
+.eve-progress-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
+}
+
+/* Toggle switch (check-in) */
+.eve-switch {
+  width: 44px;
+  height: 24px;
+  border-radius: 999px;
+  border: none;
+  position: relative;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+.eve-switch-thumb {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.2);
+  transition: transform 0.15s ease;
+}

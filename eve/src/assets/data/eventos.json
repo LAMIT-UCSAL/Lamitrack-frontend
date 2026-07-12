@@ -1,0 +1,72 @@
+[
+  {
+    "id": 1,
+    "titulo": "Hack Bahia 2025",
+    "categoria": "Hackathon",
+    "descricao": "O maior hackathon da Bahia reúne estudantes, desenvolvedores e empreendedores para construir soluções inovadoras em 48 horas contínuas. Trilhas de desafios nas áreas de saúde digital, mobilidade urbana e agronegócio inteligente. Mentores da indústria acompanham cada equipe, premiação total de R$ 30.000 e conexão direta com aceleradoras parceiras.",
+    "data": "2025-08-15T09:00:00",
+    "dataFormatada": "15–17 de Agosto de 2025",
+    "local": "SENAI CIMATEC, Salvador",
+    "capacidadeTotal": 400,
+    "inscritos": 342,
+    "precoIngresso": 0,
+    "organizador": "SENAI CIMATEC",
+    "imagemUrl": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=900&h=400&fit=crop&auto=format"
+  },
+  {
+    "id": 2,
+    "titulo": "IdeaLab Salvador",
+    "categoria": "Ideathon",
+    "descricao": "Um dia inteiro dedicado à geração e validação de ideias para o ecossistema de startups de Salvador. Metodologia Design Thinking facilitada por especialistas em inovação. Ao final do dia, as melhores ideias são apresentadas para um painel de investidores-anjo da região.",
+    "data": "2025-09-22T08:00:00",
+    "dataFormatada": "22 de Setembro de 2025",
+    "local": "InovaBA Hub, Paralela",
+    "capacidadeTotal": 250,
+    "inscritos": 187,
+    "precoIngresso": 0,
+    "organizador": "InovaBA",
+    "imagemUrl": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=900&h=400&fit=crop&auto=format"
+  },
+  {
+    "id": 3,
+    "titulo": "Maratona Code BA",
+    "categoria": "Maratona",
+    "descricao": "Maratona de programação competitiva no formato ACM-ICPC. Equipes de três pessoas têm cinco horas para resolver problemas clássicos de algoritmos e estruturas de dados. A classificação regional apura vagas para a etapa nacional.",
+    "data": "2025-10-05T13:00:00",
+    "dataFormatada": "5 de Outubro de 2025",
+    "local": "UFBA – Campus Ondina",
+    "capacidadeTotal": 150,
+    "inscritos": 89,
+    "precoIngresso": 25,
+    "organizador": "UFBA – DCC",
+    "imagemUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&h=400&fit=crop&auto=format"
+  },
+  {
+    "id": 4,
+    "titulo": "Edital Acelera Salvador",
+    "categoria": "Edital",
+    "descricao": "Programa de aceleração para startups early-stage sediadas em Salvador. Selecionamos 10 startups para um programa intensivo de 12 semanas com mentoria especializada, acesso a espaço de coworking na Paralela, networking com investidores e suporte jurídico e contábil.",
+    "data": "2025-09-30T00:00:00",
+    "dataFormatada": "Inscrições até 30 Set 2025",
+    "local": "Modalidade Online",
+    "capacidadeTotal": 500,
+    "inscritos": 156,
+    "precoIngresso": 0,
+    "organizador": "Secretaria de Desenvolvimento Econômico – BA",
+    "imagemUrl": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=400&fit=crop&auto=format"
+  },
+  {
+    "id": 5,
+    "titulo": "Hack Finance SSA",
+    "categoria": "Hackathon",
+    "descricao": "Hackathon voltado a soluções de fintech e inclusão financeira para o Nordeste, com mentoria de bancos digitais e fundos de investimento parceiros.",
+    "data": "2025-10-18T09:00:00",
+    "dataFormatada": "18–19 de Outubro de 2025",
+    "local": "Fecomércio BA, Pituba",
+    "capacidadeTotal": 300,
+    "inscritos": 201,
+    "precoIngresso": 0,
+    "organizador": "Fecomércio BA",
+    "imagemUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&h=400&fit=crop&auto=format"
+  }
+]

@@ -1,0 +1,29 @@
+<header class="navbar-eve-fixed">
+  <div class="container-xxl h-100 d-flex align-items-center justify-content-between px-3 px-md-4" style="max-width: 1152px;">
+    <a routerLink="/" (click)="closeMobile()" class="text-decoration-none fs-5 fw-semibold text-eve-azul" style="letter-spacing: -0.01em;">EVE</a>
+
+    <nav class="d-none d-md-flex align-items-center gap-4">
+      <a routerLink="/eventos" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Eventos</a>
+      <a routerLink="/comunidade" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Comunidades</a>
+      <a routerLink="/institucional/privacidade" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Sobre</a>
+    </nav>
+
+    <div class="d-none d-md-flex align-items-center gap-3">
+      <a routerLink="/organizador/dashboard" class="text-decoration-none small fw-medium text-eve-secondary">Painel</a>
+      <button type="button" class="btn btn-eve-outline btn-sm px-3 py-1">Entrar</button>
+    </div>
+
+    <button type="button" class="btn d-md-none p-1 text-eve-navy" (click)="toggleMobile()" aria-label="Abrir menu">
+      <span *ngIf="!mobileOpen">&#9776;</span>
+      <span *ngIf="mobileOpen">&times;</span>
+    </button>
+  </div>
+
+  <div *ngIf="mobileOpen" class="d-md-none border-top px-3 py-3 d-flex flex-column gap-3" style="background-color: var(--eve-cream); border-color: var(--eve-cinza-borda);">
+    <a routerLink="/eventos" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Eventos</a>
+    <a routerLink="/comunidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Comunidades</a>
+    <a routerLink="/institucional/privacidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Sobre</a>
+    <a routerLink="/organizador/dashboard" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Painel do organizador</a>
+    <button type="button" class="btn btn-eve-outline btn-sm align-self-start px-3 py-1">Entrar</button>
+  </div>
+</header>
