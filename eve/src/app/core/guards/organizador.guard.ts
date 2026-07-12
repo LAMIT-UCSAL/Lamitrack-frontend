@@ -6,7 +6,13 @@ export const organizadorGuard: CanActivateFn = (_route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.estaAutenticado()) return true;
+  if (!authService.estaAutenticado()) {
+    return router.createUrlTree(['/entrar'], { queryParams: { redirectTo: state.url } });
+  }
 
-  return router.createUrlTree(['/entrar'], { queryParams: { redirectTo: state.url } });
+  if (!authService.ehOrganizador) {
+    return router.createUrlTree(['/']);
+  }
+
+  return true;
 };

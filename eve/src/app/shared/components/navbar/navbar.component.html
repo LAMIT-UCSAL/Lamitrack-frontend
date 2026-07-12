@@ -12,9 +12,9 @@
     </nav>
 
     <div class="d-none d-md-flex align-items-center gap-3">
-      <a routerLink="/organizador/dashboard" class="text-decoration-none small fw-medium text-eve-secondary">Painel</a>
+      <a *ngIf="!usuario || usuario.tipo === 'organizador'" routerLink="/organizador/dashboard" class="text-decoration-none small fw-medium text-eve-secondary">Painel</a>
       <ng-container *ngIf="usuario; else entrarDesktop">
-        <span class="small fw-medium text-eve-navy">{{ usuario.nome }}</span>
+        <span class="small fw-medium text-eve-navy">{{ usuario.nome }} <span class="text-eve-secondary">· {{ usuario.tipo === 'organizador' ? 'Organizador' : 'Participante' }}</span></span>
         <button type="button" class="btn btn-eve-outline btn-sm px-3 py-1" (click)="sair()">Sair</button>
       </ng-container>
       <ng-template #entrarDesktop>
@@ -33,9 +33,9 @@
     <a routerLink="/comunidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Comunidades</a>
     <a routerLink="/feed" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Feed</a>
     <a routerLink="/institucional/privacidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Sobre</a>
-    <a routerLink="/organizador/dashboard" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Painel do organizador</a>
+    <a *ngIf="!usuario || usuario.tipo === 'organizador'" routerLink="/organizador/dashboard" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Painel do organizador</a>
     <ng-container *ngIf="usuario; else entrarMobile">
-      <span class="small fw-medium text-eve-navy">{{ usuario.nome }}</span>
+      <span class="small fw-medium text-eve-navy">{{ usuario.nome }} <span class="text-eve-secondary">· {{ usuario.tipo === 'organizador' ? 'Organizador' : 'Participante' }}</span></span>
       <button type="button" class="btn btn-eve-outline btn-sm align-self-start px-3 py-1" (click)="sair()">Sair</button>
     </ng-container>
     <ng-template #entrarMobile>

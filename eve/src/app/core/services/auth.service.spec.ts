@@ -15,32 +15,64 @@ describe('AuthService', () => {
   it('não está autenticado por padrão', () => {
     expect(service.estaAutenticado()).toBeFalse();
     expect(service.usuarioAtual).toBeNull();
+    expect(service.ehOrganizador).toBeFalse();
   });
 
-  it('autentica e persiste o usuário no localStorage', () => {
-    service.entrar('Maria Silva', 'maria@example.com');
+  it('não reconhece um e-mail que ainda não foi cadastrado', () => {
+    expect(service.emailJaCadastrado('maria@example.com')).toBeFalse();
+  });
+
+  it('cadastra uma conta, persiste no localStorage e já inicia a sessão', () => {
+    service.cadastrar('Maria Silva', 'maria@example.com', 'senha123', 'participante');
 
     expect(service.estaAutenticado()).toBeTrue();
-    expect(service.usuarioAtual).toEqual({ nome: 'Maria Silva', email: 'maria@example.com' });
+    expect(service.usuarioAtual).toEqual({ nome: 'Maria Silva', email: 'maria@example.com', tipo: 'participante' });
+    expect(service.emailJaCadastrado('maria@example.com')).toBeTrue();
+    expect(service.emailJaCadastrado('MARIA@example.com')).toBeTrue();
 
-    const salvo = JSON.parse(localStorage.getItem('eve_auth_usuario')!);
-    expect(salvo).toEqual({ nome: 'Maria Silva', email: 'maria@example.com' });
+    const contas = JSON.parse(localStorage.getItem('eve_auth_contas')!);
+    expect(contas).toEqual([{ nome: 'Maria Silva', email: 'maria@example.com', senha: 'senha123', tipo: 'participante' }]);
+
+    const sessao = JSON.parse(localStorage.getItem('eve_auth_usuario')!);
+    expect(sessao).toEqual({ nome: 'Maria Silva', email: 'maria@example.com', tipo: 'participante' });
   });
 
-  it('carrega o usuário do localStorage ao instanciar o serviço novamente', () => {
-    service.entrar('Maria Silva', 'maria@example.com');
+  it('entra com sucesso quando e-mail e senha batem com uma conta cadastrada', () => {
+    service.cadastrar('João Souza', 'joao@example.com', 'minhasenha', 'organizador');
+    service.sair();
 
-    const novoService = new AuthService();
-    expect(novoService.estaAutenticado()).toBeTrue();
-    expect(novoService.usuarioAtual?.nome).toBe('Maria Silva');
+    const resultado = service.entrar('joao@example.com', 'minhasenha');
+
+    expect(resultado).toBeTrue();
+    expect(service.estaAutenticado()).toBeTrue();
+    expect(service.ehOrganizador).toBeTrue();
+    expect(service.usuarioAtual?.nome).toBe('João Souza');
   });
 
-  it('sai e limpa o localStorage', () => {
-    service.entrar('Maria Silva', 'maria@example.com');
+  it('recusa o login quando a senha está errada', () => {
+    service.cadastrar('João Souza', 'joao@example.com', 'minhasenha', 'organizador');
+    service.sair();
+
+    const resultado = service.entrar('joao@example.com', 'senhaerrada');
+
+    expect(resultado).toBeFalse();
+    expect(service.estaAutenticado()).toBeFalse();
+  });
+
+  it('recusa o login quando o e-mail não está cadastrado', () => {
+    const resultado = service.entrar('naoexiste@example.com', 'qualquer');
+
+    expect(resultado).toBeFalse();
+    expect(service.estaAutenticado()).toBeFalse();
+  });
+
+  it('sai e limpa a sessão, mas mantém a conta cadastrada', () => {
+    service.cadastrar('Maria Silva', 'maria@example.com', 'senha123', 'participante');
     service.sair();
 
     expect(service.estaAutenticado()).toBeFalse();
     expect(service.usuarioAtual).toBeNull();
     expect(localStorage.getItem('eve_auth_usuario')).toBeNull();
+    expect(service.emailJaCadastrado('maria@example.com')).toBeTrue();
   });
 });

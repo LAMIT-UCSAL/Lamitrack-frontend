@@ -40,5 +40,9 @@ export const routes: Routes = [
     path: 'entrar',
     loadComponent: () => import('./features/auth/entrar/entrar.component').then(m => m.EntrarComponent)
   },
+  {
+    path: 'cadastro',
+    loadComponent: () => import('./features/auth/cadastro/cadastro.component').then(m => m.CadastroComponent)
+  },
   { path: '**', redirectTo: '' }
 ];

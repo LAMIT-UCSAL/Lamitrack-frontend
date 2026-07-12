@@ -2,24 +2,30 @@
   <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 480px;">
     <div class="eve-card p-4" style="margin-top: 48px;">
       <h1 class="fs-4 fw-bold text-eve-navy mb-1">Entrar na EVE</h1>
-      <p class="small text-eve-secondary mb-4">Acesse o painel do organizador para gerenciar seus eventos.</p>
+      <p class="small text-eve-secondary mb-4">Acesse com o e-mail e a senha da sua conta.</p>
 
       <form [formGroup]="form" (ngSubmit)="entrar()" class="d-flex flex-column gap-3">
-        <div>
-          <label class="form-label small fw-medium text-eve-navy">Nome completo</label>
-          <input type="text" class="form-control" placeholder="Seu nome" formControlName="nome">
-          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="nome?.invalid && nome?.touched">Nome é obrigatório.</div>
-        </div>
         <div>
           <label class="form-label small fw-medium text-eve-navy">E-mail</label>
           <input type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="email?.invalid && email?.touched">E-mail inválido.</div>
         </div>
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Senha</label>
+          <input type="password" class="form-control" placeholder="Sua senha" formControlName="senha">
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="senha?.invalid && senha?.touched">Senha é obrigatória.</div>
+        </div>
+
+        <div class="small p-2 rounded-eve-lg" style="background-color: #FCE4E4; color: var(--eve-vermelho);" *ngIf="erroCredenciais">
+          E-mail ou senha inválidos. Verifique os dados ou crie uma conta.
+        </div>
+
         <button type="submit" class="btn btn-eve-primary w-100 py-2">Entrar</button>
       </form>
 
       <p class="small text-eve-secondary text-center mt-4 mb-0">
-        Ambiente de demonstração — qualquer nome e e-mail funcionam como acesso simulado de organizador.
+        Ainda não tem conta?
+        <a [routerLink]="'/cadastro'" [queryParams]="redirectTo ? { redirectTo } : {}" class="text-eve-azul text-decoration-none fw-medium">Criar conta</a>
       </p>
 
       <a routerLink="/" class="d-block text-center small text-eve-azul text-decoration-none mt-3">← Voltar para o início</a>

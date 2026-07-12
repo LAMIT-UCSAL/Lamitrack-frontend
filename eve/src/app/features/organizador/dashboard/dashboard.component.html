@@ -1,12 +1,15 @@
 <div class="page-offset">
   <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 1152px;">
 
-    <div class="mb-4">
-      <h1 class="fs-2 fw-bold text-eve-navy mb-1">Painel do organizador</h1>
-      <p class="small text-eve-secondary mb-0">
-        Acompanhe o desempenho dos seus eventos. A EVE cobra uma comissão de
-        <strong class="text-eve-navy">5%</strong> sobre os ingressos vendidos pela plataforma.
-      </p>
+    <div class="d-flex flex-column flex-sm-row justify-content-between align-items-sm-center gap-3 mb-4">
+      <div>
+        <h1 class="fs-2 fw-bold text-eve-navy mb-1">Painel do organizador</h1>
+        <p class="small text-eve-secondary mb-0">
+          Acompanhe o desempenho dos seus eventos. A EVE cobra uma comissão de
+          <strong class="text-eve-navy">5%</strong> sobre os ingressos vendidos pela plataforma.
+        </p>
+      </div>
+      <button type="button" class="btn btn-eve-primary flex-shrink-0" (click)="abrirModal()">+ Criar evento</button>
     </div>
 
     <div class="row g-3 mb-4">
@@ -107,5 +110,64 @@
       </div>
     </div>
 
+  </div>
+
+  <div *ngIf="modalAberto" class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-3" style="background-color: rgba(14,27,39,0.6); z-index: 1050;" (click)="fecharModal()">
+    <div class="eve-card p-4" style="max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto;" (click)="$event.stopPropagation()">
+      <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fs-5 fw-bold text-eve-navy mb-0">Criar evento</h2>
+        <button type="button" class="btn-close-modal" (click)="fecharModal()" aria-label="Fechar">&times;</button>
+      </div>
+      <p class="small text-eve-secondary mb-3">Preview visual — o evento aparece só nesta sessão do painel.</p>
+
+      <form [formGroup]="form" (ngSubmit)="criarEvento()" class="d-flex flex-column gap-3">
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Título do evento</label>
+          <input type="text" class="form-control" placeholder="Ex: Hackathon de Verão" formControlName="titulo">
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="titulo?.invalid && titulo?.touched">Título é obrigatório.</div>
+        </div>
+
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Categoria</label>
+          <select class="form-select" formControlName="categoria">
+            <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
+          </select>
+        </div>
+
+        <div class="row g-2">
+          <div class="col-6">
+            <label class="form-label small fw-medium text-eve-navy">Data</label>
+            <input type="date" class="form-control" formControlName="data">
+            <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="data?.invalid && data?.touched">Obrigatório.</div>
+          </div>
+          <div class="col-6">
+            <label class="form-label small fw-medium text-eve-navy">Capacidade</label>
+            <input type="number" class="form-control" min="1" formControlName="capacidadeTotal">
+          </div>
+        </div>
+
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Local</label>
+          <input type="text" class="form-control" placeholder="Ex: UCSAL, Salvador" formControlName="local">
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="local?.invalid && local?.touched">Local é obrigatório.</div>
+        </div>
+
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Preço do ingresso (R$, 0 = gratuito)</label>
+          <input type="number" class="form-control" min="0" step="0.01" formControlName="precoIngresso">
+        </div>
+
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Descrição</label>
+          <textarea class="form-control" rows="3" placeholder="Sobre o evento..." formControlName="descricao"></textarea>
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="descricao?.invalid && descricao?.touched">Descrição é obrigatória.</div>
+        </div>
+
+        <div class="d-flex gap-2 mt-2">
+          <button type="button" class="btn btn-eve-outline w-50 py-2" (click)="fecharModal()">Cancelar</button>
+          <button type="submit" class="btn btn-eve-primary w-50 py-2">Criar evento</button>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

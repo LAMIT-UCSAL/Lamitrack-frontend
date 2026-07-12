@@ -1,0 +1,105 @@
+.carrossel-eventos {
+  position: relative;
+  overflow: hidden;
+  border-radius: 12px;
+  height: 260px;
+  margin-bottom: 24px;
+}
+
+.carrossel-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease;
+}
+
+.carrossel-slide {
+  position: relative;
+  flex: 0 0 100%;
+  height: 100%;
+  display: block;
+}
+
+.carrossel-imagem {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.carrossel-gradiente {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 60%;
+  background: linear-gradient(to top, rgba(14, 27, 39, 0.85), transparent);
+  pointer-events: none;
+}
+
+.carrossel-info {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 16px;
+  color: #fff;
+}
+
+.carrossel-titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 6px 0 2px;
+}
+
+.carrossel-data {
+  font-size: 0.85rem;
+  opacity: 0.9;
+}
+
+.carrossel-seta {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: rgba(255, 255, 255, 0.85);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 1.5rem;
+  line-height: 1;
+  color: var(--eve-navy);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.carrossel-seta-prev {
+  left: 12px;
+}
+
+.carrossel-seta-next {
+  right: 12px;
+}
+
+.carrossel-dots {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  display: flex;
+  gap: 6px;
+}
+
+.carrossel-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.5);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &.active {
+    background-color: #fff;
+  }
+}

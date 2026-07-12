@@ -19,9 +19,9 @@ describe('organizadorGuard', () => {
     );
   }
 
-  it('permite o acesso quando o usuário está autenticado', () => {
+  it('permite o acesso quando o usuário está autenticado como organizador', () => {
     const authService = TestBed.inject(AuthService);
-    authService.entrar('Maria Silva', 'maria@example.com');
+    authService.cadastrar('Maria Silva', 'maria@example.com', 'senha123', 'organizador');
 
     expect(executarGuard()).toBeTrue();
   });
@@ -33,5 +33,15 @@ describe('organizadorGuard', () => {
     const urlTree = resultado as UrlTree;
     expect(urlTree.toString()).toContain('/entrar');
     expect(urlTree.queryParams['redirectTo']).toBe('/organizador/dashboard');
+  });
+
+  it('redireciona para a home quando autenticado como participante', () => {
+    const authService = TestBed.inject(AuthService);
+    authService.cadastrar('João Souza', 'joao@example.com', 'senha123', 'participante');
+
+    const resultado = executarGuard();
+    expect(resultado).not.toBe(true);
+    const urlTree = resultado as UrlTree;
+    expect(urlTree.toString()).toBe('/');
   });
 });

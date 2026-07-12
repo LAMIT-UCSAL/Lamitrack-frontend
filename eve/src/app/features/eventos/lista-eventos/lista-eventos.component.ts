@@ -4,11 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { Evento, CategoriaEvento } from '../../../core/models/evento.model';
 import { EventosService } from '../../../core/services/eventos.service';
 import { EventoCardComponent } from '../../../shared/components/evento-card/evento-card.component';
+import { CarrosselEventosComponent } from '../../../shared/components/carrossel-eventos/carrossel-eventos.component';
 
 @Component({
   selector: 'app-lista-eventos',
   standalone: true,
-  imports: [CommonModule, FormsModule, EventoCardComponent],
+  imports: [CommonModule, FormsModule, EventoCardComponent, CarrosselEventosComponent],
   templateUrl: './lista-eventos.component.html',
   styleUrl: './lista-eventos.component.scss'
 })

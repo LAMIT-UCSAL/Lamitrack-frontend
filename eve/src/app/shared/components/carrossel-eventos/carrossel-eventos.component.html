@@ -1,0 +1,26 @@
+<div class="carrossel-eventos" (mouseenter)="pausar()" (mouseleave)="retomar()">
+  <div class="carrossel-track" [style.transform]="'translateX(-' + (activeIndex * 100) + '%)'">
+    <a *ngFor="let evento of eventos" [routerLink]="['/eventos', evento.id]" class="carrossel-slide text-decoration-none">
+      <img [src]="evento.imagemUrl" [alt]="evento.titulo" class="carrossel-imagem">
+      <div class="carrossel-gradiente"></div>
+      <div class="carrossel-info">
+        <span [class]="evento.categoria | categoriaBadgeClass">{{ evento.categoria }}</span>
+        <h3 class="carrossel-titulo">{{ evento.titulo }}</h3>
+        <p class="carrossel-data mb-0">{{ evento.dataFormatada }}</p>
+      </div>
+    </a>
+  </div>
+
+  <button type="button" class="carrossel-seta carrossel-seta-prev" (click)="anterior()" aria-label="Evento anterior">&lsaquo;</button>
+  <button type="button" class="carrossel-seta carrossel-seta-next" (click)="proximo()" aria-label="Próximo evento">&rsaquo;</button>
+
+  <div class="carrossel-dots">
+    <button
+      type="button"
+      *ngFor="let evento of eventos; let i = index"
+      class="carrossel-dot"
+      [class.active]="i === activeIndex"
+      (click)="irPara(i)"
+      [attr.aria-label]="'Ir para ' + evento.titulo"></button>
+  </div>
+</div>

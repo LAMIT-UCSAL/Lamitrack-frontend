@@ -3,6 +3,8 @@
     <h1 class="fs-2 fw-bold text-eve-navy mb-1">Todos os eventos</h1>
     <p class="small text-eve-secondary mb-4">{{ eventos.length }} eventos cadastrados no ecossistema de Salvador</p>
 
+    <app-carrossel-eventos *ngIf="eventos.length > 0" [eventos]="eventos"></app-carrossel-eventos>
+
     <div class="d-flex flex-column flex-sm-row gap-3 mb-4">
       <div class="position-relative" style="max-width: 280px; width: 100%;">
         <input

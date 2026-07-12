@@ -46,25 +46,26 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 | Rota | Componente | O que faz |
 |---|---|---|
 | `/` | `features/home` | Hero, tira de estatísticas, filtro de categorias, grid de eventos em destaque, banner de CTA |
-| `/eventos` | `features/eventos/lista-eventos` | Grid completo com busca por texto + filtro de categoria |
+| `/eventos` | `features/eventos/lista-eventos` | Carrossel de "últimos eventos" (auto-avança a cada 4s, ver `shared/components/carrossel-eventos`) + grid completo com busca por texto e filtro de categoria |
 | `/eventos/:id` | `features/eventos/detalhe-evento` | Info do evento + card de inscrição (form reativo + consentimento LGPD) → estado de ingresso confirmado com QR code SVG |
 | `/comunidade` | `features/comunidade/mural` | Header escuro do evento, mural de avisos com postagem funcional, lista de participantes |
-| `/organizador/dashboard` | `features/organizador/dashboard` | Cards de resumo, mini-gráfico de ocupação, métricas por evento (ocupação %, receita, comissão 5%, líquido) — protegida por `organizadorGuard` |
+| `/organizador/dashboard` | `features/organizador/dashboard` | Cards de resumo, mini-gráfico de ocupação, métricas por evento (ocupação %, receita, comissão 5%, líquido), botão "Criar evento" (modal, mockado, só visual — não persiste nem sincroniza com `/eventos`) — protegida por `organizadorGuard` |
 | `/organizador/checkin/:id` | `features/organizador/checkin` | Lista de participantes com toggle de check-in — protegida por `organizadorGuard` |
 | `/institucional/privacidade` | `features/institucional/privacidade` | Política de privacidade LGPD com 7 seções numeradas |
 | `/feed` | `features/feed` | Feed vertical estilo TikTok com vídeos de chamada dos eventos (scroll-snap, curtir, comentar, ordenar por engajamento) — tela imersiva, rodapé padrão oculto (ver `AppComponent.isImmersiveRoute`) |
-| `/entrar` | `features/auth/entrar` | Login mockado (nome + e-mail, sem validação de backend) — redireciona de volta via query param `redirectTo` após autenticar |
+| `/entrar` | `features/auth/entrar` | Login por e-mail + senha, validado contra as contas cadastradas no `localStorage` (mock, sem backend) — erro se não bater; redireciona via `redirectTo` ou pro destino padrão do papel da conta |
+| `/cadastro` | `features/auth/cadastro` | Cria conta (nome, e-mail, senha, papel participante/organizador), bloqueia e-mail duplicado, loga automaticamente após cadastrar |
 
 ## Estrutura de pastas
 
 ```
 src/app/
 ├── core/
-│   ├── models/       # Evento, Inscricao, Participante, Aviso, Video, ComentarioVideo, UsuarioLogado
+│   ├── models/       # Evento, Inscricao, Participante, Aviso, Video, ComentarioVideo, UsuarioLogado/ContaCadastrada (com TipoUsuario)
 │   ├── services/      # EventosService, InscricoesService, ComunidadeService, VideosService, AuthService
-│   └── guards/         # organizadorGuard (protege /organizador/*)
+│   └── guards/         # organizadorGuard (protege /organizador/*, exige tipo === 'organizador')
 ├── shared/
-│   ├── components/    # navbar, evento-card
+│   ├── components/    # navbar, evento-card, carrossel-eventos
 │   └── pipes/          # CategoriaBadgeClassPipe (categoria -> classe .badge-cat-* segura para CSS)
 ├── features/           # uma pasta por tela, ver tabela acima (inclui feed/)
 └── app.routes.ts       # lazy loading de cada feature
@@ -85,9 +86,13 @@ Já implementadas em `EventosService`, não recalcular na mão em componentes:
 
 Todo formulário que coleta dados pessoais (inscrição em evento) precisa de: minimização de dados (só nome e e-mail), checkbox de consentimento explícito e obrigatório antes de submeter, e link para `/institucional/privacidade`. Não adicionar campos de dados pessoais além do estritamente necessário sem justificar.
 
-## Autenticação (mockada)
+## Autenticação (mockada, com papéis)
 
-Sem backend real, então `AuthService` persiste o "usuário logado" em `localStorage` (chave `eve_auth_usuario`) — qualquer nome + e-mail em `/entrar` autentica, sem validação contra servidor. `organizadorGuard` (`CanActivateFn`) protege `/organizador/dashboard` e `/organizador/checkin/:id`, redirecionando para `/entrar?redirectTo=<rota original>` quando não autenticado; a página de login lê esse query param e volta pra rota pretendida após "logar". O navbar reflete o estado (nome do usuário + "Sair", ou botão "Entrar") lendo `AuthService.usuarioAtual` diretamente — sem observable/async pipe, já que a app inteira roda com change detection padrão (zone.js).
+Sem backend real, então `AuthService` guarda tudo em `localStorage` com **duas chaves separadas**: `eve_auth_contas` (array de `ContaCadastrada` — nome, e-mail, senha em texto puro, papel; criado em `/cadastro`) e `eve_auth_usuario` (a sessão atual — só nome/e-mail/papel, sem senha). `/entrar` valida e-mail+senha contra `eve_auth_contas`; se não bater, mostra erro e não loga. Cadastro em `/cadastro` bloqueia e-mail duplicado (`AuthService.emailJaCadastrado`) e loga automaticamente após criar a conta. O papel (`TipoUsuario`: `participante` | `organizador`) é escolhido só no cadastro (dois botões estilo `.pill-filter`) — no login não se escolhe papel, ele vem da conta.
+
+`organizadorGuard` (`CanActivateFn`) protege `/organizador/dashboard` e `/organizador/checkin/:id` em duas etapas: não autenticado → redireciona para `/entrar?redirectTo=<rota original>`; autenticado mas com papel `participante` → redireciona pra home (`/`) — só `organizador` passa. As páginas de login/cadastro leem `redirectTo` e voltam pra rota pretendida após autenticar; sem esse parâmetro, o destino padrão depende do papel da conta (`organizador` → `/organizador/dashboard`, `participante` → `/`).
+
+O navbar reflete o estado lendo `AuthService.usuarioAtual` diretamente (sem observable/async pipe, já que a app roda com change detection padrão do zone.js): mostra nome + papel + "Sair" quando logado, ou "Entrar" quando não. **O link "Painel" (desktop e mobile) fica oculto quando logado como `participante`** — continua visível pra visitante anônimo e pra quem está logado como `organizador`.
 
 ## Backlog e sprints
 
