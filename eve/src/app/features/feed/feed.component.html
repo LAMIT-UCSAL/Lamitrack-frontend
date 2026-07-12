@@ -1,0 +1,78 @@
+<div class="feed-container" #container>
+
+  <div class="feed-sort-pills">
+    <button type="button" class="pill-filter" [class.active]="sortMode === 'recentes'" (click)="definirOrdenacao('recentes')">Mais recentes</button>
+    <button type="button" class="pill-filter" [class.active]="sortMode === 'engajamento'" (click)="definirOrdenacao('engajamento')">Mais engajamento</button>
+  </div>
+
+  <div class="feed-slide" *ngFor="let v of sortedVideos; trackBy: trackByVideoId">
+    <video
+      #videoEl
+      [attr.data-video-id]="v.id"
+      [src]="v.videoUrl"
+      [poster]="v.thumbnailUrl"
+      class="feed-video"
+      loop
+      muted
+      playsinline
+      preload="metadata"
+      (click)="alternarSom()"></video>
+
+    <div class="feed-gradient"></div>
+
+    <div class="feed-info">
+      <span [class]="'badge-cat badge-cat-' + v.categoria.toLowerCase()">{{ v.categoria }}</span>
+      <h3 class="feed-titulo">{{ v.titulo }}</h3>
+      <p class="feed-organizador mb-0">{{ v.organizador }}</p>
+      <p class="feed-views mb-0">{{ v.visualizacoes }} visualizações</p>
+    </div>
+
+    <div class="feed-actions">
+      <button type="button" class="feed-action-btn" (click)="alternarCurtida(v)" [attr.aria-label]="v.curtido ? 'Descurtir' : 'Curtir'">
+        <svg width="28" height="28" viewBox="0 0 24 24" [attr.fill]="v.curtido ? 'var(--eve-laranja)' : 'none'" stroke="currentColor" stroke-width="2">
+          <path d="M12 21s-7.5-4.6-10-9.3C0.4 8.4 2 5 5.3 5c1.9 0 3.4 1 4.7 2.7C11.3 6 12.8 5 14.7 5 18 5 19.6 8.4 22 11.7 19.5 16.4 12 21 12 21z"/>
+        </svg>
+        <span class="feed-action-count">{{ v.curtidas }}</span>
+      </button>
+
+      <button type="button" class="feed-action-btn" (click)="abrirComentarios(v)" aria-label="Comentários">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 12c0 4.4-4 8-9 8-1.1 0-2.2-.2-3.1-.5L3 21l1.4-4.2C3.5 15.5 3 13.8 3 12c0-4.4 4-8 9-8s9 3.6 9 8z"/>
+        </svg>
+        <span class="feed-action-count">{{ v.comentarios.length }}</span>
+      </button>
+    </div>
+
+    <div class="feed-comentarios" [class.aberto]="comentarioAbertoId === v.id">
+      <div class="feed-comentarios-header">
+        <span class="fw-semibold text-eve-navy">Comentários</span>
+        <button type="button" class="btn-close-comentarios" (click)="abrirComentarios(v)" aria-label="Fechar comentários">&times;</button>
+      </div>
+
+      <div class="feed-comentarios-lista">
+        <div class="feed-comentario" *ngFor="let c of v.comentarios">
+          <div class="feed-comentario-avatar">{{ c.iniciais }}</div>
+          <div>
+            <div class="d-flex gap-2 align-items-baseline">
+              <span class="small fw-semibold text-eve-navy">{{ c.autor }}</span>
+              <span class="small text-eve-secondary">{{ c.tempo }}</span>
+            </div>
+            <p class="small text-eve-secondary mb-0">{{ c.mensagem }}</p>
+          </div>
+        </div>
+        <p *ngIf="v.comentarios.length === 0" class="small text-eve-secondary text-center py-3">Seja o primeiro a comentar.</p>
+      </div>
+
+      <div class="feed-comentarios-form">
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Adicionar comentário..."
+          [(ngModel)]="novoComentario"
+          (keydown.enter)="publicarComentario(v)">
+        <button type="button" class="btn btn-eve-primary flex-shrink-0" (click)="publicarComentario(v)">Enviar</button>
+      </div>
+    </div>
+  </div>
+
+</div>

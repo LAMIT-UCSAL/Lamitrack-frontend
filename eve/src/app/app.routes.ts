@@ -29,5 +29,9 @@ export const routes: Routes = [
     path: 'institucional/privacidade',
     loadComponent: () => import('./features/institucional/privacidade/privacidade.component').then(m => m.PrivacidadeComponent)
   },
+  {
+    path: 'feed',
+    loadComponent: () => import('./features/feed/feed.component').then(m => m.FeedComponent)
+  },
   { path: '**', redirectTo: '' }
 ];

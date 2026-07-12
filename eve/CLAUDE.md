@@ -51,19 +51,21 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 | `/organizador/dashboard` | `features/organizador/dashboard` | Cards de resumo, mini-gráfico de ocupação, métricas por evento (ocupação %, receita, comissão 5%, líquido) |
 | `/organizador/checkin/:id` | `features/organizador/checkin` | Lista de participantes com toggle de check-in |
 | `/institucional/privacidade` | `features/institucional/privacidade` | Política de privacidade LGPD com 7 seções numeradas |
+| `/feed` | `features/feed` | Feed vertical estilo TikTok com vídeos de chamada dos eventos (scroll-snap, curtir, comentar, ordenar por engajamento) — tela imersiva, rodapé padrão oculto (ver `AppComponent.isImmersiveRoute`) |
 
 ## Estrutura de pastas
 
 ```
 src/app/
 ├── core/
-│   ├── models/       # Evento, Inscricao, Participante, Aviso
-│   └── services/      # EventosService, InscricoesService, ComunidadeService
+│   ├── models/       # Evento, Inscricao, Participante, Aviso, Video, ComentarioVideo
+│   └── services/      # EventosService, InscricoesService, ComunidadeService, VideosService
 ├── shared/
 │   └── components/    # navbar, evento-card
-├── features/           # uma pasta por tela, ver tabela acima
+├── features/           # uma pasta por tela, ver tabela acima (inclui feed/)
 └── app.routes.ts       # lazy loading de cada feature
-src/assets/data/         # eventos.json, participantes.json, avisos.json (mocks)
+src/assets/data/         # eventos.json, participantes.json, avisos.json, videos.json (mocks)
+src/assets/video/        # clipes curtos de exemplo (domínio público) usados no /feed
 src/styles.scss          # tokens de cor, classes utilitárias .eve-*
 ```
 

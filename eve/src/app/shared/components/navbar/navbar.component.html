@@ -7,6 +7,7 @@
     <nav class="d-none d-md-flex align-items-center gap-4">
       <a routerLink="/eventos" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Eventos</a>
       <a routerLink="/comunidade" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Comunidades</a>
+      <a routerLink="/feed" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Feed</a>
       <a routerLink="/institucional/privacidade" routerLinkActive="text-eve-azul" class="text-decoration-none small fw-medium text-eve-secondary">Sobre</a>
     </nav>
 
@@ -24,6 +25,7 @@
   <div *ngIf="mobileOpen" class="d-md-none border-top px-3 py-3 d-flex flex-column gap-3" style="background-color: var(--eve-cream); border-color: var(--eve-cinza-borda);">
     <a routerLink="/eventos" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Eventos</a>
     <a routerLink="/comunidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Comunidades</a>
+    <a routerLink="/feed" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Feed</a>
     <a routerLink="/institucional/privacidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Sobre</a>
     <a routerLink="/organizador/dashboard" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Painel do organizador</a>
     <button type="button" class="btn btn-eve-outline btn-sm align-self-start px-3 py-1">Entrar</button>

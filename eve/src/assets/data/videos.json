@@ -1,0 +1,84 @@
+[
+  {
+    "id": 1,
+    "eventoId": 1,
+    "categoria": "Hackathon",
+    "titulo": "Chamada oficial — Hack Bahia 2025",
+    "organizador": "SENAI CIMATEC",
+    "videoUrl": "assets/video/evento-bunny.mp4",
+    "thumbnailUrl": "assets/img/abertura-lamit.png",
+    "visualizacoes": 1284,
+    "curtidas": 96,
+    "comentarios": [
+      { "id": 1, "autor": "Marina Costa", "iniciais": "MC", "mensagem": "Alguém mais vai formar squad pra trilha de saúde digital?", "tempo": "2h atrás" },
+      { "id": 2, "autor": "Lucas Andrade", "iniciais": "LA", "mensagem": "Ano passado foi incrível, já confirmei presença!", "tempo": "5h atrás" }
+    ]
+  },
+  {
+    "id": 2,
+    "eventoId": 2,
+    "categoria": "Ideathon",
+    "titulo": "Bastidores — IdeaLab Salvador",
+    "organizador": "InovaBA",
+    "videoUrl": "assets/video/evento-flor.mp4",
+    "thumbnailUrl": "assets/img/imersao-lamit.jpg",
+    "visualizacoes": 842,
+    "curtidas": 63,
+    "comentarios": [
+      { "id": 1, "autor": "Rafael Souza", "iniciais": "RS", "mensagem": "Design thinking o dia todo, vale muito a pena.", "tempo": "1 dia atrás" }
+    ]
+  },
+  {
+    "id": 3,
+    "eventoId": 3,
+    "categoria": "Maratona",
+    "titulo": "Resumo da última Maratona Code BA",
+    "organizador": "UFBA – DCC",
+    "videoUrl": "assets/video/evento-sexta.mp4",
+    "thumbnailUrl": "assets/img/abertura-lamit.png",
+    "visualizacoes": 2103,
+    "curtidas": 178,
+    "comentarios": [
+      { "id": 1, "autor": "Beatriz Lima", "iniciais": "BL", "mensagem": "5 horas de algoritmo puro, sofri mas valeu.", "tempo": "3h atrás" },
+      { "id": 2, "autor": "Pedro Nogueira", "iniciais": "PN", "mensagem": "Equipe da UFBA arrasou esse ano.", "tempo": "6h atrás" }
+    ]
+  },
+  {
+    "id": 4,
+    "eventoId": 4,
+    "categoria": "Edital",
+    "titulo": "Conheça o Edital Acelera Salvador",
+    "organizador": "Secretaria de Desenvolvimento Econômico – BA",
+    "videoUrl": "assets/video/evento-filme.mp4",
+    "thumbnailUrl": "assets/img/imersao-lamit.jpg",
+    "visualizacoes": 596,
+    "curtidas": 41,
+    "comentarios": []
+  },
+  {
+    "id": 5,
+    "eventoId": 5,
+    "categoria": "Hackathon",
+    "titulo": "Melhores momentos — Hack Finance SSA",
+    "organizador": "Fecomércio BA",
+    "videoUrl": "assets/video/evento-bunny.mp4",
+    "thumbnailUrl": "assets/img/abertura-lamit.png",
+    "visualizacoes": 1567,
+    "curtidas": 121,
+    "comentarios": [
+      { "id": 1, "autor": "Marina Costa", "iniciais": "MC", "mensagem": "Fintech + inclusão financeira, tema perfeito.", "tempo": "1 dia atrás" }
+    ]
+  },
+  {
+    "id": 6,
+    "eventoId": 1,
+    "categoria": "Hackathon",
+    "titulo": "Mentoria ao vivo — Hack Bahia 2025",
+    "organizador": "SENAI CIMATEC",
+    "videoUrl": "assets/video/evento-flor.mp4",
+    "thumbnailUrl": "assets/img/abertura-lamit.png",
+    "visualizacoes": 734,
+    "curtidas": 58,
+    "comentarios": []
+  }
+]
