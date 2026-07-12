@@ -11,7 +11,7 @@
     "inscritos": 342,
     "precoIngresso": 0,
     "organizador": "SENAI CIMATEC",
-    "imagemUrl": "https://images.unsplash.com/photo-1517077304055-6e89abbf09b0?w=900&h=400&fit=crop&auto=format"
+    "imagemUrl": "assets/img/abertura-lamit.png"
   },
   {
     "id": 2,
@@ -25,7 +25,7 @@
     "inscritos": 187,
     "precoIngresso": 0,
     "organizador": "InovaBA",
-    "imagemUrl": "https://images.unsplash.com/photo-1559136555-9303baea8ebd?w=900&h=400&fit=crop&auto=format"
+    "imagemUrl": "assets/img/imersao-lamit.jpg"
   },
   {
     "id": 3,
@@ -39,7 +39,7 @@
     "inscritos": 89,
     "precoIngresso": 25,
     "organizador": "UFBA – DCC",
-    "imagemUrl": "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=900&h=400&fit=crop&auto=format"
+    "imagemUrl": "assets/img/abertura-lamit.png"
   },
   {
     "id": 4,
@@ -53,7 +53,7 @@
     "inscritos": 156,
     "precoIngresso": 0,
     "organizador": "Secretaria de Desenvolvimento Econômico – BA",
-    "imagemUrl": "https://images.unsplash.com/photo-1552664730-d307ca884978?w=900&h=400&fit=crop&auto=format"
+    "imagemUrl": "assets/img/imersao-lamit.jpg"
   },
   {
     "id": 5,
@@ -67,6 +67,6 @@
     "inscritos": 201,
     "precoIngresso": 0,
     "organizador": "Fecomércio BA",
-    "imagemUrl": "https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=900&h=400&fit=crop&auto=format"
+    "imagemUrl": "assets/img/abertura-lamit.png"
   }
 ]
