@@ -1,0 +1,9 @@
+[build]
+  base = "eve"
+  command = "npm run build"
+  publish = "dist/eve/browser"
+
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
