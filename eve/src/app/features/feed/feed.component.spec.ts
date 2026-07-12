@@ -8,14 +8,11 @@ describe('FeedComponent', () => {
   let component: FeedComponent;
   let httpMock: HttpTestingController;
 
-  // Fábrica que retorna dados novos a cada teste — o HttpTestingController
-  // entrega o mesmo objeto passado ao flush() (sem clonar), então reusar um
-  // array compartilhado faria mutações de um teste vazarem para o próximo.
   function criarVideosMock(): Video[] {
     return [
-      { id: 1, eventoId: 1, categoria: 'Hackathon', titulo: 'A', organizador: 'Org A', videoUrl: '', thumbnailUrl: '', visualizacoes: 10, curtidas: 5, comentarios: [] },
+      { id: 1, eventoId: 1, categoria: 'Hackathon', titulo: 'A', organizador: 'Org A', videoUrl: '', visualizacoes: 10, curtidas: 5, comentarios: [] },
       {
-        id: 2, eventoId: 2, categoria: 'Ideathon', titulo: 'B', organizador: 'Org B', videoUrl: '', thumbnailUrl: '', visualizacoes: 20, curtidas: 50,
+        id: 2, eventoId: 2, categoria: 'Ideathon', titulo: 'B', organizador: 'Org B', videoUrl: '', visualizacoes: 20, curtidas: 50,
         comentarios: [{ id: 1, autor: 'X', iniciais: 'X', mensagem: 'oi', tempo: 'agora' }]
       }
     ];
@@ -27,9 +24,6 @@ describe('FeedComponent', () => {
       providers: [provideHttpClient(), provideHttpClientTesting()]
     });
 
-    // Não chamamos fixture.detectChanges() em nenhum teste deste arquivo:
-    // isso evitaria disparar ngAfterViewInit (e o IntersectionObserver real
-    // contra <video> fora de tela), que é mecânica de DOM verificada manualmente.
     const fixture = TestBed.createComponent(FeedComponent);
     component = fixture.componentInstance;
     component.ngOnInit();

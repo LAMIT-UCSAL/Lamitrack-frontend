@@ -39,7 +39,7 @@
     "inscritos": 89,
     "precoIngresso": 25,
     "organizador": "UFBA – DCC",
-    "imagemUrl": "assets/img/abertura-lamit.png"
+    "imagemUrl": "assets/img/codeBa.png"
   },
   {
     "id": 4,
@@ -53,20 +53,20 @@
     "inscritos": 156,
     "precoIngresso": 0,
     "organizador": "Secretaria de Desenvolvimento Econômico – BA",
-    "imagemUrl": "assets/img/imersao-lamit.jpg"
+    "imagemUrl": "assets/img/aceleraSalvador.png"
   },
   {
     "id": 5,
-    "titulo": "Hack Finance SSA",
-    "categoria": "Hackathon",
-    "descricao": "Hackathon voltado a soluções de fintech e inclusão financeira para o Nordeste, com mentoria de bancos digitais e fundos de investimento parceiros.",
-    "data": "2026-10-18T09:00:00",
-    "dataFormatada": "18–19 de Outubro de 2026",
-    "local": "Fecomércio BA, Pituba",
-    "capacidadeTotal": 300,
-    "inscritos": 201,
-    "precoIngresso": 0,
-    "organizador": "Fecomércio BA",
-    "imagemUrl": "assets/img/abertura-lamit.png"
+    "titulo": "Ford Day | LAMIT",
+    "categoria": "Eventos de Inovação",
+    "descricao": "Visita técnica em um dos maiores centros de inovação do país realizada pela Lamit.",
+    "data": "2026-07-15T06:10:00",
+    "dataFormatada": "15 de Julho de 2026",
+    "local": "Camaçari, BA",
+    "capacidadeTotal": 80,
+    "inscritos": 80,
+    "precoIngresso": 45.10,
+    "organizador": "LAMIT & FORD",
+    "imagemUrl": "assets/img/ford-day-sympla.jpg"
   }
 ]

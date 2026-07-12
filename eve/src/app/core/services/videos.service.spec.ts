@@ -15,7 +15,6 @@ describe('VideosService', () => {
     titulo: 'Chamada oficial — Hack Bahia 2025',
     organizador: 'SENAI CIMATEC',
     videoUrl: 'assets/video/evento-bunny.mp4',
-    thumbnailUrl: 'assets/img/abertura-lamit.png',
     visualizacoes: 1284,
     curtidas: 96,
     comentarios: []

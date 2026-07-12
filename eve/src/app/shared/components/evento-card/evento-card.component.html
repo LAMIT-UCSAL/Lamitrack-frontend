@@ -6,7 +6,7 @@
     </div>
     <div class="position-absolute top-0 end-0 m-3">
       <span *ngIf="evento.precoIngresso === 0" class="badge-free">Gratuito</span>
-      <span *ngIf="evento.precoIngresso > 0" class="badge-paid">R$ {{ evento.precoIngresso }},00</span>
+      <span *ngIf="evento.precoIngresso > 0" class="badge-paid">R$ {{ evento.precoIngresso | number:'1.2-2' }}</span>
     </div>
   </div>
 

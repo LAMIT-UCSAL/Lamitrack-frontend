@@ -15,7 +15,6 @@ export interface Video {
   titulo: string;
   organizador: string;
   videoUrl: string;
-  thumbnailUrl: string;
   visualizacoes: number;
   curtidas: number;
   curtido?: boolean;

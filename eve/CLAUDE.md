@@ -95,10 +95,11 @@ O backlog completo (épicos, user stories, critérios de aceite, priorização M
 
 ## O que ainda falta (próximos passos conhecidos)
 
-- Testes automatizados (o desafio não exige, mas pode ser um diferencial na apresentação)
-- Publicação em GitHub Pages (exigência do desafio final — Passo 4 da Ação 1)
-- Revisão de responsividade fina em telas muito pequenas (< 375px)
-- Eventual integração de gráfico de biblioteca real (hoje o gráfico de ocupação do dashboard é feito em CSS puro, sem lib externa, para não adicionar dependência pesada)
+- ~~Testes automatizados~~ — feito: 27 testes em 7 arquivos spec (`core/services`, `core/guards`, `features/eventos/detalhe-evento`, `features/feed`).
+- Publicação — decisão trocada de GitHub Pages para **Netlify** (`netlify.toml` já configurado na raiz do repo). Falta só o passo manual de conectar o repositório pela interface da Netlify.
+- ~~Revisão de responsividade fina em telas muito pequenas (< 375px)~~ — testada e corrigida em várias telas ao longo do desenvolvimento (mural, feed, navbar mobile).
+- Eventual integração de gráfico de biblioteca real (hoje o gráfico de ocupação do dashboard é feito em CSS puro, sem lib externa, para não adicionar dependência pesada) — decisão consciente, não é uma falha.
+- **Limitação de dados conhecida e aceita:** nenhum dos 5 eventos mockados atuais usa as categorias "Hackathon" ou "Ideathon" (todos foram substituídos por eventos reais da LAMIT: "Eventos de Inovação", "Maratona", "Edital"). Os pills de filtro dessas duas categorias continuam existindo na UI, mas retornam lista vazia — mantido assim por decisão do time, não corrigir sem pedido explícito.
 
 ## Como pedir mudanças de design
 

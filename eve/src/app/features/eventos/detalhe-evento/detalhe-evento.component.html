@@ -14,7 +14,7 @@
         <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
           <span [class]="evento.categoria | categoriaBadgeClass">{{ evento.categoria }}</span>
           <span *ngIf="evento.precoIngresso === 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: var(--eve-verde-bg); color: var(--eve-verde-escuro);">Evento gratuito</span>
-          <span *ngIf="evento.precoIngresso > 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: #FFF3E0; color: #A04010;">R$ {{ evento.precoIngresso }},00</span>
+          <span *ngIf="evento.precoIngresso > 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: #FFF3E0; color: #A04010;">R$ {{ evento.precoIngresso | number:'1.2-2' }}</span>
         </div>
 
         <h1 class="fs-2 fw-bold text-eve-navy mb-3">{{ evento.titulo }}</h1>
@@ -59,7 +59,7 @@
 
           <ng-container *ngIf="!inscricaoConfirmada; else confirmado">
             <h2 class="fs-5 fw-bold text-eve-navy mb-1">
-              {{ evento.precoIngresso === 0 ? 'Inscrição gratuita' : 'Ingresso — R$ ' + evento.precoIngresso + ',00' }}
+              {{ evento.precoIngresso === 0 ? 'Inscrição gratuita' : 'Ingresso — R$ ' + (evento.precoIngresso | number:'1.2-2') }}
             </h2>
             <p class="small text-eve-secondary mb-3">Preencha os dados para garantir sua vaga.</p>
 
@@ -86,7 +86,7 @@
                   <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="email?.invalid && email?.touched">E-mail inválido.</div>
                 </div>
                 <div>
-                  <label class="form-label small fw-medium text-eve-navy">CPF <span class="text-eve-secondary fw-normal">(opcional)</span></label>
+                  <label class="form-label small fw-medium text-eve-navy">CPF</label>
                   <input type="text" class="form-control" placeholder="000.000.000-00" formControlName="cpf">
                   <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="cpf?.invalid && cpf?.touched">CPF inválido — verifique os 11 dígitos.</div>
                 </div>
@@ -99,7 +99,7 @@
                 <p class="small fw-semibold text-eve-azul mb-0">Etapa 2 de 2 — Consentimento LGPD</p>
                 <div class="p-3 rounded-eve-lg border" style="background-color: var(--eve-cream);" [style.border-color]="aceiteLgpd?.invalid && aceiteLgpd?.touched ? 'var(--eve-vermelho)' : 'var(--eve-cinza-borda)'">
                   <p class="small text-eve-secondary mb-2" style="line-height: 1.5;">
-                    Coletamos apenas nome e e-mail (CPF é opcional) para emitir seu ingresso e permitir seu check-in no evento. Seus dados não são compartilhados com terceiros. Saiba mais na nossa <a routerLink="/institucional/privacidade" class="text-eve-azul">política de privacidade</a>.
+                    Coletamos apenas nome e e-mail para emitir seu ingresso e permitir seu check-in no evento. Seus dados não são compartilhados com terceiros. Saiba mais na nossa <a routerLink="/institucional/privacidade" class="text-eve-azul">política de privacidade</a>.
                   </p>
                   <div class="form-check">
                     <input class="form-check-input" type="checkbox" formControlName="aceiteLgpd" id="aceiteLgpd">
