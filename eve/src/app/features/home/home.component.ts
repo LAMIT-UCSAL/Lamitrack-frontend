@@ -15,7 +15,7 @@ import { EventoCardComponent } from '../../shared/components/evento-card/evento-
 export class HomeComponent implements OnInit {
   eventos: Evento[] = [];
   eventosFiltrados: Evento[] = [];
-  categorias: (CategoriaEvento | 'Todos')[] = ['Todos', 'Hackathon', 'Ideathon', 'Maratona', 'Edital'];
+  categorias: (CategoriaEvento | 'Todos')[] = ['Todos', 'Hackathon', 'Ideathon', 'Maratona', 'Edital', 'Eventos de Inovação'];
   categoriaAtiva: CategoriaEvento | 'Todos' = 'Todos';
 
   stats = [

@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { Evento } from '../../../core/models/evento.model';
 import { EventosService } from '../../../core/services/eventos.service';
+import { CategoriaBadgeClassPipe } from '../../../shared/pipes/categoria-badge-class.pipe';
 
 interface MetricasEvento {
   evento: Evento;
@@ -15,7 +16,7 @@ interface MetricasEvento {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, CategoriaBadgeClassPipe],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })

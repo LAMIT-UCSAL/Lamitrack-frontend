@@ -1,7 +1,7 @@
 [
-  { "id": 1, "eventoId": 1, "nome": "Marina Costa", "area": "UX Design", "interesse": "Procurando time para trilha de saúde digital", "iniciais": "MC", "cor": "#0A69C4" },
-  { "id": 2, "eventoId": 1, "nome": "Lucas Andrade", "area": "Backend", "interesse": "Aberto a parcerias em Node.js e APIs", "iniciais": "LA", "cor": "#E8722C" },
-  { "id": 3, "eventoId": 1, "nome": "Rafael Souza", "area": "Product", "interesse": "Quer validar ideias de produto com devs", "iniciais": "RS", "cor": "#2E7D32" },
-  { "id": 4, "eventoId": 1, "nome": "Beatriz Lima", "area": "Frontend", "interesse": "Interessada em acessibilidade e Angular", "iniciais": "BL", "cor": "#7B1FA2" },
-  { "id": 5, "eventoId": 1, "nome": "Pedro Nogueira", "area": "Dados", "interesse": "Buscando equipe para trilha de mobilidade", "iniciais": "PN", "cor": "#0C447C" }
+  { "id": 1, "eventoId": 1, "nome": "Gabriel Maia", "area": "Full Stack", "interesse": "Procurando time para hackathons", "iniciais": "GM", "cor": "#0A69C4" },
+  { "id": 2, "eventoId": 1, "nome": "Fernanda Velame", "area": "Product Analyst", "interesse": "Buscando parcerias para ativações", "iniciais": "FV", "cor": "#E8722C" },
+  { "id": 3, "eventoId": 1, "nome": "Kézia Carneiro", "area": "Frontend", "interesse": "Quer validar ideias de produto com devs", "iniciais": "KC", "cor": "#2E7D32" },
+  { "id": 4, "eventoId": 1, "nome": "Marcelo Vinicius", "area": "Engenheiro de IA", "interesse": "Interessada em acessibilidade e Angular", "iniciais": "MV", "cor": "#7B1FA2" },
+  { "id": 5, "eventoId": 1, "nome": "Guilherme Campos", "area": "Finanças", "interesse": "Querendo economizar mais nas despesas de casa", "iniciais": "G5", "cor": "#0C447C" }
 ]

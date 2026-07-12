@@ -61,7 +61,7 @@
       <div class="eve-card p-4" *ngFor="let m of metricas">
         <div class="d-flex flex-column flex-sm-row justify-content-between gap-3 mb-3">
           <div>
-            <span [class]="'badge-cat badge-cat-' + m.evento.categoria.toLowerCase()" class="mb-2 d-inline-block">{{ m.evento.categoria }}</span>
+            <span [class]="m.evento.categoria | categoriaBadgeClass" class="mb-2 d-inline-block">{{ m.evento.categoria }}</span>
             <h3 class="fs-5 fw-bold text-eve-navy mb-0">{{ m.evento.titulo }}</h3>
             <p class="small text-eve-secondary mb-0">{{ m.evento.dataFormatada }} · {{ m.evento.local }}</p>
           </div>

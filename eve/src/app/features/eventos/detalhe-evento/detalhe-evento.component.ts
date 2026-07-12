@@ -6,6 +6,7 @@ import * as QRCode from 'qrcode';
 import { Evento } from '../../../core/models/evento.model';
 import { EventosService } from '../../../core/services/eventos.service';
 import { InscricoesService } from '../../../core/services/inscricoes.service';
+import { CategoriaBadgeClassPipe } from '../../../shared/pipes/categoria-badge-class.pipe';
 
 function cpfOpcionalValidator(control: AbstractControl): ValidationErrors | null {
   const valor = (control.value ?? '').trim();
@@ -17,7 +18,7 @@ function cpfOpcionalValidator(control: AbstractControl): ValidationErrors | null
 @Component({
   selector: 'app-detalhe-evento',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterLink],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink, CategoriaBadgeClassPipe],
   templateUrl: './detalhe-evento.component.html',
   styleUrl: './detalhe-evento.component.scss'
 })

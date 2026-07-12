@@ -12,7 +12,7 @@
         </div>
 
         <div class="d-flex flex-wrap gap-2 align-items-center mb-3">
-          <span [class]="'badge-cat badge-cat-' + evento.categoria.toLowerCase()">{{ evento.categoria }}</span>
+          <span [class]="evento.categoria | categoriaBadgeClass">{{ evento.categoria }}</span>
           <span *ngIf="evento.precoIngresso === 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: var(--eve-verde-bg); color: var(--eve-verde-escuro);">Evento gratuito</span>
           <span *ngIf="evento.precoIngresso > 0" class="small fw-semibold px-3 py-1 rounded-eve-full" style="background-color: #FFF3E0; color: #A04010;">R$ {{ evento.precoIngresso }},00</span>
         </div>

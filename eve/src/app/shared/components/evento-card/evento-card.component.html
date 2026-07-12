@@ -2,7 +2,7 @@
   <div class="position-relative" style="height: 160px; overflow: hidden;">
     <img [src]="evento.imagemUrl" [alt]="evento.titulo" class="w-100 h-100" style="object-fit: cover; object-position: top;">
     <div class="position-absolute top-0 start-0 m-3">
-      <span [class]="badgeCategoriaClass">{{ evento.categoria }}</span>
+      <span [class]="evento.categoria | categoriaBadgeClass">{{ evento.categoria }}</span>
     </div>
     <div class="position-absolute top-0 end-0 m-3">
       <span *ngIf="evento.precoIngresso === 0" class="badge-free">Gratuito</span>

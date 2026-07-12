@@ -13,7 +13,13 @@
 
     <div class="d-none d-md-flex align-items-center gap-3">
       <a routerLink="/organizador/dashboard" class="text-decoration-none small fw-medium text-eve-secondary">Painel</a>
-      <button type="button" class="btn btn-eve-outline btn-sm px-3 py-1">Entrar</button>
+      <ng-container *ngIf="usuario; else entrarDesktop">
+        <span class="small fw-medium text-eve-navy">{{ usuario.nome }}</span>
+        <button type="button" class="btn btn-eve-outline btn-sm px-3 py-1" (click)="sair()">Sair</button>
+      </ng-container>
+      <ng-template #entrarDesktop>
+        <a routerLink="/entrar" class="btn btn-eve-outline btn-sm px-3 py-1">Entrar</a>
+      </ng-template>
     </div>
 
     <button type="button" class="btn d-md-none p-1 text-eve-navy" (click)="toggleMobile()" aria-label="Abrir menu">
@@ -28,6 +34,12 @@
     <a routerLink="/feed" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Feed</a>
     <a routerLink="/institucional/privacidade" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Sobre</a>
     <a routerLink="/organizador/dashboard" (click)="closeMobile()" class="text-decoration-none small fw-medium text-eve-secondary">Painel do organizador</a>
-    <button type="button" class="btn btn-eve-outline btn-sm align-self-start px-3 py-1">Entrar</button>
+    <ng-container *ngIf="usuario; else entrarMobile">
+      <span class="small fw-medium text-eve-navy">{{ usuario.nome }}</span>
+      <button type="button" class="btn btn-eve-outline btn-sm align-self-start px-3 py-1" (click)="sair()">Sair</button>
+    </ng-container>
+    <ng-template #entrarMobile>
+      <a routerLink="/entrar" (click)="closeMobile()" class="btn btn-eve-outline btn-sm align-self-start px-3 py-1">Entrar</a>
+    </ng-template>
   </div>
 </header>

@@ -1,4 +1,4 @@
-export type CategoriaEvento = 'Hackathon' | 'Ideathon' | 'Maratona' | 'Edital';
+export type CategoriaEvento = 'Hackathon' | 'Ideathon' | 'Maratona' | 'Edital' | 'Eventos de Inovação';
 
 export interface Evento {
   id: number;

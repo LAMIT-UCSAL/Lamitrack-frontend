@@ -2,30 +2,30 @@
   {
     "id": 1,
     "eventoId": 1,
-    "categoria": "Hackathon",
-    "titulo": "Chamada oficial — Hack Bahia 2025",
-    "organizador": "SENAI CIMATEC",
+    "categoria": "Eventos de Inovação",
+    "titulo": "Chamada oficial — Abertura da LAMIT",
+    "organizador": "LAMIT",
     "videoUrl": "assets/video/evento-bunny.mp4",
     "thumbnailUrl": "assets/img/abertura-lamit.png",
     "visualizacoes": 1284,
     "curtidas": 96,
     "comentarios": [
-      { "id": 1, "autor": "Marina Costa", "iniciais": "MC", "mensagem": "Alguém mais vai formar squad pra trilha de saúde digital?", "tempo": "2h atrás" },
-      { "id": 2, "autor": "Lucas Andrade", "iniciais": "LA", "mensagem": "Ano passado foi incrível, já confirmei presença!", "tempo": "5h atrás" }
+      { "id": 1, "autor": "Gabriel Maia", "iniciais": "GM", "mensagem": "Não vou perder a oportunidade!", "tempo": "2h atrás" },
+      { "id": 2, "autor": "Kézia Carneiro", "iniciais": "KC", "mensagem": "Que experiência incrível, já confirmei presença!", "tempo": "5h atrás" }
     ]
   },
   {
     "id": 2,
     "eventoId": 2,
-    "categoria": "Ideathon",
-    "titulo": "Bastidores — IdeaLab Salvador",
-    "organizador": "InovaBA",
-    "videoUrl": "assets/video/evento-flor.mp4",
+    "categoria": "Eventos de Inovação",
+    "titulo": "Como chegar no local do evento",
+    "organizador": "LAMIT",
+    "videoUrl": "assets/video/comoChegarImersao.mp4",
     "thumbnailUrl": "assets/img/imersao-lamit.jpg",
     "visualizacoes": 842,
     "curtidas": 63,
     "comentarios": [
-      { "id": 1, "autor": "Rafael Souza", "iniciais": "RS", "mensagem": "Design thinking o dia todo, vale muito a pena.", "tempo": "1 dia atrás" }
+      { "id": 1, "autor": "Rafael Souza", "iniciais": "RS", "mensagem": "Estou chegando!!", "tempo": "1 dia atrás" }
     ]
   },
   {

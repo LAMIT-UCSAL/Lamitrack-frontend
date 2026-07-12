@@ -8,13 +8,18 @@ describe('FeedComponent', () => {
   let component: FeedComponent;
   let httpMock: HttpTestingController;
 
-  const videosMock: Video[] = [
-    { id: 1, eventoId: 1, categoria: 'Hackathon', titulo: 'A', organizador: 'Org A', videoUrl: '', thumbnailUrl: '', visualizacoes: 10, curtidas: 5, comentarios: [] },
-    {
-      id: 2, eventoId: 2, categoria: 'Ideathon', titulo: 'B', organizador: 'Org B', videoUrl: '', thumbnailUrl: '', visualizacoes: 20, curtidas: 50,
-      comentarios: [{ id: 1, autor: 'X', iniciais: 'X', mensagem: 'oi', tempo: 'agora' }]
-    }
-  ];
+  // Fábrica que retorna dados novos a cada teste — o HttpTestingController
+  // entrega o mesmo objeto passado ao flush() (sem clonar), então reusar um
+  // array compartilhado faria mutações de um teste vazarem para o próximo.
+  function criarVideosMock(): Video[] {
+    return [
+      { id: 1, eventoId: 1, categoria: 'Hackathon', titulo: 'A', organizador: 'Org A', videoUrl: '', thumbnailUrl: '', visualizacoes: 10, curtidas: 5, comentarios: [] },
+      {
+        id: 2, eventoId: 2, categoria: 'Ideathon', titulo: 'B', organizador: 'Org B', videoUrl: '', thumbnailUrl: '', visualizacoes: 20, curtidas: 50,
+        comentarios: [{ id: 1, autor: 'X', iniciais: 'X', mensagem: 'oi', tempo: 'agora' }]
+      }
+    ];
+  }
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -30,7 +35,7 @@ describe('FeedComponent', () => {
     component.ngOnInit();
 
     httpMock = TestBed.inject(HttpTestingController);
-    httpMock.expectOne('assets/data/videos.json').flush(videosMock);
+    httpMock.expectOne('assets/data/videos.json').flush(criarVideosMock());
   });
 
   afterEach(() => httpMock.verify());

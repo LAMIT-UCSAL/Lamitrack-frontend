@@ -21,10 +21,11 @@
     <div class="feed-gradient"></div>
 
     <div class="feed-info">
-      <span [class]="'badge-cat badge-cat-' + v.categoria.toLowerCase()">{{ v.categoria }}</span>
+      <span [class]="v.categoria | categoriaBadgeClass">{{ v.categoria }}</span>
       <h3 class="feed-titulo">{{ v.titulo }}</h3>
       <p class="feed-organizador mb-0">{{ v.organizador }}</p>
       <p class="feed-views mb-0">{{ v.visualizacoes }} visualizações</p>
+      <a [routerLink]="['/eventos', v.eventoId]" class="btn btn-eve-outline btn-sm feed-btn-evento mt-2">Ver anúncio do evento →</a>
     </div>
 
     <div class="feed-actions">

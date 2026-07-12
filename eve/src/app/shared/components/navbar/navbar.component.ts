@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -12,11 +13,23 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 export class NavbarComponent {
   mobileOpen = false;
 
+  constructor(private authService: AuthService, private router: Router) {}
+
+  get usuario() {
+    return this.authService.usuarioAtual;
+  }
+
   toggleMobile(): void {
     this.mobileOpen = !this.mobileOpen;
   }
 
   closeMobile(): void {
     this.mobileOpen = false;
+  }
+
+  sair(): void {
+    this.authService.sair();
+    this.closeMobile();
+    this.router.navigateByUrl('/');
   }
 }

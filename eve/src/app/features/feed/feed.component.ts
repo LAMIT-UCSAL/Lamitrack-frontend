@@ -1,15 +1,17 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
 import { Video } from '../../core/models/video.model';
 import { VideosService } from '../../core/services/videos.service';
+import { CategoriaBadgeClassPipe } from '../../shared/pipes/categoria-badge-class.pipe';
 
 type ModoOrdenacao = 'recentes' | 'engajamento';
 
 @Component({
   selector: 'app-feed',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, RouterLink, CategoriaBadgeClassPipe],
   templateUrl: './feed.component.html',
   styleUrl: './feed.component.scss'
 })

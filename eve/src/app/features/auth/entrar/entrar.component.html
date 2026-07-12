@@ -1,0 +1,28 @@
+<div class="page-offset d-flex justify-content-center" style="min-height: 100vh;">
+  <div class="container-xxl px-3 px-md-4 py-4" style="max-width: 480px;">
+    <div class="eve-card p-4" style="margin-top: 48px;">
+      <h1 class="fs-4 fw-bold text-eve-navy mb-1">Entrar na EVE</h1>
+      <p class="small text-eve-secondary mb-4">Acesse o painel do organizador para gerenciar seus eventos.</p>
+
+      <form [formGroup]="form" (ngSubmit)="entrar()" class="d-flex flex-column gap-3">
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Nome completo</label>
+          <input type="text" class="form-control" placeholder="Seu nome" formControlName="nome">
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="nome?.invalid && nome?.touched">Nome é obrigatório.</div>
+        </div>
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">E-mail</label>
+          <input type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="email?.invalid && email?.touched">E-mail inválido.</div>
+        </div>
+        <button type="submit" class="btn btn-eve-primary w-100 py-2">Entrar</button>
+      </form>
+
+      <p class="small text-eve-secondary text-center mt-4 mb-0">
+        Ambiente de demonstração — qualquer nome e e-mail funcionam como acesso simulado de organizador.
+      </p>
+
+      <a routerLink="/" class="d-block text-center small text-eve-azul text-decoration-none mt-3">← Voltar para o início</a>
+    </div>
+  </div>
+</div>

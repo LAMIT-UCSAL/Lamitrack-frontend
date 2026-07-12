@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { organizadorGuard } from './core/guards/organizador.guard';
 
 export const routes: Routes = [
   {
@@ -19,10 +20,12 @@ export const routes: Routes = [
   },
   {
     path: 'organizador/dashboard',
+    canActivate: [organizadorGuard],
     loadComponent: () => import('./features/organizador/dashboard/dashboard.component').then(m => m.DashboardComponent)
   },
   {
     path: 'organizador/checkin/:id',
+    canActivate: [organizadorGuard],
     loadComponent: () => import('./features/organizador/checkin/checkin.component').then(m => m.CheckinComponent)
   },
   {
@@ -32,6 +35,10 @@ export const routes: Routes = [
   {
     path: 'feed',
     loadComponent: () => import('./features/feed/feed.component').then(m => m.FeedComponent)
+  },
+  {
+    path: 'entrar',
+    loadComponent: () => import('./features/auth/entrar/entrar.component').then(m => m.EntrarComponent)
   },
   { path: '**', redirectTo: '' }
 ];
