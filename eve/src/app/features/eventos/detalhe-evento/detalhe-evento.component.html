@@ -63,7 +63,7 @@
             </h2>
             <div class="d-flex align-items-center gap-2 mb-1">
               <div class="eve-progress-track flex-grow-1">
-                <div class="eve-progress-fill" [style.width.%]="percentualOcupacao" style="background-color: var(--eve-azul);"></div>
+                <div class="eve-progress-fill" [style.transform]="'scaleX(' + (percentualOcupacao / 100) + ')'" style="background-color: var(--eve-azul);"></div>
               </div>
               <span class="small text-eve-secondary flex-shrink-0">{{ percentualOcupacao }}%</span>
             </div>

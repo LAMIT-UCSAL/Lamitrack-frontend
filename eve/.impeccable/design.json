@@ -1,0 +1,183 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-13T00:00:00.000Z",
+  "title": "Design System: EVE — Ecossistema Virtual de Eventos",
+  "extensions": {
+    "colorMeta": {
+      "spark-orange": {
+        "role": "primary",
+        "displayName": "Spark Orange",
+        "canonical": "#E8722C",
+        "tonalRamp": ["#4A2410", "#7A3814", "#A84B1B", "#D05F22", "#E8722C", "#EE8B52", "#F3AB82", "#F9D6BF"]
+      },
+      "campus-blue": {
+        "role": "secondary",
+        "displayName": "Campus Blue",
+        "canonical": "#0A69C4",
+        "tonalRamp": ["#061F38", "#0B3661", "#0F4D8C", "#0C447C", "#0A69C4", "#3A8AD6", "#7BB3E6", "#C7E0F5"]
+      },
+      "deep-campus-blue": {
+        "role": "secondary",
+        "displayName": "Deep Campus Blue",
+        "canonical": "#0C447C"
+      },
+      "ink-navy": {
+        "role": "neutral",
+        "displayName": "Ink Navy",
+        "canonical": "#0E1B27",
+        "tonalRamp": ["#05090D", "#0A141C", "#0E1B27", "#1B303F", "#2C4A5E", "#47697F", "#7C9BAC", "#C4D3DA"]
+      },
+      "warm-paper": {
+        "role": "neutral",
+        "displayName": "Warm Paper",
+        "canonical": "#FBFAF8",
+        "tonalRamp": ["#E5E1D8", "#ECE8E0", "#F2EFE8", "#F7F5F0", "#FBFAF8", "#FDFCFB", "#FEFEFD", "#FFFFFF"]
+      },
+      "warm-stone": {
+        "role": "neutral",
+        "displayName": "Warm Stone",
+        "canonical": "#D3D1C7"
+      },
+      "soft-ink": {
+        "role": "neutral",
+        "displayName": "Soft Ink",
+        "canonical": "#5F5E5A"
+      },
+      "confirmation-green": {
+        "role": "neutral",
+        "displayName": "Confirmation Green",
+        "canonical": "#2E7D32",
+        "tonalRamp": ["#0F2E11", "#1B5E20", "#256B29", "#2E7D32", "#4C9950", "#7CBB80", "#B3DAB5", "#E8F5E9"]
+      },
+      "alert-red": {
+        "role": "neutral",
+        "displayName": "Alert Red",
+        "canonical": "#C62828",
+        "tonalRamp": ["#4D0F0F", "#7A1818", "#A32020", "#C62828", "#D65858", "#E38686", "#EFB5B5", "#FADEDE"]
+      },
+      "mist-blue": {
+        "role": "neutral",
+        "displayName": "Mist Blue",
+        "canonical": "#A8B5C2"
+      },
+      "hackathon-blue-bg": { "role": "tertiary", "displayName": "Hackathon Blue (bg)", "canonical": "#E6F1FB" },
+      "hackathon-blue-text": { "role": "tertiary", "displayName": "Hackathon Blue (text)", "canonical": "#0C447C" },
+      "ideathon-amber-bg": { "role": "tertiary", "displayName": "Ideathon Amber (bg)", "canonical": "#FFF3E0" },
+      "ideathon-amber-text": { "role": "tertiary", "displayName": "Ideathon Amber (text)", "canonical": "#A04010" },
+      "maratona-green-bg": { "role": "tertiary", "displayName": "Maratona Green (bg)", "canonical": "#E8F5E9" },
+      "maratona-green-text": { "role": "tertiary", "displayName": "Maratona Green (text)", "canonical": "#1B5E20" },
+      "edital-violet-bg": { "role": "tertiary", "displayName": "Edital Violet (bg)", "canonical": "#F3E8FF" },
+      "edital-violet-text": { "role": "tertiary", "displayName": "Edital Violet (text)", "canonical": "#5B21B6" },
+      "inovacao-pink-bg": { "role": "tertiary", "displayName": "Inovação Pink (bg)", "canonical": "#FCE4EC" },
+      "inovacao-pink-text": { "role": "tertiary", "displayName": "Inovação Pink (text)", "canonical": "#AD1457" }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Home hero headline only — never used twice on one page." },
+      "headline": { "displayName": "Headline", "purpose": "Page/section titles: event title, 'Próximos eventos', dashboard page title." },
+      "title": { "displayName": "Title", "purpose": "Card and modal headers: 'Criar evento' modal, dashboard summary labels." },
+      "body": { "displayName": "Body", "purpose": "Paragraph copy, form labels, nav links, descriptions." },
+      "label": { "displayName": "Label", "purpose": "Category badges, status pills, stat captions." }
+    },
+    "shadows": [
+      { "name": "ambient-card", "value": "0 2px 10px rgba(14, 27, 39, 0.06)", "purpose": "Default resting shadow on every card surface — soft lift off Warm Paper." },
+      { "name": "hover-lift", "value": "0 12px 28px rgba(14, 27, 39, 0.14)", "purpose": "Paired with translateY(-3px) on hover/focus for cards, buttons, pills." },
+      { "name": "modal", "value": "0 24px 56px rgba(14, 27, 39, 0.20)", "purpose": "Deepest shadow in the system, reserved for modal/overlay surfaces." },
+      { "name": "focus-ring", "value": "0 0 0 3px rgba(10, 105, 196, 0.18)", "purpose": "Campus Blue glow on every focusable input/button." },
+      { "name": "switch-thumb", "value": "0 1px 2px rgba(0, 0, 0, 0.2)", "purpose": "Minimal shadow on the check-in toggle thumb for physical, grabbable affordance — not an elevation cue." }
+    ],
+    "motion": [
+      { "name": "ease-standard", "value": "cubic-bezier(0.165, 0.84, 0.44, 1)", "purpose": "Ease-out-quart — default easing for every hover-lift and entrance transition. No bounce, ever." },
+      { "name": "duration-hover", "value": "225ms", "purpose": "Hover/focus lift and shadow-deepen transitions." },
+      { "name": "duration-entrance", "value": "340ms", "purpose": "Grid/list item fade + slide-up entrance." },
+      { "name": "stagger-entrance", "value": "50ms", "purpose": "Delay between sibling items in a staggered grid/list reveal." }
+    ],
+    "breakpoints": [
+      { "name": "mobile-sm", "value": "375px" },
+      { "name": "sm", "value": "575.98px" },
+      { "name": "md", "value": "767.98px" },
+      { "name": "content-max", "value": "1152px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "The single call-to-action color per screen. One per screen, never two.",
+      "html": "<button class=\"ds-btn-primary\">Explorar eventos</button>",
+      "css": ".ds-btn-primary { background-color: var(--eve-laranja, #E8722C); color: var(--eve-navy, #0E1B27); font-weight: 600; font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; padding: 10px 24px; border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(14,27,39,0.06); transition: box-shadow 225ms cubic-bezier(0.165,0.84,0.44,1), transform 225ms cubic-bezier(0.165,0.84,0.44,1); } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { box-shadow: 0 12px 28px rgba(14,27,39,0.14); transform: translateY(-3px); } .ds-btn-primary:focus-visible { box-shadow: 0 0 0 3px rgba(10,105,196,0.18), 0 12px 28px rgba(14,27,39,0.14); }"
+    },
+    {
+      "name": "Outline Button",
+      "kind": "button",
+      "refersTo": "button-outline",
+      "description": "Secondary action — transparent with Campus Blue border, fills solid on hover.",
+      "html": "<button class=\"ds-btn-outline\">Para organizadores</button>",
+      "css": ".ds-btn-outline { background-color: transparent; color: var(--eve-azul, #0A69C4); font-weight: 600; font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; padding: 10px 24px; border: 1px solid var(--eve-azul, #0A69C4); border-radius: 8px; transition: background-color 225ms cubic-bezier(0.165,0.84,0.44,1), color 225ms; } .ds-btn-outline:hover, .ds-btn-outline:focus-visible { background-color: var(--eve-azul, #0A69C4); color: #fff; } .ds-btn-outline:focus-visible { box-shadow: 0 0 0 3px rgba(10,105,196,0.18); }"
+    },
+    {
+      "name": "Category Badge",
+      "kind": "chip",
+      "refersTo": "badge-category",
+      "description": "Functional event-category tag. Same pill shape across all five category colors — only bg/text change.",
+      "html": "<span class=\"ds-badge-category\">Hackathon</span>",
+      "css": ".ds-badge-category { display: inline-flex; align-items: center; background-color: #E6F1FB; color: #0C447C; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; padding: 2px 10px; border-radius: 999px; font-family: Inter, system-ui, sans-serif; }"
+    },
+    {
+      "name": "Event Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "The canonical container — ambient shadow at rest, deeper lift on hover, an always-on-touch surface.",
+      "html": "<div class=\"ds-card\"><span class=\"ds-badge-category\">Maratona</span><h3 class=\"ds-card-title\">Maratona Code BA</h3><p class=\"ds-card-body\">5 de Outubro de 2026 · UFBA</p></div>",
+      "css": ".ds-card { background: #fff; border: 1px solid #D3D1C7; border-radius: 12px; padding: 16px; box-shadow: 0 2px 10px rgba(14,27,39,0.06); transition: box-shadow 225ms cubic-bezier(0.165,0.84,0.44,1), transform 225ms cubic-bezier(0.165,0.84,0.44,1); } .ds-card:hover, .ds-card:focus-within { box-shadow: 0 12px 28px rgba(14,27,39,0.14); transform: translateY(-3px); } .ds-card-title { font-family: Inter, system-ui, sans-serif; font-weight: 700; font-size: 1.25rem; color: #0E1B27; margin: 8px 0 4px; } .ds-card-body { font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; color: #5F5E5A; margin: 0; } .ds-badge-category { display: inline-flex; background-color: #E8F5E9; color: #1B5E20; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.02em; padding: 2px 10px; border-radius: 999px; }"
+    },
+    {
+      "name": "Filter Pill",
+      "kind": "chip",
+      "refersTo": "pill-filter",
+      "description": "Category/state filter. Inactive is outline-quiet; active fills solid Campus Blue.",
+      "html": "<div style=\"display:flex; gap:8px;\"><button class=\"ds-pill\">Todos</button><button class=\"ds-pill ds-pill-active\">Hackathon</button></div>",
+      "css": ".ds-pill { border-radius: 999px; padding: 6px 16px; font-size: 0.875rem; font-weight: 500; font-family: Inter, system-ui, sans-serif; border: 1px solid #D3D1C7; background: transparent; color: #5F5E5A; transition: all 150ms ease; } .ds-pill:hover { box-shadow: 0 12px 28px rgba(14,27,39,0.14); transform: translateY(-2px); } .ds-pill-active, .ds-pill-active:hover { background-color: #0A69C4; border-color: #0A69C4; color: #fff; transform: none; box-shadow: none; }"
+    },
+    {
+      "name": "Check-in Toggle",
+      "kind": "custom",
+      "refersTo": "progress-fill",
+      "description": "The one shadow in the system that reads as a physical object rather than elevation — used on the organizer check-in screen.",
+      "html": "<button class=\"ds-switch\" aria-pressed=\"true\"><span class=\"ds-switch-thumb\"></span></button>",
+      "css": ".ds-switch { width: 44px; height: 24px; border-radius: 999px; border: none; background-color: #0A69C4; position: relative; cursor: pointer; padding: 0; transition: background-color 150ms ease; } .ds-switch-thumb { position: absolute; top: 2px; left: 22px; width: 20px; height: 20px; border-radius: 50%; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,0.2); transition: left 150ms ease; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Community Spark",
+    "overview": "EVE stands on a calm institutional canvas — warm paper, ink navy, soft stone borders — inherited from LAMIT, the academic league that originated the project. Against that canvas, one spark of color per screen (Spark Orange) marks the single action that matters, and five category colors tag events like pins on a campus bulletin board. The feeling is calm on the outside, vibrant in the details: an institution you trust, animated by the energy of the community events it hosts. Depth and motion are a deliberate part of that spark: surfaces lift and deepen on interaction, grids reveal with a soft staggered entrance, and the whole system reads as alive rather than static.",
+    "keyCharacteristics": [
+      "Calm warm-neutral base that never competes with the one accent doing the talking",
+      "Exactly one Spark Orange call-to-action per screen",
+      "Five named category colors used as functional tags, not decoration",
+      "Soft, layered depth: ambient shadows at rest, deeper lift on hover/focus, animated rather than instant",
+      "Motion with intent: staggered entrances, eased lifts, never a bounce, always a reduced-motion fallback"
+    ],
+    "rules": [
+      { "name": "The One Spark Rule", "body": "Spark Orange appears once per screen as the primary call-to-action. Every other actionable element is Campus Blue (outline/link) or plain text.", "section": "colors" },
+      { "name": "The One Voice Rule", "body": "Every weight and size traces back to a single Inter stack. A second typeface is never the answer to a hierarchy problem.", "section": "typography" },
+      { "name": "The Alive-on-Touch Rule", "body": "Every interactive surface must visibly respond within 200-250ms of hover or focus — deepen the shadow, lift 2-3px, or both. Ambient/ornamental motion (marquee, carousel) is exempt.", "section": "elevation" }
+    ],
+    "dos": [
+      "Use exactly one Spark Orange (#E8722C) primary action per screen.",
+      "Give every card an ambient-card shadow at rest and a hover-lift on hover/focus, eased at 200-250ms with ease-out-quart.",
+      "Stagger grid/list entrances (fade + slide-up, ~40-60ms between siblings).",
+      "Keep every category tag to the five defined Tertiary color pairs, same pill shape.",
+      "Provide a prefers-reduced-motion fallback for every entrance and hover-lift animation.",
+      "Keep LGPD-relevant forms minimal with a required, explicit consent step."
+    ],
+    "donts": [
+      "Don't use more than one Spark Orange element on the same screen.",
+      "Don't add heavy or dark dramatic shadows, gradients, or glassmorphism.",
+      "Don't use bounce/elastic easing anywhere; ease-out-quart only.",
+      "Don't use border-left/border-right as a colored accent stripe.",
+      "Don't apply gradient text.",
+      "Don't let the interface read as a bureaucratic institutional system or a generic corporate SaaS clone."
+    ]
+  }
+}

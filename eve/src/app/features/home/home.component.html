@@ -17,18 +17,16 @@
           <button type="button" class="btn btn-eve-primary px-4 py-2" (click)="irParaEventos()">Explorar eventos</button>
           <button *ngIf="!usuario || usuario.tipo === 'organizador'" type="button" class="btn btn-eve-outline px-4 py-2" (click)="irParaOrganizadores()">Para organizadores</button>
         </div>
+
+        <div class="d-flex flex-wrap gap-4 mt-4 pt-3 border-top" style="border-color: var(--eve-cinza-borda) !important;">
+          <div class="d-flex align-items-baseline gap-2" *ngFor="let s of stats">
+            <span class="fw-bold text-eve-navy" style="font-size: 1.1rem;">{{ s.value }}</span>
+            <span class="small text-eve-secondary">{{ s.label }}</span>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-
-  <div class="border-bottom bg-white py-3" style="border-color: var(--eve-cinza-borda) !important;">
-    <div class="container-xxl px-3 px-md-4 d-flex gap-3 gap-md-5" style="max-width: 1152px;">
-      <div class="d-flex flex-column stats-item" *ngFor="let s of stats">
-        <span class="stats-value fw-bold text-eve-navy">{{ s.value }}</span>
-        <span class="stats-label text-eve-secondary">{{ s.label }}</span>
-      </div>
-    </div>
-  </div>
 
   <section class="py-5">
     <div class="container-xxl px-3 px-md-4" style="max-width: 1152px;">
@@ -53,7 +51,7 @@
       </p>
 
       <div class="row g-4" *ngIf="eventosFiltrados.length > 0">
-        <div class="col-12 col-sm-6 col-lg-4" *ngFor="let evento of eventosFiltrados">
+        <div class="col-12 col-sm-6 col-lg-4 eve-entrada" *ngFor="let evento of eventosFiltrados; let i = index" [style.--i]="i">
           <app-evento-card [evento]="evento"></app-evento-card>
         </div>
       </div>
@@ -62,7 +60,7 @@
 
   <div class="border-top border-bottom bg-white py-4 mb-5 parceiros-marquee" style="border-color: var(--eve-cinza-borda) !important;">
     <div class="container-xxl px-3 px-md-4 mb-3" style="max-width: 1152px;">
-      <span class="small fw-semibold text-eve-secondary text-uppercase" style="letter-spacing: 0.04em;">Parceiros que apoiam o ecossistema EVE</span>
+      <span class="small fw-semibold text-eve-secondary">Parceiros que apoiam o ecossistema EVE</span>
     </div>
     <div class="parceiros-marquee-viewport">
       <div class="parceiros-track">
@@ -76,12 +74,9 @@
     </div>
   </div>
 
-  <section class="mx-3 mx-md-4 mb-5 p-4 p-md-5 rounded-eve-xl d-flex flex-column flex-sm-row align-items-start align-items-sm-center justify-content-between gap-4" style="background-color: var(--eve-navy);">
-    <div>
-      <h3 class="fs-4 fw-bold text-white mb-2">Organize seu evento com a EVE</h3>
-      <p class="small mb-0" style="color: #A8B5C2;">Bilheteria digital, comunidade de participantes e métricas em tempo real. Apenas 5% de comissão sobre ingressos vendidos.</p>
-    </div>
-    <button type="button" class="btn btn-eve-primary px-4 py-2 flex-shrink-0" (click)="irParaCriarEvento()">Criar evento</button>
+  <section class="mx-3 mx-md-4 mb-5 p-4 p-md-5 rounded-eve-xl" style="background-color: var(--eve-navy); max-width: 620px;">
+    <h3 class="fs-4 fw-bold text-white mb-2">Organize seu evento com a EVE</h3>
+    <p class="small mb-0" style="color: #A8B5C2;">Bilheteria digital, comunidade de participantes e métricas em tempo real. Apenas 5% de comissão sobre ingressos vendidos.</p>
   </section>
 
 </div>

@@ -14,28 +14,28 @@
 
     <div class="row g-3 mb-4">
       <div class="col-6 col-lg-3">
-        <div class="eve-card p-3 h-100">
+        <div class="eve-card p-3 h-100 eve-entrada" style="--i: 0;">
           <p class="small fw-medium text-eve-secondary mb-1">Total de inscritos</p>
           <p class="fs-5 fw-bold text-eve-navy mb-0">{{ resumo.totalInscritos }}</p>
           <p class="small text-eve-secondary mb-0">nos seus eventos</p>
         </div>
       </div>
       <div class="col-6 col-lg-3">
-        <div class="eve-card p-3 h-100">
+        <div class="eve-card p-3 h-100 eve-entrada" style="--i: 1;">
           <p class="small fw-medium text-eve-secondary mb-1">Receita projetada</p>
           <p class="fs-5 fw-bold text-eve-navy mb-0">R$ {{ resumo.receitaTotal | number:'1.0-2' }}</p>
           <p class="small text-eve-secondary mb-0">todos os eventos</p>
         </div>
       </div>
       <div class="col-6 col-lg-3">
-        <div class="eve-card p-3 h-100">
+        <div class="eve-card p-3 h-100 eve-entrada" style="--i: 2;">
           <p class="small fw-medium text-eve-secondary mb-1">Comissão EVE (5%)</p>
           <p class="fs-5 fw-bold text-eve-navy mb-0">R$ {{ resumo.comissaoTotal | number:'1.0-2' }}</p>
           <p class="small text-eve-secondary mb-0">a descontar</p>
         </div>
       </div>
       <div class="col-6 col-lg-3">
-        <div class="eve-card p-3 h-100">
+        <div class="eve-card p-3 h-100 eve-entrada" style="--i: 3;">
           <p class="small fw-medium text-eve-secondary mb-1">Receita líquida</p>
           <p class="fs-5 fw-bold text-eve-navy mb-0">R$ {{ resumo.liquidoTotal | number:'1.0-2' }}</p>
           <p class="small text-eve-secondary mb-0">estimativa</p>
@@ -61,7 +61,7 @@
     </div>
 
     <div class="d-flex flex-column gap-4">
-      <div class="eve-card p-4" *ngFor="let m of metricas">
+      <div class="eve-card p-4 eve-entrada" *ngFor="let m of metricas; let i = index" [style.--i]="i">
         <div class="d-flex flex-column flex-sm-row justify-content-between gap-3 mb-3">
           <div>
             <span [class]="m.evento.categoria | categoriaBadgeClass" class="mb-2 d-inline-block">{{ m.evento.categoria }}</span>
@@ -80,7 +80,7 @@
             <span class="fw-semibold text-eve-navy">{{ m.ocupacao }}%</span>
           </div>
           <div class="eve-progress-track">
-            <div class="eve-progress-fill" [style.width.%]="m.ocupacao" style="background-color: var(--eve-azul);"></div>
+            <div class="eve-progress-fill" [style.transform]="'scaleX(' + (m.ocupacao / 100) + ')'" style="background-color: var(--eve-azul);"></div>
           </div>
         </div>
 
@@ -116,12 +116,12 @@
   </div>
 
   <div *ngIf="modalAberto" class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-3" style="background-color: rgba(14,27,39,0.6); z-index: 1050;" (click)="fecharModal()">
-    <div class="eve-card p-4" style="max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto;" (click)="$event.stopPropagation()">
+    <div class="eve-card eve-modal-card p-4" style="max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto;" (click)="$event.stopPropagation()">
       <div class="d-flex justify-content-between align-items-center mb-3">
         <h2 class="fs-5 fw-bold text-eve-navy mb-0">Criar evento</h2>
         <button type="button" class="btn-close-modal" (click)="fecharModal()" aria-label="Fechar">&times;</button>
       </div>
-      <p class="small text-eve-secondary mb-3">Preview visual — o evento aparece só nesta sessão do painel.</p>
+      <p class="small text-eve-secondary mb-3">O evento é publicado em todas as telas do sistema (home, eventos, painel).</p>
 
       <form [formGroup]="form" (ngSubmit)="criarEvento()" class="d-flex flex-column gap-3">
         <div>

@@ -77,14 +77,6 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['/eventos']);
   }
 
-  irParaCriarEvento(): void {
-    if (this.usuario?.tipo === 'participante') {
-      this.router.navigate(['/cadastro'], { queryParams: { tipo: 'organizador' } });
-      return;
-    }
-    this.router.navigate(['/organizador/dashboard'], { queryParams: { criar: '1' } });
-  }
-
   irParaOrganizadores(): void {
     this.router.navigate(['/organizador/dashboard']);
   }

@@ -31,7 +31,7 @@
     </p>
 
     <div class="row g-4" *ngIf="eventosFiltrados.length > 0">
-      <div class="col-12 col-sm-6 col-lg-4" *ngFor="let evento of eventosFiltrados">
+      <div class="col-12 col-sm-6 col-lg-4 eve-entrada" *ngFor="let evento of eventosFiltrados; let i = index" [style.--i]="i">
         <app-evento-card [evento]="evento"></app-evento-card>
       </div>
     </div>

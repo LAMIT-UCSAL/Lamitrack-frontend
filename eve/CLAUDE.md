@@ -17,6 +17,16 @@ Angular 18 (standalone components, sem NgModules) + TypeScript + Bootstrap 5 + S
 
 Rodar o projeto: `npm install && npm start` (abre em `http://localhost:4200`).
 
+## Design Context (impeccable)
+
+Contexto estratégico e visual gerado pela skill `impeccable`, para manter qualquer trabalho de design/UI consistente:
+- **`PRODUCT.md`** — registro (product), plataforma (web), público, propósito, posicionamento, personalidade de marca ("jovem, vibrante, comunidade") e anti-referências.
+- **`DESIGN.md`** — sistema visual completo (cores, tipografia, elevação/motion, componentes, do's/don'ts), North Star "The Community Spark". Normativo pra qualquer decisão visual nova.
+- **`.impeccable/design.json`** — sidecar com tokens estendidos (rampas tonais, sombras, motion, componentes HTML/CSS de referência) usado pelo modo `live`.
+- **`.impeccable/live/config.json`** — já configurado pra `/impeccable live` (injeta em `src/index.html`).
+
+Leia `DESIGN.md` antes de mudanças visuais; ele complementa (não substitui) a seção "Identidade visual" abaixo, que continua sendo a referência pixel-a-pixel validada contra o Figma.
+
 ## Identidade visual (não negociável)
 
 Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixel contra um protótipo de alta fidelidade gerado no Figma Make.
@@ -26,7 +36,7 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 | Azul institucional | `#0A69C4` | Links, ícones, botões outline, elementos de destaque |
 | Navy | `#0E1B27` | Texto principal, fundos escuros (banners de CTA/comunidade) |
 | Cream | `#FBFAF8` | Fundo geral das páginas |
-| Laranja | `#E8722C` | CTA primário único por tela |
+| Laranja | `#E8722C` | CTA primário único por tela — texto **navy** (`#0E1B27`), não branco (branco sobre esse laranja mede 3.1:1 e falha WCAG AA; navy mede 5.7:1 — corrigido após `/impeccable critique`) |
 | Cinza de borda | `#D3D1C7` | Bordas de cards, divisores |
 | Cinza de texto | `#5F5E5A` | Texto secundário |
 | Verde | `#2E7D32` / bg `#E8F5E9` | Estados de sucesso, badge "Gratuito" |
@@ -45,7 +55,7 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 
 | Rota | Componente | O que faz |
 |---|---|---|
-| `/` | `features/home` | Hero, tira de estatísticas (calculada a partir dos dados reais via `EventosService`/`ComunidadeService` — nunca hardcoded, ver nota abaixo), filtro de categorias, grid de eventos em destaque, faixa de logos de parceiros em looping horizontal (puro CSS, sem lib), banner de CTA |
+| `/` | `features/home` | Hero (com estatísticas inline abaixo dos CTAs, calculadas a partir dos dados reais via `EventosService`/`ComunidadeService` — nunca hardcoded, ver nota abaixo), filtro de categorias, grid de eventos em destaque, faixa de logos de parceiros em looping horizontal (puro CSS, sem lib), banner informativo pra organizadores (sem botão — ver seção de autenticação) |
 | `/eventos` | `features/eventos/lista-eventos` | Carrossel de "últimos eventos" (auto-avança a cada 4s, ver `shared/components/carrossel-eventos`) + grid completo com busca por texto e filtro de categoria |
 | `/eventos/:id` | `features/eventos/detalhe-evento` | Info do evento + card de inscrição (form reativo + consentimento LGPD) → estado de ingresso confirmado com QR code SVG |
 | `/comunidade` | `features/comunidade/mural` | Header escuro do evento, mural de avisos com postagem funcional, lista de participantes — protegida por `autenticadoGuard` (qualquer papel logado) |
@@ -85,7 +95,9 @@ Já implementadas em `EventosService`, não recalcular na mão em componentes:
 
 ## Estatísticas da home (`/`)
 
-A tira de números logo abaixo do hero é **sempre calculada a partir dos dados mockados**, nunca hardcoded — regra fixada depois de um bug em que os 4 números (18 eventos, 1.053 inscrições, 12 organizadores, 18 comunidades) eram valores inventados que não batiam com o resto do app. Hoje, `HomeComponent.ngOnInit` combina `EventosService.listar()` + `ComunidadeService.listarParticipantes()` via `combineLatest` e deriva: eventos ativos = `eventos.length`; inscrições realizadas = soma de `inscritos` de todos os eventos; organizadores parceiros = `organizador` distintos entre os eventos; comunidades ativas = `eventoId` distintos em `participantes.json`. **Limitação conhecida:** hoje só `participantes.json` do evento 1 está populado (a tela `/comunidade` é única e genérica, não filtrada por evento), então "Comunidades ativas" mostra 1 — número correto dado o estado atual dos dados, mas baixo; se popular `participantes.json` com mais `eventoId`s no futuro, o número sobe automaticamente sem tocar no componente.
+Os números são **sempre calculados a partir dos dados mockados**, nunca hardcoded — regra fixada depois de um bug em que os 4 números (18 eventos, 1.053 inscrições, 12 organizadores, 18 comunidades) eram valores inventados que não batiam com o resto do app. Hoje, `HomeComponent.ngOnInit` combina `EventosService.listar()` + `ComunidadeService.listarParticipantes()` via `combineLatest` e deriva: eventos ativos = `eventos.length`; inscrições realizadas = soma de `inscritos` de todos os eventos; organizadores parceiros = `organizador` distintos entre os eventos; comunidades ativas = `eventoId` distintos em `participantes.json`. **Limitação conhecida:** hoje só `participantes.json` do evento 1 está populado (a tela `/comunidade` é única e genérica, não filtrada por evento), então "Comunidades ativas" mostra 1 — número correto dado o estado atual dos dados, mas baixo; se popular `participantes.json` com mais `eventoId`s no futuro, o número sobe automaticamente sem tocar no componente.
+
+Visualmente, os 4 números **não** ficam numa tira/strip separada abaixo do hero — isso foi removido depois de um `/impeccable critique` apontar que era o "hero-metric template" que o próprio `DESIGN.md` bane por nome. Hoje ficam inline, em pares número+rótulo alinhados pela base, logo abaixo dos botões do hero (dentro da mesma coluna de 620px), como um sinal de confiança que faz parte da narrativa do hero em vez de um card de métricas genérico.
 
 ## LGPD
 
@@ -97,9 +109,9 @@ Sem backend real, então `AuthService` guarda tudo em `localStorage` com **duas 
 
 `organizadorGuard` (`CanActivateFn`) protege `/organizador/dashboard` e `/organizador/checkin/:id` em duas etapas: não autenticado → redireciona para `/entrar?redirectTo=<rota original>`; autenticado mas com papel `participante` → redireciona pra home (`/`) — só `organizador` passa. `autenticadoGuard` protege `/comunidade` de forma mais simples — qualquer papel autenticado passa, senão redireciona pra `/entrar?redirectTo=/comunidade`. As páginas de login/cadastro leem `redirectTo` e voltam pra rota pretendida após autenticar; sem esse parâmetro, o destino padrão depende do papel da conta (`organizador` → `/organizador/dashboard`, `participante` → `/`).
 
-O botão "Criar evento" do banner de CTA na home (`HomeComponent.irParaCriarEvento`) verifica o papel do usuário **antes** de navegar, e esse desvio é específico desse botão (não se aplica ao "+ Criar evento" do próprio painel, nem a nenhum outro lugar):
-- Deslogado ou logado como `organizador`: navega para `/organizador/dashboard?criar=1` — o guard de organizador cuida da autenticação/papel normalmente (login primeiro se deslogado), e o `DashboardComponent` lê o query param `criar` no `ngOnInit` e já abre o modal de criação automaticamente ao chegar. Como o `redirectTo` carrega a URL completa (com query string), o modal continua abrindo mesmo depois de passar pela tela de login.
-- Logado como `participante`: em vez de bater no guard e voltar pra home sem explicação, navega direto para `/cadastro?tipo=organizador` — o `CadastroComponent` lê esse query param e pré-seleciona o pill "Organizador" no formulário, além de mostrar um aviso contextual ("Pra criar e publicar seus próprios eventos, cadastre-se como organizador"). Isso cria uma **conta nova** (não existe upgrade de papel de uma conta já existente no modelo mockado atual).
+O botão "Para organizadores" do hero da home (`HomeComponent.irParaOrganizadores`) navega para `/organizador/dashboard` — o `organizadorGuard` cuida do resto (login se deslogado, nega e volta pra home se for participante). Esse botão fica oculto quando logado como `participante` (mesma regra do link "Painel" do navbar). O `CadastroComponent` também aceita um query param `?tipo=organizador` (usado por outros fluxos de redirecionamento) que pré-seleciona o pill "Organizador" no formulário e mostra um aviso contextual.
+
+O banner de CTA escuro da home ("Organize seu evento com a EVE") é só informativo, **sem botão** — removido depois de uma crítica de design (`/impeccable critique`) apontar que ele criava um segundo CTA laranja competindo com "Explorar eventos" na mesma tela, violando a regra de "um único Spark Orange por tela" do `DESIGN.md`. O acesso a "criar evento" pra quem está na home continua só pelo botão "Para organizadores" do hero e pelo link "Painel" do navbar.
 
 ## Gerenciamento de eventos (criar/excluir, persistido)
 
