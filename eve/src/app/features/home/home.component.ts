@@ -5,6 +5,7 @@ import { combineLatest } from 'rxjs';
 import { Evento, CategoriaEvento } from '../../core/models/evento.model';
 import { EventosService } from '../../core/services/eventos.service';
 import { ComunidadeService } from '../../core/services/comunidade.service';
+import { AuthService } from '../../core/services/auth.service';
 import { EventoCardComponent } from '../../shared/components/evento-card/evento-card.component';
 
 @Component({
@@ -36,8 +37,13 @@ export class HomeComponent implements OnInit {
   constructor(
     private eventosService: EventosService,
     private comunidadeService: ComunidadeService,
+    private authService: AuthService,
     private router: Router
   ) {}
+
+  get usuario() {
+    return this.authService.usuarioAtual;
+  }
 
   ngOnInit(): void {
     combineLatest([
@@ -73,5 +79,9 @@ export class HomeComponent implements OnInit {
 
   irParaCriarEvento(): void {
     this.router.navigate(['/organizador/dashboard'], { queryParams: { criar: '1' } });
+  }
+
+  irParaOrganizadores(): void {
+    this.router.navigate(['/organizador/dashboard']);
   }
 }
