@@ -36,7 +36,7 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 | Azul institucional | `#0A69C4` | Links, ícones, botões outline, elementos de destaque |
 | Navy | `#0E1B27` | Texto principal, fundos escuros (banners de CTA/comunidade) |
 | Cream | `#FBFAF8` | Fundo geral das páginas |
-| Laranja | `#E8722C` | CTA primário único por tela — texto **navy** (`#0E1B27`), não branco (branco sobre esse laranja mede 3.1:1 e falha WCAG AA; navy mede 5.7:1 — corrigido após `/impeccable critique`) |
+| Laranja | `#E8722C` | CTA primário único por tela — texto branco. **Nota de acessibilidade:** branco sobre esse laranja mede 3.1:1, abaixo do mínimo de 4.5:1 do WCAG AA (achado real do `/impeccable critique`); a alternativa de maior contraste (texto navy, 5.7:1) foi testada e depois revertida por escolha explícita do usuário. |
 | Cinza de borda | `#D3D1C7` | Bordas de cards, divisores |
 | Cinza de texto | `#5F5E5A` | Texto secundário |
 | Verde | `#2E7D32` / bg `#E8F5E9` | Estados de sucesso, badge "Gratuito" |
@@ -97,7 +97,9 @@ Já implementadas em `EventosService`, não recalcular na mão em componentes:
 
 Os números são **sempre calculados a partir dos dados mockados**, nunca hardcoded — regra fixada depois de um bug em que os 4 números (18 eventos, 1.053 inscrições, 12 organizadores, 18 comunidades) eram valores inventados que não batiam com o resto do app. Hoje, `HomeComponent.ngOnInit` combina `EventosService.listar()` + `ComunidadeService.listarParticipantes()` via `combineLatest` e deriva: eventos ativos = `eventos.length`; inscrições realizadas = soma de `inscritos` de todos os eventos; organizadores parceiros = `organizador` distintos entre os eventos; comunidades ativas = `eventoId` distintos em `participantes.json`. **Limitação conhecida:** hoje só `participantes.json` do evento 1 está populado (a tela `/comunidade` é única e genérica, não filtrada por evento), então "Comunidades ativas" mostra 1 — número correto dado o estado atual dos dados, mas baixo; se popular `participantes.json` com mais `eventoId`s no futuro, o número sobe automaticamente sem tocar no componente.
 
-Visualmente, os 4 números **não** ficam numa tira/strip separada abaixo do hero — isso foi removido depois de um `/impeccable critique` apontar que era o "hero-metric template" que o próprio `DESIGN.md` bane por nome. Hoje ficam inline, em pares número+rótulo alinhados pela base, logo abaixo dos botões do hero (dentro da mesma coluna de 620px), como um sinal de confiança que faz parte da narrativa do hero em vez de um card de métricas genérico.
+Visualmente, os 4 números **não** ficam numa tira/strip separada abaixo do hero — isso foi removido depois de um `/impeccable critique` apontar que era o "hero-metric template" que o próprio `DESIGN.md` bane por nome. Hoje ficam em pares número+rótulo alinhados pela base, logo abaixo dos botões do hero, mas **fora** da coluna estreita de 620px (só o texto do hero — badge/título/parágrafo/botões — fica limitado a 620px; os números ficam num bloco de largura total da tela, irmão daquela coluna dentro da mesma `<section>`). Como 4 pares não cabem numa linha sem quebrar ou encolher a fonte (principalmente no mobile), eles deslizam continuamente num carrossel horizontal de ponta a ponta (`.stats-marquee-viewport`/`.stats-track` em `home.component.scss`) — mesma técnica do carrossel de logos de parceiros (lista duplicada com `margin-right` uniforme pra o loop de `-50%` fechar sem salto, `mask-image` nas bordas, sem pausar no hover, respeitando `prefers-reduced-motion`).
+
+O banner "Organize seu evento com a EVE" segue o mesmo princípio: a `<section>` em si ocupa a largura total da tela (só com as margens `mx-3 mx-md-4` do cartão arredondado), e um `<div style="max-width: 620px">` interno limita só o texto pra manter a linha de leitura confortável (~61 caracteres/linha) sem encolher o card inteiro.
 
 ## LGPD
 
@@ -140,6 +142,16 @@ O backlog completo (épicos, user stories, critérios de aceite, priorização M
 - ~~Revisão de responsividade fina em telas muito pequenas (< 375px)~~ — testada e corrigida em várias telas ao longo do desenvolvimento (mural, feed, navbar mobile).
 - Eventual integração de gráfico de biblioteca real (hoje o gráfico de ocupação do dashboard é feito em CSS puro, sem lib externa, para não adicionar dependência pesada) — decisão consciente, não é uma falha.
 - **Limitação de dados conhecida e aceita:** nenhum dos 5 eventos mockados atuais usa as categorias "Hackathon" ou "Ideathon" (todos foram substituídos por eventos reais da LAMIT: "Eventos de Inovação", "Maratona", "Edital"). Os pills de filtro dessas duas categorias continuam existindo na UI, mas retornam lista vazia — mantido assim por decisão do time, não corrigir sem pedido explícito.
+
+## Audit técnico (`/impeccable audit`, app inteiro)
+
+Rodado uma vez no app inteiro (10 telas, 3 sub-agentes paralelos): nota **14/20**. Corrigido depois via `harden`→`adapt`→`optimize`→`document`→`polish`:
+- **Harden:** modal "Criar evento" agora move foco, prende Tab e fecha com Escape; labels de formulário associadas via `id`/`for` em `/entrar`, `/cadastro` e no modal; heading hierarchy corrigida em `/eventos`; foco visível no hamburguer mobile (único elemento sem anel de foco no app); `text-shadow` de reforço na legenda do feed.
+- **Adapt:** alvos de toque `min-height: 44px` via `@media (pointer: coarse)` (só afeta touch, não mexe na densidade do mouse) em botões/pills/hamburguer/fechar-modal; setas do carrossel 44×44; dots do carrossel e curtir/comentar do feed com área de toque invisível maior sem mudar o visual; overflow horizontal de 24px no dashboard mobile corrigido (gráfico de ocupação agora rola dentro do próprio card).
+- **Optimize:** as 5 imagens de evento (`abertura-lamit.png`, `imersao-lamit.jpg`, `codeBa.png`, `aceleraSalvador.png`, `ford-day-sympla.jpg`) redimensionadas pra 1280px máx + recompressão — de ~8.6MB total pra ~1.6MB (~81% menor), sem perda visível.
+- **Document:** `DESIGN.md` ganhou os tokens "Online Green" (`#4ADE80`, status conectado no mural) e "Feed Black" (`#000000`, fundo do player imersivo) e uma nota sobre a escala tipográfica compacta (avatares/legendas/ícones) que já existia no código mas não estava registrada.
+
+**Decisão consciente do usuário, não revertida pelo audit:** contraste do texto branco sobre laranja (`#E8722C`) nos botões primários mede 3.05:1, abaixo do mínimo 4.5:1 do WCAG AA — usuário testou a alternativa de maior contraste (texto navy, 5.7:1) e pediu explicitamente pra voltar ao branco. Ver nota na tabela de identidade visual acima.
 
 ## Como pedir mudanças de design
 

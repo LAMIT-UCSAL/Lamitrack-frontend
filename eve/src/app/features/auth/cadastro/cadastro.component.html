@@ -26,20 +26,20 @@
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Nome completo</label>
-          <input type="text" class="form-control" placeholder="Seu nome" formControlName="nome">
+          <label for="cadastro-nome" class="form-label small fw-medium text-eve-navy">Nome completo</label>
+          <input id="cadastro-nome" type="text" class="form-control" placeholder="Seu nome" formControlName="nome">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="nome?.invalid && nome?.touched">Nome é obrigatório.</div>
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">E-mail</label>
-          <input type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
+          <label for="cadastro-email" class="form-label small fw-medium text-eve-navy">E-mail</label>
+          <input id="cadastro-email" type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="email?.invalid && email?.touched">E-mail inválido.</div>
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Senha</label>
-          <input type="password" class="form-control" placeholder="Mínimo 6 caracteres" formControlName="senha">
+          <label for="cadastro-senha" class="form-label small fw-medium text-eve-navy">Senha</label>
+          <input id="cadastro-senha" type="password" class="form-control" placeholder="Mínimo 6 caracteres" formControlName="senha">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="senha?.invalid && senha?.touched">Senha precisa de pelo menos 6 caracteres.</div>
         </div>
 

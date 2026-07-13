@@ -70,6 +70,8 @@
   bottom: 24px;
   color: #fff;
   z-index: 2;
+  // reforço de legibilidade independente do scrim de gradiente, que sozinho não garante 4.5:1 contra vídeo claro
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6), 0 1px 10px rgba(0, 0, 0, 0.4);
 }
 
 .feed-titulo {
@@ -112,8 +114,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
   gap: 4px;
   filter: drop-shadow(0 1px 3px rgba(0, 0, 0, 0.5));
+
+  @media (pointer: coarse) {
+    min-width: 44px;
+    min-height: 44px;
+  }
 }
 
 .feed-action-count {

@@ -38,3 +38,29 @@
     animation: none;
   }
 }
+
+/* Estatisticas do hero — mesmo efeito de deslize continuo do carrossel de parceiros, pra caber em uma linha sem encolher a fonte */
+.stats-marquee-viewport {
+  overflow: hidden;
+  width: 100%;
+  mask-image: linear-gradient(to right, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%);
+}
+
+.stats-track {
+  display: flex;
+  align-items: baseline;
+  width: max-content;
+  animation: parceiros-scroll 18s linear infinite;
+  will-change: transform;
+}
+
+.stats-marquee-item {
+  flex-shrink: 0;
+  margin-right: 2rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stats-track {
+    animation: none;
+  }
+}

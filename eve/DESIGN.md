@@ -14,6 +14,8 @@ colors:
   confirmation-green-deep: "#1B5E20"
   alert-red: "#C62828"
   mist-blue: "#A8B5C2"
+  online-green: "#4ADE80"
+  feed-black: "#000000"
   hackathon-blue-bg: "#E6F1FB"
   hackathon-blue-text: "#0C447C"
   ideathon-amber-bg: "#FFF3E0"
@@ -68,7 +70,7 @@ spacing:
 components:
   button-primary:
     backgroundColor: "{colors.spark-orange}"
-    textColor: "{colors.ink-navy}"
+    textColor: "#FFFFFF"
     rounded: "{rounded.lg}"
     padding: "10px 24px"
   button-outline:
@@ -146,12 +148,14 @@ A five-color qualitative set, one per event category. Always paired background+t
 
 ### Neutral
 - **Warm Paper** (#FBFAF8): the body background everywhere. Warm without tipping into the generic cream/sand AI default — it is the LAMIT-inherited canvas, not a trend follow.
-- **Ink Navy** (#0E1B27): primary text color, and the fill for the dark CTA banner ("Organize seu evento com a EVE") and any immersive dark surface (the Feed).
+- **Ink Navy** (#0E1B27): primary text color, and the fill for the dark CTA banner ("Organize seu evento com a EVE") and the community mural's dark header.
 - **Warm Stone** (#D3D1C7): borders, dividers, card outlines.
 - **Soft Ink** (#5F5E5A): secondary/muted text — labels, captions, helper copy.
 - **Confirmation Green** (#2E7D32 / bg #E8F5E9 / deep #1B5E20): success states, the "free ticket" badge, confirmed check-ins.
 - **Alert Red** (#C62828): validation errors only. Never decorative.
 - **Mist Blue** (#A8B5C2): secondary/muted text on top of Ink Navy dark surfaces (the "Organize seu evento" CTA banner, the community mural's dark header) — Soft Ink doesn't have enough contrast there, so this is the dark-surface equivalent of Soft Ink.
+- **Online Green** (#4ADE80): a live/connected-status dot only (the "N participantes conectados" pill in the community mural header). Distinct from Confirmation Green — needs to be brighter/more saturated to read as a tiny dot on a dark translucent pill, where the darker Confirmation Green would disappear.
+- **Feed Black** (#000000): the Feed's immersive video-player background only (behind vertical videos, letterboxing). Deliberately pure black, not Ink Navy — standard convention for full-bleed video players (matches TikTok/Reels/YouTube), and the one surface in the app that isn't on the Warm Paper/Ink Navy institutional canvas.
 
 ### Named Rules
 **The One Spark Rule.** Spark Orange appears once per screen as the primary call-to-action. Every other actionable element is Campus Blue (outline/link) or plain text. If a screen has two orange elements, one must change.
@@ -168,6 +172,8 @@ A five-color qualitative set, one per event category. Always paired background+t
 - **Title** (700, 1.25rem, line-height 1.3): card and modal headers — "Criar evento" modal title, dashboard summary card labels, community mural headers.
 - **Body** (400, 0.875rem, line-height 1.5, cap line length ~70ch): paragraph copy, form labels, nav links, descriptions.
 - **Label** (600, 0.75rem, letter-spacing 0.02em): category badges, status pills ("Gratuito", ticket number), stat captions.
+
+**Compact-UI sub-scale (documented, not a violation):** dense contexts that predate this file — avatar-circle initials (0.7–0.8rem), the Feed's organizer/view-count lines (0.8–0.85rem), section icons like the carousel arrows and dashboard chart headers (1.1–1.5rem) — sit between the five named steps above. These aren't drift; they're real, working sizes for small/dense UI (avatars, captions, icons) that the five-role narrative scale was never meant to cover 1:1. Snap to a named step when touching these areas, but don't force every micro-size into the five-role scale just to satisfy the ramp.
 
 ### Named Rules
 **The One Voice Rule.** Every weight and size traces back to this single Inter stack. A second typeface is never the answer to a hierarchy problem — size, weight, and color do that work first.
@@ -195,7 +201,7 @@ EVE's depth is layered and animated, not flat: surfaces carry a soft ambient sha
 
 ### Buttons
 - **Shape:** 8px radius (`rounded.lg`) on every button, no exceptions.
-- **Primary:** Spark Orange fill, Ink Navy text (not white — white-on-orange measures 3.1:1 and fails WCAG AA; Ink Navy measures 5.7:1), 600 weight, 10px/24px padding. Hover: shadow deepens (hover-lift), background stays exactly the same orange so contrast never regresses. Exactly one per screen.
+- **Primary:** Spark Orange fill, white text, 600 weight, 10px/24px padding. Hover: shadow deepens (hover-lift). Exactly one per screen. **Known tradeoff:** white-on-orange measures 3.1:1, below the 4.5:1 WCAG AA minimum — flagged by `/impeccable critique`, reverted back to white by explicit user choice over the higher-contrast Ink Navy alternative (5.7:1).
 - **Outline:** transparent background, 1px Campus Blue border and text. Hover: fills solid Campus Blue with white text — the fill itself is the state change, no shadow needed on this one since the color inversion already reads as "activated."
 - **Ghost/Link:** plain Campus Blue text, no border, underline optional. Used for tertiary actions ("Ver comunidade →", "Ver todos →").
 

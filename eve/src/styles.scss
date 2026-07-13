@@ -66,14 +66,14 @@ $eve-ease: cubic-bezier(0.165, 0.84, 0.44, 1); // ease-out-quart — todo hover-
 .btn-eve-primary {
   background-color: var(--eve-laranja);
   border-color: var(--eve-laranja);
-  color: var(--eve-navy); // navy em vez de branco: branco sobre laranja mede 3.1:1 (falha AA); navy mede 5.7:1
+  color: #fff;
   border-radius: 8px;
   font-weight: 600;
   box-shadow: 0 2px 10px rgba(14, 27, 39, 0.06);
   transition: box-shadow 225ms $eve-ease, transform 225ms $eve-ease;
   &:hover, &:focus-visible {
     background-color: var(--eve-laranja);
-    color: var(--eve-navy);
+    color: #fff;
     box-shadow: 0 12px 28px rgba(14, 27, 39, 0.14);
     transform: translateY(-3px);
   }
@@ -163,6 +163,12 @@ $eve-ease: cubic-bezier(0.165, 0.84, 0.44, 1); // ease-out-quart — todo hover-
 }
 .navbar-logo { height: 28px; }
 
+.navbar-hamburger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(10, 105, 196, 0.18);
+  border-radius: 8px;
+}
+
 @media (max-width: 767.98px) {
   .navbar-eve-fixed { height: 72px; }
   .navbar-logo { height: 36px; }
@@ -225,5 +231,27 @@ $eve-ease: cubic-bezier(0.165, 0.84, 0.44, 1); // ease-out-quart — todo hover-
 @media (prefers-reduced-motion: reduce) {
   .eve-entrada {
     animation: none;
+  }
+}
+
+/* Alvos de toque — só em dispositivos de ponteiro grosso (touch), não afeta densidade no mouse/desktop */
+@media (pointer: coarse) {
+  .btn-eve-primary,
+  .btn-eve-outline,
+  .btn-sm {
+    min-height: 44px;
+  }
+  .pill-filter {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .navbar-hamburger {
+    min-width: 44px;
+    min-height: 44px;
+  }
+  .btn-close-modal {
+    min-width: 44px;
+    min-height: 44px;
   }
 }

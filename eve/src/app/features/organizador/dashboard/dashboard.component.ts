@@ -34,6 +34,7 @@ export class DashboardComponent implements OnInit {
   bannerErro: string | null = null;
 
   @ViewChild('bannerInput') private bannerInputRef?: ElementRef<HTMLInputElement>;
+  @ViewChild('modalCard') private modalCardRef?: ElementRef<HTMLElement>;
 
   constructor(
     private eventosService: EventosService,
@@ -75,6 +76,7 @@ export class DashboardComponent implements OnInit {
 
   abrirModal(): void {
     this.modalAberto = true;
+    setTimeout(() => this.modalCardRef?.nativeElement.focus());
   }
 
   fecharModal(): void {
@@ -85,6 +87,28 @@ export class DashboardComponent implements OnInit {
       this.bannerInputRef.nativeElement.value = '';
     }
     this.form.reset({ titulo: '', categoria: 'Hackathon', data: '', local: '', capacidadeTotal: 100, precoIngresso: 0, descricao: '' });
+  }
+
+  onModalTab(keyboardEvent: Event): void {
+    const event = keyboardEvent as KeyboardEvent;
+    const card = this.modalCardRef?.nativeElement;
+    if (!card) return;
+
+    const focusables = Array.from(
+      card.querySelectorAll<HTMLElement>('input, select, textarea, button, [tabindex]:not([tabindex="-1"])')
+    ).filter(el => !el.hasAttribute('disabled'));
+    if (focusables.length === 0) return;
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+
+    if (event.shiftKey && document.activeElement === first) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
   }
 
   onBannerSelecionado(event: Event): void {

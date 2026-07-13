@@ -6,13 +6,13 @@
 
       <form [formGroup]="form" (ngSubmit)="entrar()" class="d-flex flex-column gap-3">
         <div>
-          <label class="form-label small fw-medium text-eve-navy">E-mail</label>
-          <input type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
+          <label for="entrar-email" class="form-label small fw-medium text-eve-navy">E-mail</label>
+          <input id="entrar-email" type="email" class="form-control" placeholder="seu@email.com" formControlName="email">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="email?.invalid && email?.touched">E-mail inválido.</div>
         </div>
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Senha</label>
-          <input type="password" class="form-control" placeholder="Sua senha" formControlName="senha">
+          <label for="entrar-senha" class="form-label small fw-medium text-eve-navy">Senha</label>
+          <input id="entrar-senha" type="password" class="form-control" placeholder="Sua senha" formControlName="senha">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="senha?.invalid && senha?.touched">Senha é obrigatória.</div>
         </div>
 

@@ -17,12 +17,18 @@
           <button type="button" class="btn btn-eve-primary px-4 py-2" (click)="irParaEventos()">Explorar eventos</button>
           <button *ngIf="!usuario || usuario.tipo === 'organizador'" type="button" class="btn btn-eve-outline px-4 py-2" (click)="irParaOrganizadores()">Para organizadores</button>
         </div>
+      </div>
+    </div>
 
-        <div class="d-flex flex-wrap gap-4 mt-4 pt-3 border-top" style="border-color: var(--eve-cinza-borda) !important;">
-          <div class="d-flex align-items-baseline gap-2" *ngFor="let s of stats">
-            <span class="fw-bold text-eve-navy" style="font-size: 1.1rem;">{{ s.value }}</span>
-            <span class="small text-eve-secondary">{{ s.label }}</span>
-          </div>
+    <div class="stats-marquee-viewport mt-4 pt-3 border-top" style="border-color: var(--eve-cinza-borda) !important;">
+      <div class="stats-track">
+        <div class="d-flex align-items-baseline gap-2 stats-marquee-item" *ngFor="let s of stats">
+          <span class="fw-bold text-eve-navy" style="font-size: 1.1rem;">{{ s.value }}</span>
+          <span class="small text-eve-secondary text-nowrap">{{ s.label }}</span>
+        </div>
+        <div class="d-flex align-items-baseline gap-2 stats-marquee-item" *ngFor="let s of stats" aria-hidden="true">
+          <span class="fw-bold text-eve-navy" style="font-size: 1.1rem;">{{ s.value }}</span>
+          <span class="small text-eve-secondary text-nowrap">{{ s.label }}</span>
         </div>
       </div>
     </div>
@@ -74,9 +80,11 @@
     </div>
   </div>
 
-  <section class="mx-3 mx-md-4 mb-5 p-4 p-md-5 rounded-eve-xl" style="background-color: var(--eve-navy); max-width: 620px;">
-    <h3 class="fs-4 fw-bold text-white mb-2">Organize seu evento com a EVE</h3>
-    <p class="small mb-0" style="color: #A8B5C2;">Bilheteria digital, comunidade de participantes e métricas em tempo real. Apenas 5% de comissão sobre ingressos vendidos.</p>
+  <section class="mx-3 mx-md-4 mb-5 p-4 p-md-5 rounded-eve-xl" style="background-color: var(--eve-navy);">
+    <div style="max-width: 620px;">
+      <h3 class="fs-4 fw-bold text-white mb-2">Organize seu evento com a EVE</h3>
+      <p class="small mb-0" style="color: #A8B5C2;">Bilheteria digital, comunidade de participantes e métricas em tempo real. Apenas 5% de comissão sobre ingressos vendidos.</p>
+    </div>
   </section>
 
 </div>

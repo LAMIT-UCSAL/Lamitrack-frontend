@@ -60,6 +60,16 @@
         "displayName": "Mist Blue",
         "canonical": "#A8B5C2"
       },
+      "online-green": {
+        "role": "neutral",
+        "displayName": "Online Green",
+        "canonical": "#4ADE80"
+      },
+      "feed-black": {
+        "role": "neutral",
+        "displayName": "Feed Black",
+        "canonical": "#000000"
+      },
       "hackathon-blue-bg": { "role": "tertiary", "displayName": "Hackathon Blue (bg)", "canonical": "#E6F1FB" },
       "hackathon-blue-text": { "role": "tertiary", "displayName": "Hackathon Blue (text)", "canonical": "#0C447C" },
       "ideathon-amber-bg": { "role": "tertiary", "displayName": "Ideathon Amber (bg)", "canonical": "#FFF3E0" },
@@ -105,7 +115,7 @@
       "refersTo": "button-primary",
       "description": "The single call-to-action color per screen. One per screen, never two.",
       "html": "<button class=\"ds-btn-primary\">Explorar eventos</button>",
-      "css": ".ds-btn-primary { background-color: var(--eve-laranja, #E8722C); color: var(--eve-navy, #0E1B27); font-weight: 600; font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; padding: 10px 24px; border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(14,27,39,0.06); transition: box-shadow 225ms cubic-bezier(0.165,0.84,0.44,1), transform 225ms cubic-bezier(0.165,0.84,0.44,1); } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { box-shadow: 0 12px 28px rgba(14,27,39,0.14); transform: translateY(-3px); } .ds-btn-primary:focus-visible { box-shadow: 0 0 0 3px rgba(10,105,196,0.18), 0 12px 28px rgba(14,27,39,0.14); }"
+      "css": ".ds-btn-primary { background-color: var(--eve-laranja, #E8722C); color: #fff; font-weight: 600; font-family: Inter, system-ui, sans-serif; font-size: 0.875rem; padding: 10px 24px; border: none; border-radius: 8px; box-shadow: 0 2px 10px rgba(14,27,39,0.06); transition: box-shadow 225ms cubic-bezier(0.165,0.84,0.44,1), transform 225ms cubic-bezier(0.165,0.84,0.44,1); } .ds-btn-primary:hover, .ds-btn-primary:focus-visible { box-shadow: 0 12px 28px rgba(14,27,39,0.14); transform: translateY(-3px); } .ds-btn-primary:focus-visible { box-shadow: 0 0 0 3px rgba(10,105,196,0.18), 0 12px 28px rgba(14,27,39,0.14); }"
     },
     {
       "name": "Outline Button",

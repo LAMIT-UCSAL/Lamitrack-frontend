@@ -45,8 +45,8 @@
 
     <div class="eve-card p-4 mb-4">
       <h2 class="fs-6 fw-semibold text-eve-navy mb-4">Ocupação dos eventos</h2>
-      <div class="d-flex align-items-end gap-4" style="height: 180px;">
-        <div class="d-flex flex-column align-items-center flex-grow-1" *ngFor="let m of metricas">
+      <div class="d-flex align-items-end gap-4" style="height: 180px; overflow-x: auto; overflow-y: hidden;">
+        <div class="d-flex flex-column align-items-center flex-shrink-0" style="width: 60px;" *ngFor="let m of metricas">
           <div class="d-flex align-items-end gap-1" style="height: 140px;">
             <div class="rounded-top" style="width: 20px; background-color: #E9E8E2;" [style.height.%]="100"></div>
             <div class="rounded-top" style="width: 20px; background-color: var(--eve-azul);" [style.height.%]="m.ocupacao"></div>
@@ -115,18 +115,18 @@
 
   </div>
 
-  <div *ngIf="modalAberto" class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-3" style="background-color: rgba(14,27,39,0.6); z-index: 1050;" (click)="fecharModal()">
-    <div class="eve-card eve-modal-card p-4" style="max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto;" (click)="$event.stopPropagation()">
+  <div *ngIf="modalAberto" class="position-fixed top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center p-3" style="background-color: rgba(14,27,39,0.6); z-index: 1050;" (click)="fecharModal()" (keydown.escape)="fecharModal()">
+    <div #modalCard class="eve-card eve-modal-card p-4" style="max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto;" role="dialog" aria-modal="true" aria-labelledby="criar-evento-titulo" tabindex="-1" (click)="$event.stopPropagation()" (keydown.tab)="onModalTab($event)">
       <div class="d-flex justify-content-between align-items-center mb-3">
-        <h2 class="fs-5 fw-bold text-eve-navy mb-0">Criar evento</h2>
+        <h2 id="criar-evento-titulo" class="fs-5 fw-bold text-eve-navy mb-0">Criar evento</h2>
         <button type="button" class="btn-close-modal" (click)="fecharModal()" aria-label="Fechar">&times;</button>
       </div>
       <p class="small text-eve-secondary mb-3">O evento é publicado em todas as telas do sistema (home, eventos, painel).</p>
 
       <form [formGroup]="form" (ngSubmit)="criarEvento()" class="d-flex flex-column gap-3">
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Banner do evento</label>
-          <input #bannerInput type="file" accept="image/*" class="form-control" (change)="onBannerSelecionado($event)">
+          <label for="criar-evento-banner" class="form-label small fw-medium text-eve-navy">Banner do evento</label>
+          <input #bannerInput id="criar-evento-banner" type="file" accept="image/*" class="form-control" (change)="onBannerSelecionado($event)">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="bannerErro">{{ bannerErro }}</div>
           <div class="mt-2 rounded-eve-lg overflow-hidden border" style="border-color: var(--eve-cinza-borda);" *ngIf="bannerPreview">
             <img [src]="bannerPreview" alt="Prévia do banner do evento" class="w-100" style="height: 140px; object-fit: cover;">
@@ -134,44 +134,44 @@
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Título do evento</label>
-          <input type="text" class="form-control" placeholder="Ex: Hackathon de Verão" formControlName="titulo">
+          <label for="criar-evento-titulo-input" class="form-label small fw-medium text-eve-navy">Título do evento</label>
+          <input id="criar-evento-titulo-input" type="text" class="form-control" placeholder="Ex: Hackathon de Verão" formControlName="titulo">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="titulo?.invalid && titulo?.touched">Título é obrigatório.</div>
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Categoria</label>
-          <select class="form-select" formControlName="categoria">
+          <label for="criar-evento-categoria" class="form-label small fw-medium text-eve-navy">Categoria</label>
+          <select id="criar-evento-categoria" class="form-select" formControlName="categoria">
             <option *ngFor="let c of categorias" [value]="c">{{ c }}</option>
           </select>
         </div>
 
         <div class="row g-2">
           <div class="col-6">
-            <label class="form-label small fw-medium text-eve-navy">Data</label>
-            <input type="date" class="form-control" formControlName="data">
+            <label for="criar-evento-data" class="form-label small fw-medium text-eve-navy">Data</label>
+            <input id="criar-evento-data" type="date" class="form-control" formControlName="data">
             <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="data?.invalid && data?.touched">Obrigatório.</div>
           </div>
           <div class="col-6">
-            <label class="form-label small fw-medium text-eve-navy">Capacidade</label>
-            <input type="number" class="form-control" min="1" formControlName="capacidadeTotal">
+            <label for="criar-evento-capacidade" class="form-label small fw-medium text-eve-navy">Capacidade</label>
+            <input id="criar-evento-capacidade" type="number" class="form-control" min="1" formControlName="capacidadeTotal">
           </div>
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Local</label>
-          <input type="text" class="form-control" placeholder="Ex: UCSAL, Salvador" formControlName="local">
+          <label for="criar-evento-local" class="form-label small fw-medium text-eve-navy">Local</label>
+          <input id="criar-evento-local" type="text" class="form-control" placeholder="Ex: UCSAL, Salvador" formControlName="local">
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="local?.invalid && local?.touched">Local é obrigatório.</div>
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Preço do ingresso (R$, 0 = gratuito)</label>
-          <input type="number" class="form-control" min="0" step="0.01" formControlName="precoIngresso">
+          <label for="criar-evento-preco" class="form-label small fw-medium text-eve-navy">Preço do ingresso (R$, 0 = gratuito)</label>
+          <input id="criar-evento-preco" type="number" class="form-control" min="0" step="0.01" formControlName="precoIngresso">
         </div>
 
         <div>
-          <label class="form-label small fw-medium text-eve-navy">Descrição</label>
-          <textarea class="form-control" rows="3" placeholder="Sobre o evento..." formControlName="descricao"></textarea>
+          <label for="criar-evento-descricao" class="form-label small fw-medium text-eve-navy">Descrição</label>
+          <textarea id="criar-evento-descricao" class="form-control" rows="3" placeholder="Sobre o evento..." formControlName="descricao"></textarea>
           <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="descricao?.invalid && descricao?.touched">Descrição é obrigatória.</div>
         </div>
 

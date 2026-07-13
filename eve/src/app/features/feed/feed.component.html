@@ -68,6 +68,7 @@
           type="text"
           class="form-control"
           placeholder="Adicionar comentário..."
+          aria-label="Adicionar comentário"
           [(ngModel)]="novoComentario"
           (keydown.enter)="publicarComentario(v)">
         <button type="button" class="btn btn-eve-primary flex-shrink-0" (click)="publicarComentario(v)">Enviar</button>

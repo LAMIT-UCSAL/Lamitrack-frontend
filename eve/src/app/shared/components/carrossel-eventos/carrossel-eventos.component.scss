@@ -71,6 +71,11 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
+
+  @media (pointer: coarse) {
+    width: 44px;
+    height: 44px;
+  }
 }
 
 .carrossel-seta-prev {
@@ -98,8 +103,22 @@
   padding: 0;
   cursor: pointer;
   transition: background-color 0.2s ease;
+  position: relative;
 
   &.active {
     background-color: #fff;
+  }
+
+  // area de toque invisivel maior que o dot visivel, sem mudar o tamanho/espacamento visual
+  @media (pointer: coarse) {
+    &::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 44px;
+      height: 44px;
+      transform: translate(-50%, -50%);
+    }
   }
 }
