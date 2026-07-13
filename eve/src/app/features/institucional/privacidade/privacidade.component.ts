@@ -13,7 +13,7 @@ export class PrivacidadeComponent {
   secoes = [
     {
       titulo: 'Quais dados coletamos',
-      texto: 'A EVE coleta apenas os dados estritamente necessários para prestação dos serviços de bilheteria e comunidades: nome completo, endereço de e-mail e, quando aplicável, CPF para emissão de nota fiscal. Não coletamos dados de pagamento diretamente — transações são processadas por parceiros com certificação PCI-DSS. Não coletamos dados sensíveis conforme definidos pelo Art. 5º, II da LGPD.'
+      texto: 'A EVE coleta apenas os dados estritamente necessários para prestação dos serviços de bilheteria e comunidades: nome completo, endereço de e-mail e, quando aplicável, CPF para emissão de nota fiscal. Não coletamos dados de pagamento diretamente, transações são processadas por parceiros com certificação PCI-DSS. Não coletamos dados sensíveis conforme definidos pelo Art. 5º, II da LGPD.'
     },
     {
       titulo: 'Consentimento',

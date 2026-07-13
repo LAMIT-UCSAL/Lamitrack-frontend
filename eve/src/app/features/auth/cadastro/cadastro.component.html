@@ -4,6 +4,10 @@
       <h1 class="fs-4 fw-bold text-eve-navy mb-1">Criar conta na EVE</h1>
       <p class="small text-eve-secondary mb-4">Leva menos de um minuto.</p>
 
+      <div class="small p-2 rounded-eve-lg mb-3" style="background-color: #E6F1FB; color: #0C447C;" *ngIf="sugeridoParaCriarEventos">
+        Pra criar e publicar seus próprios eventos, cadastre-se como organizador.
+      </div>
+
       <form [formGroup]="form" (ngSubmit)="cadastrar()" class="d-flex flex-column gap-3">
         <div>
           <label class="form-label small fw-medium text-eve-navy d-block mb-2">Quero me cadastrar como</label>

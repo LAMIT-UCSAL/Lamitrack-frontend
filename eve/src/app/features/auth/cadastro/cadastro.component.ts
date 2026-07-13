@@ -22,11 +22,14 @@ export class CadastroComponent {
     private router: Router,
     private route: ActivatedRoute
   ) {
+    const tipoSugerido = this.route.snapshot.queryParamMap.get('tipo');
+    const tipoInicial: TipoUsuario = tipoSugerido === 'organizador' ? 'organizador' : 'participante';
+
     this.form = this.fb.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]],
-      tipo: ['participante' as TipoUsuario, Validators.required]
+      tipo: [tipoInicial, Validators.required]
     });
   }
 
@@ -37,6 +40,10 @@ export class CadastroComponent {
 
   get redirectTo(): string | null {
     return this.route.snapshot.queryParamMap.get('redirectTo');
+  }
+
+  get sugeridoParaCriarEventos(): boolean {
+    return this.route.snapshot.queryParamMap.get('tipo') === 'organizador';
   }
 
   selecionarTipo(tipo: TipoUsuario): void {
