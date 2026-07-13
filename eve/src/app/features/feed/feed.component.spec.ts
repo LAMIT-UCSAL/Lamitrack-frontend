@@ -1,12 +1,16 @@
 import { TestBed } from '@angular/core/testing';
 import { provideHttpClient } from '@angular/common/http';
 import { provideHttpClientTesting, HttpTestingController } from '@angular/common/http/testing';
+import { provideRouter, Router } from '@angular/router';
 import { FeedComponent } from './feed.component';
 import { Video } from '../../core/models/video.model';
+import { AuthService } from '../../core/services/auth.service';
 
 describe('FeedComponent', () => {
   let component: FeedComponent;
   let httpMock: HttpTestingController;
+  let authService: AuthService;
+  let router: Router;
 
   function criarVideosMock(): Video[] {
     return [
@@ -19,11 +23,18 @@ describe('FeedComponent', () => {
   }
 
   beforeEach(() => {
+    localStorage.clear();
     TestBed.configureTestingModule({
       imports: [FeedComponent],
-      providers: [provideHttpClient(), provideHttpClientTesting()]
+      providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
     });
 
+    authService = TestBed.inject(AuthService);
+    router = TestBed.inject(Router);
+
+    // Não chamamos fixture.detectChanges() em nenhum teste deste arquivo:
+    // isso evitaria disparar ngAfterViewInit (e o IntersectionObserver real
+    // contra <video> fora de tela), que é mecânica de DOM verificada manualmente.
     const fixture = TestBed.createComponent(FeedComponent);
     component = fixture.componentInstance;
     component.ngOnInit();
@@ -32,14 +43,30 @@ describe('FeedComponent', () => {
     httpMock.expectOne('assets/data/videos.json').flush(criarVideosMock());
   });
 
-  afterEach(() => httpMock.verify());
+  afterEach(() => {
+    httpMock.verify();
+    localStorage.clear();
+  });
 
   it('carrega os vídeos mockados via VideosService', () => {
     expect(component.videos.length).toBe(2);
   });
 
-  it('alterna curtida incrementando e decrementando o contador', () => {
+  it('não permite curtir sem estar autenticado e redireciona para o login', () => {
+    const navigateSpy = spyOn(router, 'navigate');
     const video = component.videos[0];
+
+    component.alternarCurtida(video);
+
+    expect(video.curtido).toBeFalsy();
+    expect(video.curtidas).toBe(5);
+    expect(navigateSpy).toHaveBeenCalledWith(['/entrar'], { queryParams: { redirectTo: '/feed' } });
+  });
+
+  it('alterna curtida incrementando e decrementando o contador quando autenticado', () => {
+    authService.cadastrar('Ana Costa', 'ana@example.com', 'senha123', 'participante');
+    const video = component.videos[0];
+
     component.alternarCurtida(video);
     expect(video.curtido).toBeTrue();
     expect(video.curtidas).toBe(6);
@@ -49,7 +76,19 @@ describe('FeedComponent', () => {
     expect(video.curtidas).toBe(5);
   });
 
-  it('publica um comentário no topo da lista e limpa o campo de texto', () => {
+  it('não permite comentar sem estar autenticado e redireciona para o login', () => {
+    const navigateSpy = spyOn(router, 'navigate');
+    const video = component.videos[0];
+
+    component.novoComentario = 'Comentário de visitante';
+    component.publicarComentario(video);
+
+    expect(video.comentarios.length).toBe(0);
+    expect(navigateSpy).toHaveBeenCalledWith(['/entrar'], { queryParams: { redirectTo: '/feed' } });
+  });
+
+  it('publica um comentário no topo da lista e limpa o campo de texto quando autenticado', () => {
+    authService.cadastrar('Ana Costa', 'ana@example.com', 'senha123', 'participante');
     const video = component.videos[0];
     component.novoComentario = '  Muito bom! ';
     component.publicarComentario(video);
@@ -60,7 +99,8 @@ describe('FeedComponent', () => {
     expect(component.novoComentario).toBe('');
   });
 
-  it('ignora comentário vazio ou só com espaços', () => {
+  it('ignora comentário vazio ou só com espaços mesmo autenticado', () => {
+    authService.cadastrar('Ana Costa', 'ana@example.com', 'senha123', 'participante');
     const video = component.videos[0];
     component.novoComentario = '   ';
     component.publicarComentario(video);

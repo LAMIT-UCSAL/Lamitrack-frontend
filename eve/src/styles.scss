@@ -144,7 +144,38 @@ body {
   border-bottom: 1px solid var(--eve-cinza-borda);
   height: 56px;
 }
+.navbar-logo { height: 28px; }
+
+@media (max-width: 767.98px) {
+  .navbar-eve-fixed { height: 72px; }
+  .navbar-logo { height: 36px; }
+}
+
 .page-offset { padding-top: 80px; }
+
+@media (max-width: 767.98px) {
+  .page-offset { padding-top: 88px; }
+}
+
+/* Tira de estatísticas da home — sempre em uma linha, mesmo no mobile */
+.stats-item {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.stats-value {
+  font-size: 1.5rem;
+  display: block;
+}
+.stats-label {
+  font-size: 0.875rem;
+  display: block;
+  line-height: 1.3;
+}
+
+@media (max-width: 575.98px) {
+  .stats-value { font-size: 1.05rem; }
+  .stats-label { font-size: 0.65rem; }
+}
 
 /* Progress bar customizada */
 .eve-progress-track {

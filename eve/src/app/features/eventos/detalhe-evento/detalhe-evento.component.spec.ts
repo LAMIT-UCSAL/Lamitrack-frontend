@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 import { DetalheEventoComponent } from './detalhe-evento.component';
 import { EventosService } from '../../../core/services/eventos.service';
 import { InscricoesService } from '../../../core/services/inscricoes.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Evento } from '../../../core/models/evento.model';
 
 describe('DetalheEventoComponent', () => {
@@ -31,6 +32,7 @@ describe('DetalheEventoComponent', () => {
   }
 
   beforeEach(() => {
+    localStorage.clear();
     inscricoesServiceSpy = jasmine.createSpyObj('InscricoesService', ['criar']);
 
     TestBed.configureTestingModule({
@@ -43,6 +45,8 @@ describe('DetalheEventoComponent', () => {
       ]
     });
   });
+
+  afterEach(() => localStorage.clear());
 
   it('carrega o evento correspondente ao :id da rota', () => {
     const componente = criarComponente();
@@ -103,5 +107,20 @@ describe('DetalheEventoComponent', () => {
     const componente = criarComponente();
     expect(componente.percentualOcupacao).toBe(86);
     expect(componente.vagasRestantes).toBe(58);
+  });
+
+  it('exige login para se inscrever: sem sessão, mostra CTA de login em vez do formulário', () => {
+    const componente = criarComponente();
+    expect(componente.estaAutenticado).toBeFalse();
+  });
+
+  it('com sessão ativa, libera o formulário e pré-preenche nome/e-mail do usuário', () => {
+    const authService = TestBed.inject(AuthService);
+    authService.cadastrar('Maria Silva', 'maria@example.com', 'senha123', 'participante');
+
+    const componente = criarComponente();
+    expect(componente.estaAutenticado).toBeTrue();
+    expect(componente.nome?.value).toBe('Maria Silva');
+    expect(componente.email?.value).toBe('maria@example.com');
   });
 });

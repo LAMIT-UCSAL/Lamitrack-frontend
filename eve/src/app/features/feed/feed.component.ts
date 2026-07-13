@@ -1,10 +1,11 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, QueryList, ViewChild, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { Video } from '../../core/models/video.model';
 import { VideosService } from '../../core/services/videos.service';
 import { CategoriaBadgeClassPipe } from '../../shared/pipes/categoria-badge-class.pipe';
+import { AuthService } from '../../core/services/auth.service';
 
 type ModoOrdenacao = 'recentes' | 'engajamento';
 
@@ -30,7 +31,11 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   private queryListSub?: { unsubscribe(): void };
   private scrollendHandler = () => this.corrigirSnap();
 
-  constructor(private videosService: VideosService) {}
+  constructor(
+    private videosService: VideosService,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     this.videosService.listarVideos().subscribe(videos => this.videos = videos);
@@ -63,6 +68,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   alternarCurtida(video: Video): void {
+    if (!this.exigirLogin()) return;
     video.curtido = !video.curtido;
     video.curtidas += video.curtido ? 1 : -1;
   }
@@ -73,6 +79,7 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   publicarComentario(video: Video): void {
+    if (!this.exigirLogin()) return;
     const texto = this.novoComentario.trim();
     if (!texto) return;
     video.comentarios = [{
@@ -148,5 +155,12 @@ export class FeedComponent implements OnInit, AfterViewInit, OnDestroy {
   private idDoElemento(el: HTMLVideoElement): number | null {
     const raw = el.dataset['videoId'];
     return raw ? Number(raw) : null;
+  }
+
+  /** Retorna true se autenticado; senão redireciona para o login e retorna false. */
+  private exigirLogin(): boolean {
+    if (this.authService.estaAutenticado()) return true;
+    this.router.navigate(['/entrar'], { queryParams: { redirectTo: '/feed' } });
+    return false;
   }
 }

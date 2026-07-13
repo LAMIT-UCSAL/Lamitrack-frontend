@@ -24,6 +24,8 @@ describe('EventosService', () => {
   };
 
   beforeEach(() => {
+    localStorage.clear();
+
     TestBed.configureTestingModule({
       providers: [EventosService, provideHttpClient(), provideHttpClientTesting()]
     });
@@ -31,13 +33,48 @@ describe('EventosService', () => {
     httpMock = TestBed.inject(HttpTestingController);
   });
 
-  afterEach(() => httpMock.verify());
+  afterEach(() => {
+    httpMock.verify();
+    localStorage.clear();
+  });
 
   it('busca a lista de eventos em assets/data/eventos.json', () => {
     service.listar().subscribe(eventos => expect(eventos).toEqual([eventoBase]));
     const req = httpMock.expectOne('assets/data/eventos.json');
     expect(req.request.method).toBe('GET');
     req.flush([eventoBase]);
+  });
+
+  it('inclui um evento criado via painel do organizador na listagem, sem afetar o arquivo base', () => {
+    const novoEvento: Evento = { ...eventoBase, id: 999, titulo: 'Workshop Criado' };
+    service.criar(novoEvento);
+
+    service.listar().subscribe(eventos => {
+      expect(eventos.length).toBe(2);
+      expect(eventos.find(e => e.id === 999)?.titulo).toBe('Workshop Criado');
+    });
+    httpMock.expectOne('assets/data/eventos.json').flush([eventoBase]);
+  });
+
+  it('remove um evento (do arquivo base ou criado) de todas as próximas listagens', () => {
+    service.remover(eventoBase.id);
+
+    service.listar().subscribe(eventos => {
+      expect(eventos.length).toBe(0);
+    });
+    httpMock.expectOne('assets/data/eventos.json').flush([eventoBase]);
+  });
+
+  it('remover um evento recém-criado tira ele da lista de criados (não fica órfão salvo)', () => {
+    const novoEvento: Evento = { ...eventoBase, id: 999, titulo: 'Workshop Criado' };
+    service.criar(novoEvento);
+    service.remover(999);
+
+    service.listar().subscribe(eventos => {
+      expect(eventos.length).toBe(1);
+      expect(eventos[0].id).toBe(eventoBase.id);
+    });
+    httpMock.expectOne('assets/data/eventos.json').flush([eventoBase]);
   });
 
   it('calcula o percentual de ocupação corretamente', () => {

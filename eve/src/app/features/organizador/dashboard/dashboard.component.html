@@ -68,7 +68,10 @@
             <h3 class="fs-5 fw-bold text-eve-navy mb-0">{{ m.evento.titulo }}</h3>
             <p class="small text-eve-secondary mb-0">{{ m.evento.dataFormatada }} · {{ m.evento.local }}</p>
           </div>
-          <button type="button" class="btn btn-eve-outline btn-sm flex-shrink-0 align-self-start" (click)="irParaCheckin(m.evento)">Check-in</button>
+          <div class="d-flex gap-2 flex-shrink-0 align-self-start">
+            <button type="button" class="btn btn-eve-outline btn-sm" (click)="irParaCheckin(m.evento)">Check-in</button>
+            <button type="button" class="btn btn-sm" style="color: var(--eve-vermelho); border: 1px solid var(--eve-vermelho); background-color: transparent;" (click)="remover(m.evento)">Excluir</button>
+          </div>
         </div>
 
         <div class="mb-3">
@@ -121,6 +124,15 @@
       <p class="small text-eve-secondary mb-3">Preview visual — o evento aparece só nesta sessão do painel.</p>
 
       <form [formGroup]="form" (ngSubmit)="criarEvento()" class="d-flex flex-column gap-3">
+        <div>
+          <label class="form-label small fw-medium text-eve-navy">Banner do evento</label>
+          <input #bannerInput type="file" accept="image/*" class="form-control" (change)="onBannerSelecionado($event)">
+          <div class="small mt-1" style="color: var(--eve-vermelho);" *ngIf="bannerErro">{{ bannerErro }}</div>
+          <div class="mt-2 rounded-eve-lg overflow-hidden border" style="border-color: var(--eve-cinza-borda);" *ngIf="bannerPreview">
+            <img [src]="bannerPreview" alt="Prévia do banner do evento" class="w-100" style="height: 140px; object-fit: cover;">
+          </div>
+        </div>
+
         <div>
           <label class="form-label small fw-medium text-eve-navy">Título do evento</label>
           <input type="text" class="form-control" placeholder="Ex: Hackathon de Verão" formControlName="titulo">

@@ -45,11 +45,11 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 
 | Rota | Componente | O que faz |
 |---|---|---|
-| `/` | `features/home` | Hero, tira de estatísticas, filtro de categorias, grid de eventos em destaque, banner de CTA |
+| `/` | `features/home` | Hero, tira de estatísticas (calculada a partir dos dados reais via `EventosService`/`ComunidadeService` — nunca hardcoded, ver nota abaixo), filtro de categorias, grid de eventos em destaque, faixa de logos de parceiros em looping horizontal (puro CSS, sem lib), banner de CTA |
 | `/eventos` | `features/eventos/lista-eventos` | Carrossel de "últimos eventos" (auto-avança a cada 4s, ver `shared/components/carrossel-eventos`) + grid completo com busca por texto e filtro de categoria |
 | `/eventos/:id` | `features/eventos/detalhe-evento` | Info do evento + card de inscrição (form reativo + consentimento LGPD) → estado de ingresso confirmado com QR code SVG |
-| `/comunidade` | `features/comunidade/mural` | Header escuro do evento, mural de avisos com postagem funcional, lista de participantes |
-| `/organizador/dashboard` | `features/organizador/dashboard` | Cards de resumo, mini-gráfico de ocupação, métricas por evento (ocupação %, receita, comissão 5%, líquido), botão "Criar evento" (modal, mockado, só visual — não persiste nem sincroniza com `/eventos`) — protegida por `organizadorGuard` |
+| `/comunidade` | `features/comunidade/mural` | Header escuro do evento, mural de avisos com postagem funcional, lista de participantes — protegida por `autenticadoGuard` (qualquer papel logado) |
+| `/organizador/dashboard` | `features/organizador/dashboard` | Cards de resumo, mini-gráfico de ocupação, métricas por evento (ocupação %, receita, comissão 5%, líquido), botão "Criar evento" (modal com upload de banner) e botão "Excluir" por card — ambos persistidos via `EventosService`/`localStorage` e refletidos em `/`, `/eventos` e `/eventos/:id` (ver seção "Gerenciamento de eventos" abaixo) — protegida por `organizadorGuard` |
 | `/organizador/checkin/:id` | `features/organizador/checkin` | Lista de participantes com toggle de check-in — protegida por `organizadorGuard` |
 | `/institucional/privacidade` | `features/institucional/privacidade` | Política de privacidade LGPD com 7 seções numeradas |
 | `/feed` | `features/feed` | Feed vertical estilo TikTok com vídeos de chamada dos eventos (scroll-snap, curtir, comentar, ordenar por engajamento) — tela imersiva, rodapé padrão oculto (ver `AppComponent.isImmersiveRoute`) |
@@ -63,7 +63,7 @@ src/app/
 ├── core/
 │   ├── models/       # Evento, Inscricao, Participante, Aviso, Video, ComentarioVideo, UsuarioLogado/ContaCadastrada (com TipoUsuario)
 │   ├── services/      # EventosService, InscricoesService, ComunidadeService, VideosService, AuthService
-│   └── guards/         # organizadorGuard (protege /organizador/*, exige tipo === 'organizador')
+│   └── guards/         # organizadorGuard (protege /organizador/*, exige tipo === 'organizador'), autenticadoGuard (protege /comunidade, qualquer papel)
 ├── shared/
 │   ├── components/    # navbar, evento-card, carrossel-eventos
 │   └── pipes/          # CategoriaBadgeClassPipe (categoria -> classe .badge-cat-* segura para CSS)
@@ -71,6 +71,7 @@ src/app/
 └── app.routes.ts       # lazy loading de cada feature
 src/assets/data/         # eventos.json, participantes.json, avisos.json, videos.json (mocks)
 src/assets/video/        # clipes curtos de exemplo (domínio público) usados no /feed
+src/assets/img/           # inclui logos de parceiros (GDG Salvador, GDG Lauro, NXOS, SCUPP, Stem, Rádio, Red Bull, Rocketseat) usados na faixa deslizante da home
 src/styles.scss          # tokens de cor, classes utilitárias .eve-*
 ```
 
@@ -82,6 +83,10 @@ Já implementadas em `EventosService`, não recalcular na mão em componentes:
 - Comissão da plataforma: `receitaProjetada * 0.05`
 - Receita líquida: `receitaProjetada - comissao`
 
+## Estatísticas da home (`/`)
+
+A tira de números logo abaixo do hero é **sempre calculada a partir dos dados mockados**, nunca hardcoded — regra fixada depois de um bug em que os 4 números (18 eventos, 1.053 inscrições, 12 organizadores, 18 comunidades) eram valores inventados que não batiam com o resto do app. Hoje, `HomeComponent.ngOnInit` combina `EventosService.listar()` + `ComunidadeService.listarParticipantes()` via `combineLatest` e deriva: eventos ativos = `eventos.length`; inscrições realizadas = soma de `inscritos` de todos os eventos; organizadores parceiros = `organizador` distintos entre os eventos; comunidades ativas = `eventoId` distintos em `participantes.json`. **Limitação conhecida:** hoje só `participantes.json` do evento 1 está populado (a tela `/comunidade` é única e genérica, não filtrada por evento), então "Comunidades ativas" mostra 1 — número correto dado o estado atual dos dados, mas baixo; se popular `participantes.json` com mais `eventoId`s no futuro, o número sobe automaticamente sem tocar no componente.
+
 ## LGPD
 
 Todo formulário que coleta dados pessoais (inscrição em evento) precisa de: minimização de dados (só nome e e-mail), checkbox de consentimento explícito e obrigatório antes de submeter, e link para `/institucional/privacidade`. Não adicionar campos de dados pessoais além do estritamente necessário sem justificar.
@@ -90,7 +95,23 @@ Todo formulário que coleta dados pessoais (inscrição em evento) precisa de: m
 
 Sem backend real, então `AuthService` guarda tudo em `localStorage` com **duas chaves separadas**: `eve_auth_contas` (array de `ContaCadastrada` — nome, e-mail, senha em texto puro, papel; criado em `/cadastro`) e `eve_auth_usuario` (a sessão atual — só nome/e-mail/papel, sem senha). `/entrar` valida e-mail+senha contra `eve_auth_contas`; se não bater, mostra erro e não loga. Cadastro em `/cadastro` bloqueia e-mail duplicado (`AuthService.emailJaCadastrado`) e loga automaticamente após criar a conta. O papel (`TipoUsuario`: `participante` | `organizador`) é escolhido só no cadastro (dois botões estilo `.pill-filter`) — no login não se escolhe papel, ele vem da conta.
 
-`organizadorGuard` (`CanActivateFn`) protege `/organizador/dashboard` e `/organizador/checkin/:id` em duas etapas: não autenticado → redireciona para `/entrar?redirectTo=<rota original>`; autenticado mas com papel `participante` → redireciona pra home (`/`) — só `organizador` passa. As páginas de login/cadastro leem `redirectTo` e voltam pra rota pretendida após autenticar; sem esse parâmetro, o destino padrão depende do papel da conta (`organizador` → `/organizador/dashboard`, `participante` → `/`).
+`organizadorGuard` (`CanActivateFn`) protege `/organizador/dashboard` e `/organizador/checkin/:id` em duas etapas: não autenticado → redireciona para `/entrar?redirectTo=<rota original>`; autenticado mas com papel `participante` → redireciona pra home (`/`) — só `organizador` passa. `autenticadoGuard` protege `/comunidade` de forma mais simples — qualquer papel autenticado passa, senão redireciona pra `/entrar?redirectTo=/comunidade`. As páginas de login/cadastro leem `redirectTo` e voltam pra rota pretendida após autenticar; sem esse parâmetro, o destino padrão depende do papel da conta (`organizador` → `/organizador/dashboard`, `participante` → `/`).
+
+O botão "Criar evento" do banner de CTA na home (`HomeComponent.irParaCriarEvento`) navega para `/organizador/dashboard?criar=1` — o guard de organizador cuida da autenticação/papel normalmente (login primeiro se deslogado, nega se for participante), e o `DashboardComponent` lê o query param `criar` no `ngOnInit` e já abre o modal de criação automaticamente ao chegar, sem exigir um segundo clique no botão "+ Criar evento" do próprio painel. Como o `redirectTo` carrega a URL completa (com query string), o modal continua abrindo mesmo depois de passar pela tela de login.
+
+## Gerenciamento de eventos (criar/excluir, persistido)
+
+Diferente da V2 inicial (onde "Criar evento" era só uma representação visual local ao dashboard), `EventosService` agora é a **única fonte de verdade** para a lista de eventos em todo o app, combinando o `eventos.json` estático com o estado local salvo no `localStorage`:
+- `eve_eventos_criados` — array de `Evento` completos criados via o modal do painel do organizador.
+- `eve_eventos_removidos` — array de ids ocultados (funciona tanto pra eventos do `eventos.json` quanto pra eventos criados).
+
+`EventosService.listar()` sempre busca o JSON base e mescla com esse estado local (`criados` na frente, menos os `removidos`) antes de emitir — por isso um evento criado ou excluído no painel aparece/desaparece automaticamente em `/`, `/eventos`, `/eventos/:id` e no carrossel da home, sem precisar sincronizar nada manualmente em cada componente (todos já chamam `listar()` no próprio `ngOnInit`). `EventosService.criar(evento)` grava em `eve_eventos_criados`; `EventosService.remover(id)` grava o id em `eve_eventos_removidos` e também tira o evento de `eve_eventos_criados` se for o caso (evita lixo acumulado pra eventos criados-e-depois-excluídos).
+
+No modal de criação (`DashboardComponent`), o campo "Banner do evento" é um `<input type="file" accept="image/*">` lido via `FileReader.readAsDataURL` — a imagem vira uma data URL guardada direto no campo `imagemUrl` do evento (sem upload/backend real). Limite de 2MB por arquivo (senão estoura o `localStorage`); sem banner selecionado, cai no placeholder padrão (`assets/img/abertura-lamit.png`).
+
+Cada card do painel tem um botão "Excluir" (com `window.confirm` antes de remover) que chama `EventosService.remover` e recarrega a lista — essa exclusão é **global**: remove o evento de todas as telas do sistema, não só do painel, já que não existe modelo de "dono do evento" separado por conta de organizador (todas as contas organizador compartilham o mesmo catálogo mockado).
+
+**Interações que exigem login** (além das rotas protegidas por guard acima): curtir e comentar no `/feed` (`FeedComponent.exigirLogin()` redireciona via `Router.navigate` antes de aplicar a ação — ver comentários continua público, só curtir/postar exige sessão) e se inscrever em um evento em `/eventos/:id` (o formulário de inscrição só renderiza se `estaAutenticado`; deslogado, mostra um CTA "Entrar para se inscrever" no lugar — a página do evento em si continua pública). Quando autenticado, o formulário de inscrição já vem com nome/e-mail pré-preenchidos a partir da sessão.
 
 O navbar reflete o estado lendo `AuthService.usuarioAtual` diretamente (sem observable/async pipe, já que a app roda com change detection padrão do zone.js): mostra nome + papel + "Sair" quando logado, ou "Entrar" quando não. **O link "Painel" (desktop e mobile) fica oculto quando logado como `participante`** — continua visível pra visitante anônimo e pra quem está logado como `organizador`.
 
@@ -100,7 +121,7 @@ O backlog completo (épicos, user stories, critérios de aceite, priorização M
 
 ## O que ainda falta (próximos passos conhecidos)
 
-- ~~Testes automatizados~~ — feito: 27 testes em 7 arquivos spec (`core/services`, `core/guards`, `features/eventos/detalhe-evento`, `features/feed`).
+- ~~Testes automatizados~~ — feito: 57 testes (`core/services`, `core/guards`, `features/auth`, `features/eventos/detalhe-evento`, `features/feed`, `features/organizador/dashboard`, `shared/components/carrossel-eventos`).
 - Publicação — decisão trocada de GitHub Pages para **Netlify** (`netlify.toml` já configurado na raiz do repo). Falta só o passo manual de conectar o repositório pela interface da Netlify.
 - ~~Revisão de responsividade fina em telas muito pequenas (< 375px)~~ — testada e corrigida em várias telas ao longo do desenvolvimento (mural, feed, navbar mobile).
 - Eventual integração de gráfico de biblioteca real (hoje o gráfico de ocupação do dashboard é feito em CSS puro, sem lib externa, para não adicionar dependência pesada) — decisão consciente, não é uma falha.

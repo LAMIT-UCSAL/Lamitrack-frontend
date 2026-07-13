@@ -19,6 +19,8 @@ describe('DashboardComponent', () => {
   }
 
   beforeEach(() => {
+    localStorage.clear();
+
     TestBed.configureTestingModule({
       imports: [DashboardComponent],
       providers: [provideHttpClient(), provideHttpClientTesting(), provideRouter([])]
@@ -32,7 +34,10 @@ describe('DashboardComponent', () => {
     httpMock.expectOne('assets/data/eventos.json').flush(criarEventosMock());
   });
 
-  afterEach(() => httpMock.verify());
+  afterEach(() => {
+    httpMock.verify();
+    localStorage.clear();
+  });
 
   it('carrega os eventos e calcula as métricas/resumo', () => {
     expect(component.metricas.length).toBe(1);
@@ -69,10 +74,28 @@ describe('DashboardComponent', () => {
     });
 
     component.criarEvento();
+    httpMock.expectOne('assets/data/eventos.json').flush(criarEventosMock());
 
     expect(component.metricas.length).toBe(2);
     expect(component.metricas[0].evento.titulo).toBe('Novo Hackathon');
     expect(component.metricas[0].evento.inscritos).toBe(0);
     expect(component.modalAberto).toBeFalse();
+  });
+
+  it('remove um evento (com confirmação) e recarrega a lista sem ele', () => {
+    spyOn(window, 'confirm').and.returnValue(true);
+
+    component.remover(component.metricas[0].evento);
+    httpMock.expectOne('assets/data/eventos.json').flush(criarEventosMock());
+
+    expect(component.metricas.length).toBe(0);
+  });
+
+  it('não remove o evento se o usuário cancelar a confirmação', () => {
+    spyOn(window, 'confirm').and.returnValue(false);
+
+    component.remover(component.metricas[0].evento);
+
+    expect(component.metricas.length).toBe(1);
   });
 });

@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { organizadorGuard } from './core/guards/organizador.guard';
+import { autenticadoGuard } from './core/guards/autenticado.guard';
 
 export const routes: Routes = [
   {
@@ -16,6 +17,7 @@ export const routes: Routes = [
   },
   {
     path: 'comunidade',
+    canActivate: [autenticadoGuard],
     loadComponent: () => import('./features/comunidade/mural/mural.component').then(m => m.MuralComponent)
   },
   {

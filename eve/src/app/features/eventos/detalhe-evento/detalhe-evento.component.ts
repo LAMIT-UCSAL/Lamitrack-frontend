@@ -7,6 +7,7 @@ import { Evento } from '../../../core/models/evento.model';
 import { EventosService } from '../../../core/services/eventos.service';
 import { InscricoesService } from '../../../core/services/inscricoes.service';
 import { CategoriaBadgeClassPipe } from '../../../shared/pipes/categoria-badge-class.pipe';
+import { AuthService } from '../../../core/services/auth.service';
 
 function cpfOpcionalValidator(control: AbstractControl): ValidationErrors | null {
   const valor = (control.value ?? '').trim();
@@ -35,6 +36,7 @@ export class DetalheEventoComponent implements OnInit {
     private router: Router,
     private eventosService: EventosService,
     private inscricoesService: InscricoesService,
+    private authService: AuthService,
     private fb: FormBuilder
   ) {
     this.form = this.fb.group({
@@ -45,17 +47,30 @@ export class DetalheEventoComponent implements OnInit {
     });
   }
 
+  get estaAutenticado(): boolean {
+    return this.authService.estaAutenticado();
+  }
+
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.eventosService.listar().subscribe(eventos => {
       this.evento = eventos.find(e => e.id === id);
     });
+
+    const usuario = this.authService.usuarioAtual;
+    if (usuario) {
+      this.form.patchValue({ nome: usuario.nome, email: usuario.email });
+    }
   }
 
   get nome() { return this.form.get('nome'); }
   get email() { return this.form.get('email'); }
   get cpf() { return this.form.get('cpf'); }
   get aceiteLgpd() { return this.form.get('aceiteLgpd'); }
+
+  get queryParamsLogin() {
+    return this.evento ? { redirectTo: '/eventos/' + this.evento.id } : {};
+  }
 
   get percentualOcupacao(): number {
     if (!this.evento) return 0;

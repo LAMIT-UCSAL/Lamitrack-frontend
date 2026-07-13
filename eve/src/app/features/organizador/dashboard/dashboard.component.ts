@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { CommonModule, DatePipe } from '@angular/common';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CategoriaEvento, Evento } from '../../../core/models/evento.model';
 import { EventosService } from '../../../core/services/eventos.service';
@@ -30,10 +30,15 @@ export class DashboardComponent implements OnInit {
 
   modalAberto = false;
   form;
+  bannerPreview: string | null = null;
+  bannerErro: string | null = null;
+
+  @ViewChild('bannerInput') private bannerInputRef?: ElementRef<HTMLInputElement>;
 
   constructor(
     private eventosService: EventosService,
     private router: Router,
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private datePipe: DatePipe
   ) {
@@ -57,11 +62,11 @@ export class DashboardComponent implements OnInit {
   get descricao() { return this.form.get('descricao'); }
 
   ngOnInit(): void {
-    this.eventosService.listar().subscribe(eventos => {
-      const organizadorEventos = eventos.slice(0, 3);
-      this.metricas = organizadorEventos.map(evento => this.calcularMetricas(evento));
-      this.recalcularResumo();
-    });
+    this.carregarEventos();
+
+    if (this.route.snapshot.queryParamMap.get('criar') === '1') {
+      this.abrirModal();
+    }
   }
 
   irParaCheckin(evento: Evento): void {
@@ -74,7 +79,37 @@ export class DashboardComponent implements OnInit {
 
   fecharModal(): void {
     this.modalAberto = false;
+    this.bannerPreview = null;
+    this.bannerErro = null;
+    if (this.bannerInputRef) {
+      this.bannerInputRef.nativeElement.value = '';
+    }
     this.form.reset({ titulo: '', categoria: 'Hackathon', data: '', local: '', capacidadeTotal: 100, precoIngresso: 0, descricao: '' });
+  }
+
+  onBannerSelecionado(event: Event): void {
+    const input = event.target as HTMLInputElement;
+    const arquivo = input.files?.[0];
+    this.bannerErro = null;
+
+    if (!arquivo) {
+      this.bannerPreview = null;
+      return;
+    }
+    if (!arquivo.type.startsWith('image/')) {
+      this.bannerErro = 'Selecione um arquivo de imagem.';
+      input.value = '';
+      return;
+    }
+    if (arquivo.size > 2 * 1024 * 1024) {
+      this.bannerErro = 'Imagem muito grande — escolha um arquivo de até 2MB.';
+      input.value = '';
+      return;
+    }
+
+    const leitor = new FileReader();
+    leitor.onload = () => { this.bannerPreview = leitor.result as string; };
+    leitor.readAsDataURL(arquivo);
   }
 
   criarEvento(): void {
@@ -96,12 +131,27 @@ export class DashboardComponent implements OnInit {
       inscritos: 0,
       precoIngresso: this.form.value.precoIngresso!,
       organizador: 'Você',
-      imagemUrl: 'assets/img/abertura-lamit.png'
+      imagemUrl: this.bannerPreview || 'assets/img/abertura-lamit.png'
     };
 
-    this.metricas = [this.calcularMetricas(novoEvento), ...this.metricas];
-    this.recalcularResumo();
+    this.eventosService.criar(novoEvento);
+    this.carregarEventos();
     this.fecharModal();
+  }
+
+  remover(evento: Evento): void {
+    const confirmou = window.confirm(`Remover "${evento.titulo}" de todas as telas do sistema? Essa ação não pode ser desfeita.`);
+    if (!confirmou) return;
+
+    this.eventosService.remover(evento.id);
+    this.carregarEventos();
+  }
+
+  private carregarEventos(): void {
+    this.eventosService.listar().subscribe(eventos => {
+      this.metricas = eventos.map(evento => this.calcularMetricas(evento));
+      this.recalcularResumo();
+    });
   }
 
   private calcularMetricas(evento: Evento): MetricasEvento {

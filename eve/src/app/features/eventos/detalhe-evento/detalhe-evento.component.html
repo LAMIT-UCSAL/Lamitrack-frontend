@@ -61,8 +61,6 @@
             <h2 class="fs-5 fw-bold text-eve-navy mb-1">
               {{ evento.precoIngresso === 0 ? 'Inscrição gratuita' : 'Ingresso — R$ ' + (evento.precoIngresso | number:'1.2-2') }}
             </h2>
-            <p class="small text-eve-secondary mb-3">Preencha os dados para garantir sua vaga.</p>
-
             <div class="d-flex align-items-center gap-2 mb-1">
               <div class="eve-progress-track flex-grow-1">
                 <div class="eve-progress-fill" [style.width.%]="percentualOcupacao" style="background-color: var(--eve-azul);"></div>
@@ -71,7 +69,12 @@
             </div>
             <p class="small text-eve-secondary mb-3">{{ vagasRestantes }} vagas restantes</p>
 
-            <form [formGroup]="form" (ngSubmit)="confirmarInscricao()" class="d-flex flex-column gap-3">
+            <ng-container *ngIf="!estaAutenticado">
+              <p class="small text-eve-secondary mb-3">Faça login para se inscrever neste evento.</p>
+              <a [routerLink]="'/entrar'" [queryParams]="queryParamsLogin" class="btn btn-eve-primary w-100 py-2">Entrar para se inscrever</a>
+            </ng-container>
+
+            <form *ngIf="estaAutenticado" [formGroup]="form" (ngSubmit)="confirmarInscricao()" class="d-flex flex-column gap-3">
 
               <ng-container *ngIf="etapa === 'dados'">
                 <p class="small fw-semibold text-eve-azul mb-0">Etapa 1 de 2 — Seus dados</p>

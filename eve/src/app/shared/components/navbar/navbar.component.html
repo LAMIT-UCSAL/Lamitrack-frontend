@@ -1,7 +1,7 @@
 <header class="navbar-eve-fixed">
   <div class="container-xxl h-100 d-flex align-items-center justify-content-between px-3 px-md-4" style="max-width: 1152px;">
     <a routerLink="/" (click)="closeMobile()" class="text-decoration-none d-flex align-items-center">
-      <img src="assets/img/logo-eve.svg" alt="EVE" height="28">
+      <img src="assets/img/logo-eve.svg" alt="EVE" class="navbar-logo">
     </a>
 
     <nav class="d-none d-md-flex align-items-center gap-4">
@@ -23,8 +23,8 @@
     </div>
 
     <button type="button" class="btn d-md-none p-1 text-eve-navy" (click)="toggleMobile()" aria-label="Abrir menu">
-      <span *ngIf="!mobileOpen">&#9776;</span>
-      <span *ngIf="mobileOpen">&times;</span>
+      <span style="font-size: 2rem;" *ngIf="!mobileOpen">&#9776;</span>
+      <span style="font-size: 2rem;" *ngIf="mobileOpen">&times;</span>
     </button>
   </div>
 
