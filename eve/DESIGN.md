@@ -191,7 +191,7 @@ EVE's depth is layered and animated, not flat: surfaces carry a soft ambient sha
 ### Motion
 - **Entrance:** grids (events grid, dashboard metric cards, partner-logo marquee excluded) reveal with a staggered fade + slide-up (`opacity 0→1`, `translateY(12px→0)`, 300–380ms, ease-out-quart, ~40–60ms stagger between siblings). The reveal enhances content that is already present in the DOM — never gates visibility behind the animation.
 - **Interaction:** hover-lift transitions run at 200–250ms, ease-out-quart. No spring, no bounce, ever.
-- **Continuous motion** (the partner-logo marquee, the "últimos eventos" carousel auto-advance, the hero globe's idle rotation): keeps its existing linear, uninterrupted pace — these are ambient, not interactive, so they don't get the hover-lift treatment. The globe is the one exception that's also directly interactive: it's draggable, and dragging pauses the idle rotation until release.
+- **Continuous motion** (the partner-logo cloud, the hero stats strip, the "últimos eventos" carousel auto-advance, the hero globe's idle rotation): keeps a steady, uninterrupted pace — these are ambient, not interactive, so they don't get the hover-lift treatment. Two exceptions respond directly to input without ever fully stopping: the globe is draggable (dragging pauses the idle rotation until release), and both the partner-logo cloud and the hero stats strip (same underlying marquee component) smoothly decelerate on hover instead of pausing outright — hovering must never stop them dead, only slow them.
 - **Reduced motion:** every entrance and hover-lift animation has a `@media (prefers-reduced-motion: reduce)` fallback that swaps to an instant or crossfade transition. Continuous motion (marquee, carousel, globe) pauses or slows under reduced motion rather than stopping content from ever being reachable — the globe specifically stops its idle spin but stays draggable.
 
 ### Named Rules
@@ -233,6 +233,13 @@ EVE's depth is layered and animated, not flat: surfaces carry a soft ambient sha
 - **Label:** one static pill badge ("📍 Salvador, Bahia"), not per-marker floating tooltips — CSS Anchor Positioning (used in some off-the-shelf globe demos) is out of scope here since it's unsupported outside Chromium.
 - **Placement:** desktop/tablet only (`≥768px`); hidden on mobile rather than shrunk, so it never competes with the hero text for space at small widths.
 - **Motion:** treated as continuous/ambient motion (see Elevation → Motion), with the one exception that it also responds directly to drag input.
+
+### Marquee (signature component, generic)
+- **What it is:** a horizontally-scrolling strip with a content template injected per item — used for the partner logo cloud below the events grid and for the hero stats strip (number + label pairs). Same underlying engine, two different item templates.
+- **Framing:** the partner-logo instance spans the full screen width (edge-to-edge, no centered/boxed container) with full-bleed horizontal dividers top and bottom; the stats instance skips its own dividers since it already sits inside a section with its own borders.
+- **Edge treatment:** a layered progressive blur on both edges (multiple stacked bands of increasing `backdrop-filter: blur()`, masked to their own band) rather than a flat opacity fade — content at the very edge reads as soft-focus, not as faded-to-invisible. The stats instance uses a narrower blur band, sized for its shorter number+label pairs rather than full logo width.
+- **Motion:** continuous linear scroll; on hover, smoothly decelerates rather than pausing — this and the globe are the only continuous-motion elements that respond to input without ever stopping outright.
+- **Reduced motion:** freezes in place (no scroll) but every item stays fully visible and legible — content is never hidden behind the animation.
 
 ### Progress & Status (signature component)
 - **Occupancy bars** (event capacity, dashboard metrics): Warm-Stone-toned track, Campus Blue fill, full radius, animated width transition (0.3s ease) whenever the underlying number changes.

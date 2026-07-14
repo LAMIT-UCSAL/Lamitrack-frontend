@@ -1,0 +1,22 @@
+<div class="marquee-box">
+  <div class="marquee-divider marquee-divider-top" *ngIf="mostrarDivisores" aria-hidden="true"></div>
+  <div class="marquee-divider marquee-divider-bottom" *ngIf="mostrarDivisores" aria-hidden="true"></div>
+
+  <div class="marquee-viewport" (mouseenter)="aoEntrarMouse()" (mouseleave)="aoSairMouse()">
+    <div class="marquee-track" #track [class.marquee-track--compact-gap]="gapCompacto" [class.marquee-track--baseline]="alinharBase">
+      <div class="marquee-item" *ngFor="let item of items">
+        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+      </div>
+      <div class="marquee-item" *ngFor="let item of items" aria-hidden="true">
+        <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-blur marquee-blur-left" [class.marquee-blur--compact]="blurCompacto" aria-hidden="true">
+    <div class="marquee-blur-layer" *ngFor="let camada of camadasBlur" [ngStyle]="estiloCamada(camada, 'left')"></div>
+  </div>
+  <div class="marquee-blur marquee-blur-right" [class.marquee-blur--compact]="blurCompacto" aria-hidden="true">
+    <div class="marquee-blur-layer" *ngFor="let camada of camadasBlur" [ngStyle]="estiloCamada(camada, 'right')"></div>
+  </div>
+</div>

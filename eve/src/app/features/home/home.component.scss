@@ -1,66 +1,8 @@
-.parceiros-marquee-viewport {
-  overflow: hidden;
-  width: 100%;
-  mask-image: linear-gradient(to right, transparent 0, #000 48px, #000 calc(100% - 48px), transparent 100%);
-}
-
-.parceiros-track {
-  display: flex;
-  align-items: center;
-  width: max-content;
-  animation: parceiros-scroll 25s linear infinite;
-  will-change: transform;
-}
-
-.parceiros-logo {
-  flex-shrink: 0;
-  width: 64px;
-  height: 64px;
-  margin-right: 3rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.parceiros-logo img {
-  width: 100%;
-  height: 100%;
+.parceiro-logo-img {
+  height: 40px;
+  width: auto;
+  max-width: 96px;
   object-fit: contain;
-}
-
-@keyframes parceiros-scroll {
-  from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .parceiros-track {
-    animation: none;
-  }
-}
-
-/* Estatisticas do hero — mesmo efeito de deslize continuo do carrossel de parceiros, pra caber em uma linha sem encolher a fonte */
-.stats-marquee-viewport {
-  overflow: hidden;
-  width: 100%;
-  mask-image: linear-gradient(to right, transparent 0, #000 20px, #000 calc(100% - 20px), transparent 100%);
-}
-
-.stats-track {
-  display: flex;
-  align-items: baseline;
-  width: max-content;
-  animation: parceiros-scroll 18s linear infinite;
-  will-change: transform;
-}
-
-.stats-marquee-item {
-  flex-shrink: 0;
-  margin-right: 2rem;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .stats-track {
-    animation: none;
-  }
+  pointer-events: none;
+  user-select: none;
 }

@@ -164,6 +164,14 @@
       "description": "Interactive WebGL globe (cobe) next to the hero headline on desktop, centered on Salvador with one Campus Blue marker. Spins continuously and slowly, draggable to rotate manually (pauses idle spin while dragging), stops idle spin under prefers-reduced-motion but stays draggable. Hidden below 768px. A single static location badge replaces the anchor-positioned floating tooltips seen in generic globe demos, since CSS Anchor Positioning lacks cross-browser support.",
       "html": "<div class=\"globo-eve-wrapper\"><canvas class=\"globo-eve-canvas\"></canvas><span class=\"globo-eve-badge rounded-eve-full\">📍 Salvador, Bahia</span></div>",
       "css": ".globo-eve-wrapper { position: relative; width: 100%; max-width: 340px; aspect-ratio: 1 / 1; margin: 0 auto; } .globo-eve-canvas { width: 100%; height: 100%; cursor: grab; touch-action: none; } .globo-eve-badge { position: absolute; bottom: 6%; left: 50%; transform: translateX(-50%); display: inline-flex; align-items: center; gap: 0.35rem; padding: 0.4rem 0.9rem; background-color: #0A69C4; color: #fff; font-size: 0.75rem; font-weight: 600; white-space: nowrap; box-shadow: 0 4px 12px rgba(10,105,196,0.35); pointer-events: none; }"
+    },
+    {
+      "name": "Marquee",
+      "kind": "custom",
+      "refersTo": null,
+      "description": "Generic horizontally-scrolling strip with an item content template injected per use — powers both the partner logo cloud (full screen width, full-bleed dividers, wide blur band) and the hero stats strip (dividers off, narrow blur band, baseline-aligned pairs). Continuous linear scroll that smoothly decelerates (never stops) on hover. Layered progressive blur on both edges instead of a flat opacity fade. Freezes in place under prefers-reduced-motion while keeping every item visible.",
+      "html": "<div class=\"marquee-box\"><div class=\"marquee-divider marquee-divider-top\"></div><div class=\"marquee-viewport\"><div class=\"marquee-track\"><div class=\"marquee-item\"><img src=\"nxos.svg\" alt=\"NXOS\"></div></div></div><div class=\"marquee-blur marquee-blur-left\"></div><div class=\"marquee-blur marquee-blur-right\"></div><div class=\"marquee-divider marquee-divider-bottom\"></div></div>",
+      "css": ".marquee-box { position: relative; width: 100%; } .marquee-divider { position: absolute; left: 50%; transform: translateX(-50%); width: 100vw; border-top: 1px solid #D3D1C7; } .marquee-divider-top { top: -1px; } .marquee-divider-bottom { bottom: -1px; } .marquee-viewport { overflow: hidden; width: 100%; } .marquee-track { display: flex; align-items: center; width: max-content; gap: 2.5rem; } .marquee-item { flex-shrink: 0; display: flex; align-items: center; } .marquee-blur { position: absolute; top: 0; height: 100%; width: 96px; } .marquee-blur--compact { width: 32px; } .marquee-blur-left { left: 0; } .marquee-blur-right { right: 0; }"
     }
   ],
   "narrative": {

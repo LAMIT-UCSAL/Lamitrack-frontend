@@ -8,11 +8,12 @@ import { ComunidadeService } from '../../core/services/comunidade.service';
 import { AuthService } from '../../core/services/auth.service';
 import { EventoCardComponent } from '../../shared/components/evento-card/evento-card.component';
 import { GloboEveComponent } from '../../shared/components/globo-eve/globo-eve.component';
+import { MarqueeComponent } from '../../shared/components/marquee/marquee.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, EventoCardComponent, GloboEveComponent],
+  imports: [CommonModule, EventoCardComponent, GloboEveComponent, MarqueeComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

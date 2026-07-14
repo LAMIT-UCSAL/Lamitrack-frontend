@@ -1,0 +1,83 @@
+.marquee-box {
+  position: relative;
+  width: 100%;
+}
+
+.marquee-divider {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100vw;
+  border-top: 1px solid var(--eve-cinza-borda);
+  pointer-events: none;
+}
+
+.marquee-divider-top {
+  top: -1px;
+}
+
+.marquee-divider-bottom {
+  bottom: -1px;
+}
+
+.marquee-viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 2.5rem;
+  will-change: transform;
+}
+
+.marquee-track--compact-gap {
+  gap: 2rem;
+}
+
+.marquee-track--baseline {
+  align-items: baseline;
+}
+
+.marquee-item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.marquee-blur {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 96px;
+  pointer-events: none;
+}
+
+.marquee-blur--compact {
+  width: 32px;
+}
+
+.marquee-blur-left {
+  left: 0;
+}
+
+.marquee-blur-right {
+  right: 0;
+}
+
+.marquee-blur-layer {
+  position: absolute;
+  inset: 0;
+}
+
+@media (max-width: 575.98px) {
+  .marquee-blur {
+    width: 48px;
+  }
+
+  .marquee-blur--compact {
+    width: 20px;
+  }
+}
