@@ -55,7 +55,7 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 
 | Rota | Componente | O que faz |
 |---|---|---|
-| `/` | `features/home` | Hero (com estatísticas inline abaixo dos CTAs, calculadas a partir dos dados reais via `EventosService`/`ComunidadeService` — nunca hardcoded, ver nota abaixo), filtro de categorias, grid de eventos em destaque, faixa de logos de parceiros em looping horizontal (puro CSS, sem lib), banner informativo pra organizadores (sem botão — ver seção de autenticação) |
+| `/` | `features/home` | Hero (globo 3D interativo ao lado do título em desktop, ver `shared/components/globo-eve` abaixo; estatísticas inline abaixo dos CTAs, calculadas a partir dos dados reais via `EventosService`/`ComunidadeService` — nunca hardcoded, ver nota abaixo), filtro de categorias, grid de eventos em destaque, faixa de logos de parceiros em looping horizontal (puro CSS, sem lib), banner informativo pra organizadores (sem botão — ver seção de autenticação) |
 | `/eventos` | `features/eventos/lista-eventos` | Carrossel de "últimos eventos" (auto-avança a cada 4s, ver `shared/components/carrossel-eventos`) + grid completo com busca por texto e filtro de categoria |
 | `/eventos/:id` | `features/eventos/detalhe-evento` | Info do evento + card de inscrição (form reativo + consentimento LGPD) → estado de ingresso confirmado com QR code SVG |
 | `/comunidade` | `features/comunidade/mural` | Header escuro do evento, mural de avisos com postagem funcional, lista de participantes — protegida por `autenticadoGuard` (qualquer papel logado) |
@@ -75,7 +75,7 @@ src/app/
 │   ├── services/      # EventosService, InscricoesService, ComunidadeService, VideosService, AuthService
 │   └── guards/         # organizadorGuard (protege /organizador/*, exige tipo === 'organizador'), autenticadoGuard (protege /comunidade, qualquer papel)
 ├── shared/
-│   ├── components/    # navbar, evento-card, carrossel-eventos
+│   ├── components/    # navbar, evento-card, carrossel-eventos, globo-eve
 │   └── pipes/          # CategoriaBadgeClassPipe (categoria -> classe .badge-cat-* segura para CSS)
 ├── features/           # uma pasta por tela, ver tabela acima (inclui feed/)
 └── app.routes.ts       # lazy loading de cada feature
@@ -100,6 +100,16 @@ Os números são **sempre calculados a partir dos dados mockados**, nunca hardco
 Visualmente, os 4 números **não** ficam numa tira/strip separada abaixo do hero — isso foi removido depois de um `/impeccable critique` apontar que era o "hero-metric template" que o próprio `DESIGN.md` bane por nome. Hoje ficam em pares número+rótulo alinhados pela base, logo abaixo dos botões do hero, mas **fora** da coluna estreita de 620px (só o texto do hero — badge/título/parágrafo/botões — fica limitado a 620px; os números ficam num bloco de largura total da tela, irmão daquela coluna dentro da mesma `<section>`). Como 4 pares não cabem numa linha sem quebrar ou encolher a fonte (principalmente no mobile), eles deslizam continuamente num carrossel horizontal de ponta a ponta (`.stats-marquee-viewport`/`.stats-track` em `home.component.scss`) — mesma técnica do carrossel de logos de parceiros (lista duplicada com `margin-right` uniforme pra o loop de `-50%` fechar sem salto, `mask-image` nas bordas, sem pausar no hover, respeitando `prefers-reduced-motion`).
 
 O banner "Organize seu evento com a EVE" segue o mesmo princípio: a `<section>` em si ocupa a largura total da tela (só com as margens `mx-3 mx-md-4` do cartão arredondado), e um `<div style="max-width: 620px">` interno limita só o texto pra manter a linha de leitura confortável (~61 caracteres/linha) sem encolher o card inteiro.
+
+## Globo interativo do hero (`shared/components/globo-eve`)
+
+Componente standalone adaptado de um exemplo React/shadcn/Tailwind encontrado no 21st.dev, reescrito puro Angular: a lib `cobe` (WebGL, sem dependência de React) é chamada direto num `<canvas>` via `ViewChild`, com o loop de rotação (`requestAnimationFrame`) rodando fora da zone (`NgZone.runOutsideAngular`) pra não disparar change detection a cada frame. Detalhes da adaptação:
+- **Removido do exemplo original:** os labels flutuantes por marcador que usavam CSS Anchor Positioning (`position-anchor`) — API experimental, sem suporte em Firefox/Safari, teria quebrado em parte dos navegadores. Trocado por um único badge fixo ("📍 Salvador, Bahia") com `.rounded-eve-full`.
+- **Cores:** base neutra clara, marcador e badge em `--eve-azul` — nada de paleta genérica do exemplo original.
+- **Marcadores:** só Salvador (o produto é local, não faz sentido simular um globo de destinos turísticos como no exemplo original).
+- **Interação:** arrastável com o mouse/touch (gira e pausa a rotação automática enquanto arrasta); ao soltar, volta a girar sozinho a partir da posição atual.
+- **Responsivo:** oculto abaixo de `md` (`d-none d-md-block`) — não compete por espaço com o texto do hero no mobile.
+- **`prefers-reduced-motion`:** com a preferência ativa, a rotação automática para (velocidade zero), mas o globo continua arrastável manualmente — mesma filosofia de "pausa, não remove" aplicada ao marquee de parceiros e ao carrossel de eventos (ver Elevation/Motion no `DESIGN.md`).
 
 ## LGPD
 

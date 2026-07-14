@@ -2,21 +2,24 @@
 
   <section class="border-bottom py-5" style="border-color: var(--eve-cinza-borda) !important; padding-top: 3rem;">
     <div class="container-xxl px-3 px-md-4" style="max-width: 1152px;">
-      <div style="max-width: 620px;">
-        <span class="d-inline-flex align-items-center gap-2 small fw-semibold px-3 py-1 rounded-eve-full mb-3" style="background-color: #E6F1FB; color: #0C447C;">
-          <span class="rounded-circle d-inline-block" style="width: 6px; height: 6px; background-color: var(--eve-azul);"></span>
-          Salvador, Bahia · Ecossistema de Inovação
-        </span>
-        <h1 class="fw-bold mb-3 text-eve-navy" style="font-size: 2.75rem; line-height: 1.15; letter-spacing: -0.02em;">
-          Descubra o ecossistema de inovação de Salvador
-        </h1>
-        <p class="fs-5 text-eve-secondary mb-4">
-          Hackathons, ideathons, maratonas de programação e editais de aceleradoras, tudo em um só lugar. Garanta seu ingresso e conecte-se com quem está construindo o futuro da Bahia.
-        </p>
-        <div class="d-flex gap-3 flex-wrap">
-          <button type="button" class="btn btn-eve-primary px-4 py-2" (click)="irParaEventos()">Explorar eventos</button>
-          <button *ngIf="!usuario || usuario.tipo === 'organizador'" type="button" class="btn btn-eve-outline px-4 py-2" (click)="irParaOrganizadores()">Para organizadores</button>
+      <div class="d-flex align-items-center justify-content-between gap-4 flex-wrap-reverse flex-lg-nowrap">
+        <div style="max-width: 620px;">
+          <span class="d-inline-flex align-items-center gap-2 small fw-semibold px-3 py-1 rounded-eve-full mb-3" style="background-color: #E6F1FB; color: #0C447C;">
+            <span class="rounded-circle d-inline-block" style="width: 6px; height: 6px; background-color: var(--eve-azul);"></span>
+            Salvador, Bahia · Ecossistema de Inovação
+          </span>
+          <h1 class="fw-bold mb-3 text-eve-navy" style="font-size: 2.75rem; line-height: 1.15; letter-spacing: -0.02em;">
+            Descubra o ecossistema de inovação de Salvador
+          </h1>
+          <p class="fs-5 text-eve-secondary mb-4">
+            Hackathons, ideathons, maratonas de programação e editais de aceleradoras, tudo em um só lugar. Garanta seu ingresso e conecte-se com quem está construindo o futuro da Bahia.
+          </p>
+          <div class="d-flex gap-3 flex-wrap">
+            <button type="button" class="btn btn-eve-primary px-4 py-2" (click)="irParaEventos()">Explorar eventos</button>
+            <button *ngIf="!usuario || usuario.tipo === 'organizador'" type="button" class="btn btn-eve-outline px-4 py-2" (click)="irParaOrganizadores()">Para organizadores</button>
+          </div>
         </div>
+        <app-globo-eve class="d-none d-md-block flex-shrink-0"></app-globo-eve>
       </div>
     </div>
 

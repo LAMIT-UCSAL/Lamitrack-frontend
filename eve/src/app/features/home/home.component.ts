@@ -7,11 +7,12 @@ import { EventosService } from '../../core/services/eventos.service';
 import { ComunidadeService } from '../../core/services/comunidade.service';
 import { AuthService } from '../../core/services/auth.service';
 import { EventoCardComponent } from '../../shared/components/evento-card/evento-card.component';
+import { GloboEveComponent } from '../../shared/components/globo-eve/globo-eve.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, EventoCardComponent],
+  imports: [CommonModule, EventoCardComponent, GloboEveComponent],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })

@@ -191,8 +191,8 @@ EVE's depth is layered and animated, not flat: surfaces carry a soft ambient sha
 ### Motion
 - **Entrance:** grids (events grid, dashboard metric cards, partner-logo marquee excluded) reveal with a staggered fade + slide-up (`opacity 0→1`, `translateY(12px→0)`, 300–380ms, ease-out-quart, ~40–60ms stagger between siblings). The reveal enhances content that is already present in the DOM — never gates visibility behind the animation.
 - **Interaction:** hover-lift transitions run at 200–250ms, ease-out-quart. No spring, no bounce, ever.
-- **Continuous motion** (the partner-logo marquee, the "últimos eventos" carousel auto-advance): keeps its existing linear, uninterrupted pace — these are ambient, not interactive, so they don't get the hover-lift treatment.
-- **Reduced motion:** every entrance and hover-lift animation has a `@media (prefers-reduced-motion: reduce)` fallback that swaps to an instant or crossfade transition. Continuous motion (marquee, carousel) pauses or slows under reduced motion rather than stopping content from ever being reachable.
+- **Continuous motion** (the partner-logo marquee, the "últimos eventos" carousel auto-advance, the hero globe's idle rotation): keeps its existing linear, uninterrupted pace — these are ambient, not interactive, so they don't get the hover-lift treatment. The globe is the one exception that's also directly interactive: it's draggable, and dragging pauses the idle rotation until release.
+- **Reduced motion:** every entrance and hover-lift animation has a `@media (prefers-reduced-motion: reduce)` fallback that swaps to an instant or crossfade transition. Continuous motion (marquee, carousel, globe) pauses or slows under reduced motion rather than stopping content from ever being reachable — the globe specifically stops its idle spin but stays draggable.
 
 ### Named Rules
 **The Alive-on-Touch Rule.** Every interactive surface (card, button, pill, input) must visibly respond within 200–250ms of hover or focus — deepen the shadow, lift 2–3px, or both. Nothing interactive sits inert. Ambient/ornamental motion (marquee, carousel) is exempt — it never needs a touch to justify its movement.
@@ -226,6 +226,13 @@ EVE's depth is layered and animated, not flat: surfaces carry a soft ambient sha
 - **Style:** fixed Warm Paper header, 1px Warm Stone bottom border, no shadow (the border is enough separation for a surface that's always visible, never appearing/disappearing).
 - **Typography:** Body-weight links, Campus Blue when active/current route.
 - **Mobile:** taller header (72px vs. 56px desktop) and a larger logo/hamburger glyph — mobile gets more breathing room, not a cramped shrink of the desktop bar.
+
+### Hero Globe (signature component)
+- **What it is:** an interactive WebGL globe (via `cobe`) next to the hero headline on desktop, centered on Salvador with a single marker, spinning slowly and continuously; draggable to rotate manually, pausing the idle spin while dragging.
+- **Color:** neutral light base, Campus Blue marker and location badge — never the generic multi-color travel-pin palette of a stock globe demo.
+- **Label:** one static pill badge ("📍 Salvador, Bahia"), not per-marker floating tooltips — CSS Anchor Positioning (used in some off-the-shelf globe demos) is out of scope here since it's unsupported outside Chromium.
+- **Placement:** desktop/tablet only (`≥768px`); hidden on mobile rather than shrunk, so it never competes with the hero text for space at small widths.
+- **Motion:** treated as continuous/ambient motion (see Elevation → Motion), with the one exception that it also responds directly to drag input.
 
 ### Progress & Status (signature component)
 - **Occupancy bars** (event capacity, dashboard metrics): Warm-Stone-toned track, Campus Blue fill, full radius, animated width transition (0.3s ease) whenever the underlying number changes.
