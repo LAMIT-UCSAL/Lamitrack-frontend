@@ -1,4 +1,15 @@
-import { AfterViewInit, Component, ElementRef, Input, NgZone, OnDestroy, TemplateRef, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  ElementRef,
+  Input,
+  NgZone,
+  OnDestroy,
+  QueryList,
+  TemplateRef,
+  ViewChild,
+  ViewChildren,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -21,14 +32,17 @@ export class MarqueeComponent implements AfterViewInit, OnDestroy {
   readonly camadasBlur = [0, 1, 2, 3, 4, 5];
 
   @ViewChild('track') private trackRef!: ElementRef<HTMLElement>;
+  @ViewChildren('itemEl') private itemEls!: QueryList<ElementRef<HTMLElement>>;
 
   private posicao = 0;
+  private periodo = 0;
   private velocidadeAtual = 0;
   private velocidadeAlvo = 0;
   private ultimoTimestamp = 0;
   private frameId = 0;
   private destruido = false;
   private reduzMovimento = false;
+  private resizeObserver?: ResizeObserver;
 
   constructor(private readonly zone: NgZone) {}
 
@@ -38,8 +52,34 @@ export class MarqueeComponent implements AfterViewInit, OnDestroy {
     this.velocidadeAlvo = this.velocidadeAtual;
 
     this.zone.runOutsideAngular(() => {
+      this.medirPeriodo();
+      this.resizeObserver = new ResizeObserver(() => this.medirPeriodo());
+      this.resizeObserver.observe(this.trackRef.nativeElement);
       this.frameId = requestAnimationFrame(this.animar);
     });
+  }
+
+  /**
+   * Mede a distância real (em px) entre o início do primeiro item e o início
+   * do primeiro item duplicado — só isso garante um loop sem corte quando os
+   * itens têm `gap`/larguras variáveis; `scrollWidth / 2` erra por meio `gap`.
+   */
+  private medirPeriodo(): void {
+    const n = this.items.length;
+    if (n === 0) return;
+    const els = this.itemEls.toArray();
+    if (els.length < n * 2) return;
+
+    const inicio = els[0].nativeElement.offsetLeft;
+    const inicioDuplicado = els[n].nativeElement.offsetLeft;
+    const novoPeriodo = inicioDuplicado - inicio;
+
+    if (novoPeriodo > 0) {
+      if (this.periodo > 0 && Math.abs(this.posicao) > novoPeriodo) {
+        this.posicao = this.posicao % novoPeriodo;
+      }
+      this.periodo = novoPeriodo;
+    }
   }
 
   private readonly animar = (timestamp: number) => {
@@ -52,12 +92,10 @@ export class MarqueeComponent implements AfterViewInit, OnDestroy {
       this.velocidadeAtual += (this.velocidadeAlvo - this.velocidadeAtual) * Math.min(1, delta * 4);
       this.posicao -= this.velocidadeAtual * delta;
 
-      const track = this.trackRef.nativeElement;
-      const metade = track.scrollWidth / 2;
-      if (metade > 0 && Math.abs(this.posicao) >= metade) {
-        this.posicao += metade;
+      if (this.periodo > 0 && Math.abs(this.posicao) >= this.periodo) {
+        this.posicao += this.periodo;
       }
-      track.style.transform = `translateX(${this.posicao}px)`;
+      this.trackRef.nativeElement.style.transform = `translateX(${this.posicao}px)`;
     }
 
     this.frameId = requestAnimationFrame(this.animar);
@@ -92,5 +130,6 @@ export class MarqueeComponent implements AfterViewInit, OnDestroy {
   ngOnDestroy(): void {
     this.destruido = true;
     cancelAnimationFrame(this.frameId);
+    this.resizeObserver?.disconnect();
   }
 }

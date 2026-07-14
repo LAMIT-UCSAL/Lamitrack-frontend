@@ -4,10 +4,10 @@
 
   <div class="marquee-viewport" (mouseenter)="aoEntrarMouse()" (mouseleave)="aoSairMouse()">
     <div class="marquee-track" #track [class.marquee-track--compact-gap]="gapCompacto" [class.marquee-track--baseline]="alinharBase">
-      <div class="marquee-item" *ngFor="let item of items">
+      <div class="marquee-item" #itemEl *ngFor="let item of items">
         <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
       </div>
-      <div class="marquee-item" *ngFor="let item of items" aria-hidden="true">
+      <div class="marquee-item" #itemEl *ngFor="let item of items" aria-hidden="true">
         <ng-container *ngTemplateOutlet="itemTemplate; context: { $implicit: item }"></ng-container>
       </div>
     </div>
