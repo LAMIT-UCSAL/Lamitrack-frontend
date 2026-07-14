@@ -5,9 +5,8 @@
 
 .marquee-divider {
   position: absolute;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100vw;
+  left: 0;
+  width: 100%;
   border-top: 1px solid var(--eve-cinza-borda);
   pointer-events: none;
 }

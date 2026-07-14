@@ -51,6 +51,12 @@ Herdada da LAMIT (liga acadêmica que originou o projeto), validada pixel a pixe
 
 **Regras de forma:** cantos arredondados suaves (`rounded-eve-xl` = 12px em cards, `rounded-eve-lg` = 8px em controles, `rounded-eve-full` em pills). Sem gradientes ou sombras pesadas — só `box-shadow` sutil no hover de cards. Um único botão laranja (CTA primário) por tela; os demais são outline azul (`.btn-eve-outline`) ou texto simples. Tipografia sans-serif (Inter). Todos esses tokens já estão centralizados em `src/styles.scss` como classes utilitárias (`.eve-card`, `.btn-eve-primary`, `.btn-eve-outline`, `.badge-cat-*`, `.pill-filter`, etc.) — reutilize essas classes em vez de estilos inline novos.
 
+## Zoom padrão no desktop (`src/styles.scss`)
+
+`body { zoom: 1.25; }` dentro de `@media (min-width: 768px)` — decisão explícita do usuário, que preferiu como o app ficava com o navegador (Edge) em 125% de zoom e pediu pra isso virar o padrão, só no desktop (mobile fica em `zoom: 1`, sem alteração). Escolhido `zoom` em vez de aumentar o `font-size` da raiz porque `zoom` escala literalmente tudo — tipografia, espaçamentos em `rem`, e também elementos de tamanho fixo em `px` (globo 3D, logos de parceiros, blur da faixa de parceiros) — reproduzindo fielmente o efeito do zoom do navegador; aumentar só o `font-size` deixaria os elementos em `px` fixo do mesmo tamanho, sem o mesmo resultado visual.
+
+**Cuidado ao usar `100vw` em qualquer lugar do app:** `vw` não é afetado por `zoom`, então uma técnica de "quebrar o container" baseada em `width: 100vw` (comum pra criar divisores/seções full-bleed) passa a estourar a largura real da tela por causa do fator de zoom — foi exatamente esse bug que apareceu no divisor do `shared/components/marquee` (`.marquee-divider`) depois que o zoom foi ligado, corrigido trocando `width: 100vw` por `width: 100%` (o pai `.marquee-box` já ocupa 100% da largura real nos dois usos atuais, então a técnica de vw nem era necessária). Se precisar de full-bleed de verdade dentro de um container com padding, prefira `width: 100%` sempre que o elemento já estiver num ancestral sem padding lateral; só recorra a `100vw`/`left: 50%`/`translateX(-50%)` como último recurso, e teste com o zoom ligado depois.
+
 ## Telas existentes (não remover nem duplicar sem atualizar este arquivo)
 
 | Rota | Componente | O que faz |

@@ -39,6 +39,13 @@ body {
   font-family: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
+/* Reproduz o zoom de 125% do navegador como padrão, só no desktop (decisão do usuário) */
+@media (min-width: 768px) {
+  body {
+    zoom: 1.25;
+  }
+}
+
 /* ---------- Utilitários de marca ---------- */
 
 .rounded-eve-xl { border-radius: 12px !important; }
