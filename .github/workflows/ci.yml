@@ -1,0 +1,48 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  front:
+    name: Lint, build e testes
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # O projeto React ainda não existe (tarefa 24). Até ele nascer, este
+      # workflow passa sem fazer nada — e começa a valer sozinho no dia em que
+      # o package.json entrar na main.
+      - name: O projeto já existe?
+        id: projeto
+        run: |
+          if [ -f package.json ]; then
+            echo "existe=sim" >> "$GITHUB_OUTPUT"
+          else
+            echo "existe=nao" >> "$GITHUB_OUTPUT"
+            echo "::notice::Ainda não há package.json. O CI liga sozinho quando a tarefa 24 entrar."
+          fi
+
+      - uses: actions/setup-node@v4
+        if: steps.projeto.outputs.existe == 'sim'
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - name: Instalar dependências
+        if: steps.projeto.outputs.existe == 'sim'
+        run: npm ci
+
+      - name: Lint
+        if: steps.projeto.outputs.existe == 'sim'
+        run: npm run lint --if-present
+
+      - name: Build
+        if: steps.projeto.outputs.existe == 'sim'
+        run: npm run build --if-present
+
+      - name: Testes
+        if: steps.projeto.outputs.existe == 'sim'
+        run: npm run test --if-present
