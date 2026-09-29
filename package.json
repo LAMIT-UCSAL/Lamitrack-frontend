@@ -10,6 +10,7 @@
     "dev": "react-router dev",
     "start": "react-router-serve ./build/server/index.js",
     "typecheck": "react-router typegen && tsc",
+    "test": "vitest run",
     "lint": "eslint app \"*.{js,ts}\"",
     "format": "prettier --write app \"*.{js,ts,json}\"",
     "format:check": "prettier --check app \"*.{js,ts,json}\""
@@ -25,6 +26,9 @@
   "devDependencies": {
     "@eslint/js": "^9.39.5",
     "@react-router/dev": "^8.4.0",
+    "@testing-library/dom": "^10.4.1",
+    "@testing-library/jest-dom": "^7.0.1",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^22",
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.7",
@@ -33,10 +37,12 @@
     "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react-hooks": "^7.1.1",
     "globals": "^17.12.0",
+    "jsdom": "^29.1.1",
     "playwright": "^1.61.1",
     "prettier": "^3.9.9",
     "typescript": "^5.9.3",
     "typescript-eslint": "^8.71.0",
-    "vite": "^8.0.3"
+    "vite": "^8.0.3",
+    "vitest": "^5.0.2"
   }
 }
