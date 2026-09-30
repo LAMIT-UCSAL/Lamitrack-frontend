@@ -1,0 +1,52 @@
+storyId: "5.24"
+story: docs/stories/5.24.projeto-react-typescript.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/2
+reviewer: "@qa (Quinn)"
+date: 2026-09-29
+branch: 2-projeto-react
+commits_reviewed: 036f0ea..609f17c
+verdict: CONCERNS
+summary: >
+  Base do projeto React Router 8 + Vite + TS pronta e verificada em instalação
+  limpa (lint, format:check, typecheck, test 3/3, build). ACs 1–4 e 6–9 atendidos.
+  AC 5 só se confirma quando o CI rodar no PR. Nenhum problema HIGH/CRITICAL;
+  observações de processo, teste e dívida técnica abaixo.
+
+checks:
+  code_review: PASS
+  unit_tests: CONCERNS   # partida a frio do Vitest
+  acceptance_criteria: CONCERNS   # AC 5 depende do CI no PR
+  no_regressions: PASS   # eve/ sem nenhuma alteração na branch
+  performance: CONCERNS  # CSS 229 kB
+  security: PASS         # 0 vulnerabilidades, sem segredos, .env ignorado
+  documentation: PASS
+
+issues:
+  - severity: medium
+    category: requirements
+    description: "Status da story ficou em InProgress; o @dev não marcou Ready for Review antes do QA."
+    recommendation: "@dev atualizar o status para Ready for Review (após o story-dod-checklist) antes do push."
+  - severity: medium
+    category: requirements
+    description: "AC 5 (build passa no CI) não pode ser verificado localmente; o workflow novo nunca rodou."
+    recommendation: "@devops confirmar o check verde no PR antes de pedir revisão humana."
+  - severity: medium
+    category: tests
+    description: "Primeira execução de `npm test` em instalação nova falha com timeout de 60 s na partida do worker (reproduzido 2x com 0,4–0,7 GB de RAM livre); as seguintes passam em ~35 s."
+    recommendation: "Abrir issue de acompanhamento: avaliar happy-dom no lugar de jsdom ou aumentar o timeout de inicialização. Documentar no README enquanto isso."
+  - severity: low
+    category: code
+    description: "eslint.config.js usa tseslint.config(), marcado como @deprecated no typescript-eslint 8.71 (substituto: defineConfig de eslint/config)."
+    recommendation: "Trocar por defineConfig; mudança de 2 linhas."
+  - severity: low
+    category: code
+    description: "O CI não roda `format:check`; formatação não é garantida em PRs."
+    recommendation: "Adicionar o passo no CI ou registrar como decisão do time."
+  - severity: low
+    category: performance
+    description: "CSS de produção com 229 kB (32 kB gzip) por importar o Bootstrap inteiro."
+    recommendation: "Importar só os módulos do Bootstrap usados, na #6."
+  - severity: low
+    category: code
+    description: "Sem favicon: cada visita pede /favicon.ico, que cai no SSR e devolve a página 404."
+    recommendation: "Adicionar favicon quando a identidade do LamiTrack estiver definida (#1/#7)."
