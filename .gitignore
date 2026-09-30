@@ -1,1 +1,17 @@
 .claude/
+
+# Dependências
+node_modules/
+
+# Build e cache do React Router
+build/
+.react-router/
+
+# Variáveis de ambiente
+.env
+.env.*
+
+# Logs e sistema
+*.log
+.DS_Store
+Thumbs.db
