@@ -1,13 +1,14 @@
 import js from "@eslint/js";
+import { defineConfig, globalIgnores } from "eslint/config";
 import prettier from "eslint-config-prettier";
 import jsxA11y from "eslint-plugin-jsx-a11y";
 import reactHooks from "eslint-plugin-react-hooks";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 
-export default tseslint.config(
+export default defineConfig(
   // eve/ é o protótipo Angular, mantido só como referência para o porte.
-  { ignores: ["eve/", "build/", ".react-router/", "node_modules/"] },
+  globalIgnores(["eve/", "build/", ".react-router/", "node_modules/"]),
   js.configs.recommended,
   tseslint.configs.recommended,
   reactHooks.configs.flat.recommended,

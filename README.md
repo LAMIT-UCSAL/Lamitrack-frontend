@@ -35,7 +35,9 @@ O app abre em http://localhost:5173.
 | `npm run build` | Gera a versão de produção em `build/` |
 | `npm start` | Serve a versão de produção (rode `npm run build` antes) |
 
-O CI roda `lint`, `typecheck`, `test` e `build` em todo PR. Rode os quatro antes de abrir o seu.
+O CI roda `lint`, `format:check`, `typecheck`, `test` e `build` em todo PR. Rode esses comandos antes de abrir o seu.
+
+> Em máquinas com pouca memória livre, a **primeira** execução de `npm test` depois de instalar pode falhar com `Timeout waiting for worker to respond`. Rode de novo: as execuções seguintes passam.
 
 ## Estrutura
 
