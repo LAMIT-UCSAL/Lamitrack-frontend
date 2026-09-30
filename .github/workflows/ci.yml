@@ -7,7 +7,7 @@ on:
 
 jobs:
   front:
-    name: Lint, typecheck, testes e build
+    name: Lint, formatação, typecheck, testes e build
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -22,6 +22,9 @@ jobs:
 
       - name: Lint
         run: npm run lint
+
+      - name: Formatação
+        run: npm run format:check
 
       - name: Typecheck
         run: npm run typecheck
