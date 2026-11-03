@@ -1,0 +1,77 @@
+storyId: "5.25"
+story: docs/stories/5.25.identidade-visual-lamit.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/23
+reviewer: "@qa (Quinn)"
+date: 2026-11-02
+branch: 23-identidade-visual-lamit
+commits_reviewed: 2-projeto-react..6d5d69f
+verdict: CONCERNS
+summary: >
+  Fundação visual trocada para a identidade do ecossistema LAMIT: tokens com os
+  mesmos nomes da loja, Montserrat, base global, 8 componentes de marca com SCSS
+  e teste, Grainient seguro para SSR, header/rodapé e home-vitrine. Gates
+  reexecutados pelo QA (lint, format:check, typecheck, test 36/36); eve/ e
+  .github/ intocados. ACs 1–4 e 6–14 atendidos; AC 5 atendido na forma do
+  CLAUDE.md, com o texto do AC a corrigir. Nenhum problema HIGH/CRITICAL; dois
+  MEDIUM de baixo esforço recomendados antes do merge.
+
+checks:
+  code_review: CONCERNS        # hexToRgb não aceita hex de 3 dígitos
+  unit_tests: PASS             # 9 arquivos, 36 testes, incluindo fallback do WebGL
+  acceptance_criteria: PASS    # AC 5 com ressalva de redação (ver issues)
+  no_regressions: PASS         # eve/ e .github/ sem diff; 404 ganha header/rodapé
+  performance: CONCERNS        # CSS raiz 233 kB (Bootstrap inteiro), ogl em chunk lazy de 44 kB
+  security: PASS               # links externos com noopener; SVG sem script; vulnerabilidades do audit são anteriores
+  documentation: PASS          # DESIGN.md, README, decision log
+
+issues:
+  - severity: medium
+    category: code
+    description: >
+      `hexToRgb` (app/components/Grainient.tsx) só aceita #RRGGBB. O minificador do
+      build encurta cores (`--color-surface:#fff` no CSS de produção). Cobalto e âmbar
+      não têm forma curta, então hoje funciona, mas qualquer token futuro que encurte
+      vira branco [1,1,1] em silêncio no gradiente.
+    recommendation: "Aceitar #RGB (expandir para #RRGGBB) e cobrir com um caso no teste de hexToRgb."
+  - severity: medium
+    category: code
+    description: >
+      Rótulo do link da marca no header é `aria-label="LamiTrack, início"`, mas o texto
+      visível é "LAMIT Track". Viola WCAG 2.5.3 (Label in Name): quem usa comando de voz
+      e diz "LAMIT Track" não é atendido. A loja segue o padrão certo ("Lamit Store — início").
+    recommendation: "Trocar para `aria-label=\"LAMIT Track, início\"` e ajustar o SiteHeader.test.tsx."
+  - severity: low
+    category: requirements
+    description: >
+      AC 5 pede o grep "sem diferenciar maiúsculas", o que casa `Inter` com `pointer`
+      (4 falsos positivos confirmados). O @dev seguiu o grep do CLAUDE.md (diferenciando).
+    recommendation: "@po corrigir a redação do AC 5 para \"diferenciando maiúsculas, como no CLAUDE.md\"."
+  - severity: low
+    category: code
+    description: "EventCard agenda requestAnimationFrame no tilt e não cancela no unmount."
+    recommendation: "useEffect de limpeza com cancelAnimationFrame(frameRef.current). Sem efeito visível hoje."
+  - severity: low
+    category: code
+    description: >
+      `$focus-ring-color` laranja faz o Bootstrap desenhar anel em box-shadow em
+      .form-control/.btn do Bootstrap. A regra da marca é sem sombra em campo e foco
+      por outline. Ainda não há campos.
+    recommendation: "Quando os primeiros formulários chegarem, zerar $input-btn-focus-box-shadow / $focus-ring-width e confiar no outline global."
+  - severity: low
+    category: performance
+    description: "CSS raiz com 233 kB (33 kB gzip) por importar o Bootstrap inteiro (já registrado na 5.24)."
+    recommendation: "Importar só os módulos usados, na #6."
+  - severity: low
+    category: security
+    description: "npm audit: 21 vulnerabilidades (5 high) em vite, zod e dependências de dev, anteriores a esta story. O ogl não tem dependências."
+    recommendation: "@devops avaliar `npm audit fix` numa story própria."
+
+process:
+  - "Depende do PR #22 (story 5.24), ainda aberto. Esta branch parte de 2-projeto-react; rebase na main após o merge do #22."
+  - "CodeRabbit não executado: desativado no core-config.yaml e sem bash no WSL desta máquina."
+  - "Estimativa da story ainda a confirmar pelo time."
+
+next_steps:
+  - "@dev: corrigir os dois MEDIUM (hexToRgb e label-in-name) — ~10 min."
+  - "@po: ajustar a redação do AC 5."
+  - "@devops: push da branch e PR para a main depois do merge do #22."
