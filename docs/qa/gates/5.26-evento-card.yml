@@ -1,0 +1,31 @@
+storyId: "5.26"
+story: docs/stories/5.26.evento-card.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/13
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 13-evento-card
+verdict: PASS
+summary: >
+  EventCard agora recebe o Evento no formato exato da API do backend. Categoria
+  derivada das tags, data sem dependência de fuso (SSR e cliente iguais), link
+  interno para /eventos/:id. Gates verdes (47 testes). Um desvio de AC aceito:
+  a cidade não se repete no card.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: requirements
+    description: "AC 5 descreve o local como 'venue · cidade/UF'; a implementação mostra só o venue para não repetir a cidade do rodapé."
+    recommendation: "@po ajustar a redação do AC 5."
+  - severity: low
+    category: requirements
+    description: "O link do card leva a /eventos/:id, que ainda não existe (404 até a #5)."
+    recommendation: "Nada a fazer aqui; resolvido pela #5."
