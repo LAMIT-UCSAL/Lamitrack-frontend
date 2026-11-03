@@ -183,6 +183,14 @@ Mesma estratégia do site da LAMIT: o navegador guarda os arquivos do site por u
 - **Mídias (logos, ícones, imagens) ficam em `app/assets/` e são importadas no código**, não em `public/`. O build dá a elas um nome com hash em `/assets/`, que já sai com `Cache-Control: public, max-age=31536000, immutable` (1 ano). Ao trocar um arquivo, o hash muda e o navegador baixa a versão nova. Imagens pequenas (menos de 4 KB) vêm embutidas no JS.
 - `public/_headers` repete a regra de `/assets/*` para plataformas que leem esse arquivo (Cloudflare, Netlify; escolha na #8).
 
+## Telas
+
+### Lista de eventos (`/eventos`)
+Kicker + título; trilho de categorias; campos de cidade e data (`.campo`); total em caixa alta; grade de `EventCard` de 12 em 12 com paginação "← Anterior · Página X de Y · Próxima →". Os filtros ficam na URL. Sem resultado: `Note` com "Limpar filtros e ver todos".
+
+### Detalhe do evento (`/eventos/:id`)
+"← Voltar aos eventos"; banner (ou o fundo estático do Grainient) com raio de 20px; kicker com a categoria; título. **Ficha** num card branco (borda `hairline`, `shadow-soft`) com rótulos em `gold-ink` caixa alta (Data ou "Inscrições até", Local com "Ver no mapa", Fonte) e o **CTA primário** para a inscrição no site original, em nova aba. No desktop a ficha fica numa coluna lateral fixa; no celular, logo depois do título. Descrição em parágrafos (`ink-muted`, até 68ch) e temas em chips neutros (`paper-2`, raio 8px). O HTML do servidor traz título, descrição e Open Graph do evento, para a prévia do link no WhatsApp.
+
 ## Accessibility
 
 - Foco visível em todo interativo: `outline: 2px solid var(--color-signal-orange); outline-offset: 3px`.

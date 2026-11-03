@@ -4,6 +4,9 @@ import {
   categoriaDoEvento,
   formatarCidade,
   formatarData,
+  formatarDataCompleta,
+  linkDoMapa,
+  nomeDaFonte,
   rotuloDaData,
 } from "./evento";
 
@@ -70,5 +73,52 @@ describe("rotuloDaData", () => {
     expect(rotuloDaData({ startsAt: "2026-11-14T08:00:00", tags: [] })).toBe(
       "14 nov",
     );
+  });
+});
+
+describe("formatarDataCompleta", () => {
+  it("escreve dia da semana, data e hora por extenso", () => {
+    expect(formatarDataCompleta("2026-11-14T08:00:00")).toBe(
+      "sábado, 14 de novembro de 2026 · 8h",
+    );
+    expect(formatarDataCompleta("2026-11-28T23:59:00")).toBe(
+      "sábado, 28 de novembro de 2026 · 23h59",
+    );
+    expect(formatarDataCompleta("2027-03-01T19:30:00")).toBe(
+      "segunda-feira, 1 de março de 2027 · 19h30",
+    );
+  });
+
+  it("não muda de dia perto da meia-noite (sem fuso)", () => {
+    expect(formatarDataCompleta("2026-12-31T23:59:00")).toBe(
+      "quinta-feira, 31 de dezembro de 2026 · 23h59",
+    );
+    expect(formatarDataCompleta("2027-01-01T00:00:00")).toBe(
+      "sexta-feira, 1 de janeiro de 2027 · 0h",
+    );
+  });
+
+  it("devolve vazio para valores inválidos", () => {
+    expect(formatarDataCompleta("amanhã")).toBe("");
+  });
+});
+
+describe("nomeDaFonte", () => {
+  it("traduz as fontes conhecidas e mantém as outras", () => {
+    expect(nomeDaFonte("sympla")).toBe("Sympla");
+    expect(nomeDaFonte("fapesb")).toBe("FAPESB");
+    expect(nomeDaFonte("nova-fonte")).toBe("nova-fonte");
+  });
+});
+
+describe("linkDoMapa", () => {
+  it("monta o link com as coordenadas", () => {
+    expect(linkDoMapa({ latitude: -12.97, longitude: -38.5 })).toBe(
+      "https://www.openstreetmap.org/?mlat=-12.97&mlon=-38.5#map=17/-12.97/-38.5",
+    );
+  });
+
+  it("sem coordenadas, não há link", () => {
+    expect(linkDoMapa({ latitude: null, longitude: -38.5 })).toBeNull();
   });
 });

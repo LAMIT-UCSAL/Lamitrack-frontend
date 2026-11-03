@@ -6,29 +6,52 @@ import type { Evento } from "./evento";
 // 5 categorias, eventos futuros, Bahia presencial + online; em editais,
 // startsAt é o prazo de inscrição. Eventos fictícios.
 
+type Local = {
+  venue: string | null;
+  city: string | null;
+  uf: string | null;
+  latitude?: number | null;
+  longitude?: number | null;
+};
+
+// Sem link de inscrição, para a tela mostrar esse caso
+const SEM_LINK = new Set([9]);
+
 function evento(
   id: number,
   title: string,
   startsAt: string,
-  local: { venue: string | null; city: string | null; uf: string | null },
+  { latitude = null, longitude = null, ...local }: Local,
   tags: string[],
 ): Evento {
   return {
     id,
     title,
-    description: null,
+    description: `${title} é um evento fictício, usado como exemplo enquanto a API do LamiTrack não está no ar.
+
+Quando a API estiver no ar, aqui aparece a descrição publicada pelo organizador.`,
     startsAt,
     ...local,
-    latitude: null,
-    longitude: null,
-    registrationUrl: null,
+    latitude,
+    longitude,
+    // example.com é um domínio reservado para exemplos
+    registrationUrl: SEM_LINK.has(id)
+      ? null
+      : `https://example.com/inscricao/${id}`,
     source: "simulado",
     bannerUrl: null,
     tags,
   };
 }
 
-const SALVADOR = { venue: "Hub de inovação", city: "Salvador", uf: "BA" };
+// Centro de Salvador, só para mostrar o link de mapa
+const SALVADOR = {
+  venue: "Hub de inovação",
+  city: "Salvador",
+  uf: "BA",
+  latitude: -12.9777,
+  longitude: -38.5016,
+};
 const ONLINE = { venue: "Online", city: null, uf: null };
 
 export const EVENTOS_SIMULADOS: Evento[] = [
