@@ -148,7 +148,7 @@ Abre toda seção. Rótulo em `gold-ink`, caixa alta, tracking largo, com filete
 Trilho `paper-2` em pílula. Item ativo em `ink` com texto `paper`; hover com sublinhado laranja interno. Cada item é um botão com `aria-pressed`, todos dentro de um `role="group"` rotulado. No celular rola para o lado e a borda direita esmaece enquanto houver itens escondidos. Alvos de 44px.
 
 ### Card de evento (`EventCard`) — "ficha de transmissão"
-Recebe o evento como a API devolve (`<EventCard evento={evento} />`, tipo `Evento` em `app/lib/evento.ts`). Fundo branco, borda hairline, raio de 20px, `shadow-soft` → `shadow-lift`, tilt 3D sutil (até 6°) só com mouse e sem reduced-motion. Meta "CATEGORIA · DATA" em `gold-ink` (categoria = primeira tag que for uma das 5 válidas; sem ela, só a data), título com link esticado para `/eventos/:id` (o card inteiro é clicável e o foco contorna o card), local (`venue`) em `ink-muted`, rodapé separado por hairline com a cidade/UF (só ali, sem repetir) em `cobalt` 800 e "Ver evento →". Sem preço: a API não tem o dado (`--color-success` fica reservado para quando tiver).
+Recebe o evento como a API devolve (`<EventCard evento={evento} />`, tipo `Evento` em `app/lib/evento.ts`). Fundo branco, borda hairline, raio de 20px, `shadow-soft` → `shadow-lift`, tilt 3D sutil (até 6°) só com mouse e sem reduced-motion. Meta "CATEGORIA · DATA" em `gold-ink` (em editais, a data é o prazo: "EDITAL · INSCRIÇÕES ATÉ 28 NOV") (categoria = primeira tag que for uma das 5 válidas; sem ela, só a data), título com link esticado para `/eventos/:id` (o card inteiro é clicável e o foco contorna o card), local (`venue`) em `ink-muted`, rodapé separado por hairline com a cidade/UF (só ali, sem repetir) em `cobalt` 800 e "Ver evento →". Sem preço: a API não tem o dado (`--color-success` fica reservado para quando tiver).
 
 ### Carrossel de eventos (`EventCarousel`)
 Recebe `eventos: Evento[]` e um `label`. Slides em faixa escura (raio de 20px): banner do evento ou o fundo estático do Grainient (mixin `grainient-fallback`), película `night` de baixo para cima, meta em `gold` e título branco com link para `/eventos/:id`. Avança a cada 4 s e para com o mouse em cima ou com o foco dentro; com reduced-motion não se move sozinho. Não tem botão de pausa (decisão do time, 2026-11-03). Controles de 44px em `paper` com hover/foco `signal-orange` + `ink`; dot atual em `signal-orange` com `aria-current`. Segue o padrão de carrossel do WAI-ARIA: região com `aria-roledescription="carrossel"`, slides "N de total", só o visível no Tab (`inert`) e `aria-live` só quando parado. No celular, os dots descem para uma linha própria.
@@ -162,8 +162,11 @@ Globo 3D do hero (lib `cobe`, WebGL), até 340px, com Salvador marcado por padr�
 ### Faixa Grainient (`BroadcastBand` + `Grainient`)
 Gradiente cobalto e âmbar animado em WebGL2 (`ogl`), **contido em faixas**, com texto branco centralizado sobre uma película `night`. O HTML do servidor já traz o fallback em CSS (radiais âmbar sobre cobalto). O canvas só monta no cliente, com WebGL2 e sem reduced-motion, e entra com fade. As cores vêm dos tokens. A variante `thin` (6px, estática) abre o rodapé.
 
-### Nota informativa
-Borda esquerda dourada de 3px sobre `paper-2`, texto `ink-muted` (ex.: filtro sem resultados, `.home-note`).
+### Nota informativa (`Note`)
+Borda esquerda dourada de 3px sobre `paper-2`, texto `ink-muted`. `role="note"` por padrão; `role="status"` quando anuncia uma mudança (ex.: filtro sem resultados). Usada também no aviso "Dados de exemplo" enquanto a API simulada estiver em uso.
+
+### Campo de formulário (`.campo`)
+Rótulo em caixa alta (`ink-muted`, 600, tracking de UI) acima da entrada. Entrada com 44px de altura, borda `hairline`, raio de 12px, fundo `surface`, **sem sombra**; o foco é o contorno laranja global (não usar o `.form-control` do Bootstrap, que desenha anel com sombra). Exemplo: filtros da tela `/eventos`.
 
 ### Header (`SiteHeader`)
 Sticky, em papel. Escudo + wordmark "**LAMIT** Track" em caixa alta. Nav com sublinhado laranja de 2px que cresce do centro (300ms), também marcando `aria-current="page"`; o link externo "LAMIT ↗" fica num bloco `paper-2`. Abaixo de 820px, botão hambúrguer de 44px e menu em overlay de papel na tela toda: foco no primeiro link, Esc fecha e devolve o foco, e o resto da página fica `inert`.

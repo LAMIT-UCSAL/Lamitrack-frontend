@@ -23,6 +23,13 @@ npm run dev
 
 O app abre em http://localhost:5173.
 
+## Dados de eventos (API)
+
+Os eventos vêm da API do [Lamitrack-backend](https://github.com/LAMIT-UCSAL/Lamitrack-backend) (`GET /eventos` e `GET /eventos/{id}`), chamada só no servidor.
+
+- **Sem configurar nada**, o site usa **eventos simulados** (`app/lib/eventos-simulados.ts`), com os mesmos filtros e a mesma paginação da API real, e mostra o aviso "Dados de exemplo".
+- **Para usar a API real**, defina `LAMITRACK_API_URL` (veja `.env.example`), por exemplo `LAMITRACK_API_URL=http://localhost:8080 npm run dev`.
+
 ## Comandos
 
 | Comando | O que faz |
