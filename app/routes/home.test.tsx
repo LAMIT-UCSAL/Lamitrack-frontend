@@ -79,6 +79,15 @@ describe("Home", () => {
     expect(screen.getByRole("button", { name: "Pausar" })).toBeInTheDocument();
   });
 
+  it("mostra a faixa de números de exemplo", () => {
+    render(<Home />);
+
+    const faixa = screen.getByRole("region", {
+      name: "Números do LamiTrack (exemplo)",
+    });
+    expect(faixa).toHaveClass("marquee--compact", "marquee--baseline");
+  });
+
   it("fecha com a faixa Grainient", () => {
     const { container } = render(<Home />);
 

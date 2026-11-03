@@ -153,6 +153,9 @@ Recebe o evento como a API devolve (`<EventCard evento={evento} />`, tipo `Event
 ### Carrossel de eventos (`EventCarousel`)
 Recebe `eventos: Evento[]` e um `label`. Slides em faixa escura (raio de 20px): banner do evento ou o fundo estático do Grainient (mixin `grainient-fallback`), película `night` de baixo para cima, meta em `gold` e título branco com link para `/eventos/:id`. Avança a cada 4 s e para com o mouse em cima, com o foco dentro ou pelo botão "Pausar" (WCAG 2.2.2); com reduced-motion não se move sozinho. Controles de 44px em `paper` com hover/foco `signal-orange` + `ink`; dot atual em `signal-orange` com `aria-current`. Segue o padrão de carrossel do WAI-ARIA: região com `aria-roledescription="carrossel"`, slides "N de total", só o visível no Tab (`inert`) e `aria-live` só quando parado. No celular, os dots descem para uma linha própria.
 
+### Faixa deslizante (`Marquee`)
+Genérica: recebe `items`, `renderItem`, `getKey` e um `label`. Anda com `requestAnimationFrame` a 40 px/s, desacelera para 14 px/s no hover sem parar e tem blur progressivo nas bordas (6 camadas de `backdrop-filter`). Opções: `dividers` (filetes `hairline`), `compact` e `baseline` (número + rótulo). Neutra de cor, serve sobre papel ou `night`. Para com o foco dentro e pelo botão redondo de pausa (WCAG 2.2.2); com reduced-motion fica parada e rolável. A cópia usada no loop fica `aria-hidden` e `inert`.
+
 ### Faixa Grainient (`BroadcastBand` + `Grainient`)
 Gradiente cobalto e âmbar animado em WebGL2 (`ogl`), **contido em faixas**, com texto branco centralizado sobre uma película `night`. O HTML do servidor já traz o fallback em CSS (radiais âmbar sobre cobalto). O canvas só monta no cliente, com WebGL2 e sem reduced-motion, e entra com fade. As cores vêm dos tokens. A variante `thin` (6px, estática) abre o rodapé.
 
