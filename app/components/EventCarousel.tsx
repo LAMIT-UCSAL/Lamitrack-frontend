@@ -2,7 +2,6 @@ import { useEffect, useState, type FocusEvent } from "react";
 import { Link } from "react-router";
 
 import { categoriaDoEvento, formatarData, type Evento } from "~/lib/evento";
-import { usePrefersReducedMotion } from "~/lib/media";
 
 import "./EventCarousel.scss";
 
@@ -15,17 +14,16 @@ type EventCarouselProps = {
   label: string;
 };
 
-// Carrossel de eventos no padrão do WAI-ARIA: avança a cada 4 s, para com o
-// mouse ou o foco dentro dele e não se move sozinho com reduced-motion. Sem
+// Carrossel de eventos no padrão do WAI-ARIA: avança a cada 4 s (para todo
+// mundo, por decisão do produto) e para com o mouse ou o foco dentro dele. Sem
 // botão de pausa, por decisão do time. Só o slide visível recebe foco.
 export function EventCarousel({ eventos, label }: EventCarouselProps) {
   const total = eventos.length;
   const [atual, setAtual] = useState(0);
   const [hover, setHover] = useState(false);
   const [foco, setFoco] = useState(false);
-  const reducedMotion = usePrefersReducedMotion();
 
-  const autoAvanco = total > 1 && !reducedMotion;
+  const autoAvanco = total > 1;
   const girando = autoAvanco && !hover && !foco;
 
   useEffect(() => {

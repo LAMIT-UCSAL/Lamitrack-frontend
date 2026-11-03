@@ -162,7 +162,7 @@ describe("EventCarousel", () => {
     expect(slideAtual()).toHaveAccessibleName("2 de 3");
   });
 
-  it("com reduced-motion, não avança sozinho, mas as setas funcionam", () => {
+  it("com reduced-motion, avança igual (decisão do produto)", () => {
     vi.stubGlobal(
       "matchMedia",
       (query: string) =>
@@ -174,9 +174,7 @@ describe("EventCarousel", () => {
     );
     renderCarousel();
 
-    avancar(INTERVALO_MS * 2);
-    expect(slideAtual()).toHaveAccessibleName("1 de 3");
-    fireEvent.click(screen.getByRole("button", { name: "Próximo evento" }));
+    avancar(INTERVALO_MS);
     expect(slideAtual()).toHaveAccessibleName("2 de 3");
   });
 

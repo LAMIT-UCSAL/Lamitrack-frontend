@@ -73,7 +73,7 @@ describe("Globe", () => {
     await waitFor(() => expect(ultimoPhi()).toBeGreaterThan(primeiro));
   });
 
-  it("com reduced-motion, não gira sozinho", async () => {
+  it("com reduced-motion, gira igual (decisão do produto)", async () => {
     vi.stubGlobal(
       "matchMedia",
       (query: string) =>
@@ -85,21 +85,14 @@ describe("Globe", () => {
     );
     render(<Globe />);
 
-    await waitFor(() => expect(update.mock.calls.length).toBeGreaterThan(3));
-    expect(ultimoPhi()).toBe(0);
+    await waitFor(() => expect(update).toHaveBeenCalled());
+    const primeiro = ultimoPhi();
+    await waitFor(() => expect(ultimoPhi()).toBeGreaterThan(primeiro));
   });
 
   it("é arrastável e fica onde parou ao soltar", async () => {
-    vi.stubGlobal(
-      "matchMedia",
-      (query: string) =>
-        ({
-          matches: query.includes("reduce"),
-          addEventListener: () => {},
-          removeEventListener: () => {},
-        }) as unknown as MediaQueryList,
-    );
-    render(<Globe />);
+    // Sem giro automático, para medir só o arrasto
+    render(<Globe speed={0} />);
     await waitFor(() => expect(update).toHaveBeenCalled());
     const canvas = screen.getByRole("img");
 

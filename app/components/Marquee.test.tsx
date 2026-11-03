@@ -102,7 +102,7 @@ describe("Marquee", () => {
     );
   });
 
-  it("com reduced-motion: parada, sem cópia e sem blur", () => {
+  it("com reduced-motion, continua igual: cópia do loop e blur (decisão do produto)", () => {
     vi.stubGlobal(
       "matchMedia",
       (query: string) =>
@@ -114,9 +114,8 @@ describe("Marquee", () => {
     );
     const { container } = renderMarquee();
 
-    expect(container.firstChild).toHaveClass("marquee--static");
-    expect(container.querySelectorAll(".marquee__item")).toHaveLength(2);
-    expect(container.querySelector(".marquee__blur")).toBeNull();
+    expect(container.querySelectorAll(".marquee__item")).toHaveLength(4);
+    expect(container.querySelectorAll(".marquee__blur")).toHaveLength(2);
   });
 
   it("sem itens, não renderiza nada", () => {

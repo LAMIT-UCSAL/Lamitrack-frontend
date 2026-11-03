@@ -1,7 +1,5 @@
 import { useEffect, useRef, type ReactNode } from "react";
 
-import { usePrefersReducedMotion } from "~/lib/media";
-
 import "./Marquee.scss";
 
 type MarqueeProps<T> = {
@@ -43,8 +41,8 @@ export function passoDoMarquee(
 }
 
 // Faixa deslizante genérica (porte do marquee do EVE): desacelera no hover sem
-// parar, para com o foco de teclado dentro e, com reduced-motion, vira uma
-// faixa parada com rolagem horizontal. Sem botão de pausa, por decisão do time.
+// parar e para com o foco de teclado dentro. Sem botão de pausa e sem modo
+// reduzido, por decisão do produto: a faixa anda igual para todo mundo.
 export function Marquee<T>({
   items,
   renderItem,
@@ -56,7 +54,6 @@ export function Marquee<T>({
   compact = false,
   baseline = false,
 }: MarqueeProps<T>) {
-  const reducedMotion = usePrefersReducedMotion();
   const trackRef = useRef<HTMLDivElement>(null);
   // Lidos a cada quadro sem reiniciar a animação
   const controle = useRef({ hover: false, foco: false });
@@ -70,7 +67,7 @@ export function Marquee<T>({
 
   useEffect(() => {
     const track = trackRef.current;
-    if (!track || reducedMotion || total === 0) return;
+    if (!track || total === 0) return;
 
     // Distância real entre o primeiro item e a sua cópia: com gap e larguras
     // variáveis, scrollWidth / 2 erraria por meio gap
@@ -111,7 +108,7 @@ export function Marquee<T>({
       resizeObserver?.disconnect();
       track.style.transform = "";
     };
-  }, [reducedMotion, total]);
+  }, [total]);
 
   if (total === 0) return null;
 
@@ -120,7 +117,6 @@ export function Marquee<T>({
     dividers && "marquee--dividers",
     compact && "marquee--compact",
     baseline && "marquee--baseline",
-    reducedMotion && "marquee--static",
   ]
     .filter(Boolean)
     .join(" ");
@@ -146,36 +142,30 @@ export function Marquee<T>({
             </div>
           ))}
           {/* Cópia só para o loop sem emenda: invisível para leitor de tela e Tab */}
-          {!reducedMotion &&
-            items.map((item) => (
-              <div
-                key={`copia-${getKey(item)}`}
-                className="marquee__item"
-                aria-hidden="true"
-                inert
-              >
-                {renderItem(item)}
-              </div>
-            ))}
+          {items.map((item) => (
+            <div
+              key={`copia-${getKey(item)}`}
+              className="marquee__item"
+              aria-hidden="true"
+              inert
+            >
+              {renderItem(item)}
+            </div>
+          ))}
         </div>
       </div>
-      {!reducedMotion && (
-        <>
-          <div className="marquee__blur marquee__blur--left" aria-hidden="true">
-            {CAMADAS.map((camada) => (
-              <span key={camada} />
-            ))}
-          </div>
-          <div
-            className="marquee__blur marquee__blur--right"
-            aria-hidden="true"
-          >
-            {CAMADAS.map((camada) => (
-              <span key={camada} />
-            ))}
-          </div>
-        </>
-      )}
+      <>
+        <div className="marquee__blur marquee__blur--left" aria-hidden="true">
+          {CAMADAS.map((camada) => (
+            <span key={camada} />
+          ))}
+        </div>
+        <div className="marquee__blur marquee__blur--right" aria-hidden="true">
+          {CAMADAS.map((camada) => (
+            <span key={camada} />
+          ))}
+        </div>
+      </>
     </section>
   );
 }
