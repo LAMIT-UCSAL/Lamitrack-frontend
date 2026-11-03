@@ -8,9 +8,14 @@ import {
 } from "react-router";
 
 import type { Route } from "./+types/root";
+// Estilos globais primeiro: o CSS dos componentes vem depois e prevalece
 import "./styles/app.scss";
 
+import { SiteFooter } from "./components/SiteFooter";
+import { SiteHeader } from "./components/SiteHeader";
+
 export const links: Route.LinksFunction = () => [
+  { rel: "icon", type: "image/png", href: "/brand/favicon.png" },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",
@@ -36,7 +41,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <a className="skip-link" href="#conteudo">
           Pular para o conteúdo
         </a>
+        <SiteHeader />
         {children}
+        <SiteFooter />
         <ScrollRestoration />
         <Scripts />
       </body>
