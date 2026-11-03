@@ -4,6 +4,7 @@ import { BroadcastBand } from "~/components/BroadcastBand";
 import { Button } from "~/components/Button";
 import { CategoryTabs } from "~/components/CategoryTabs";
 import { EventCard } from "~/components/EventCard";
+import { EventCarousel } from "~/components/EventCarousel";
 import { Kicker } from "~/components/Kicker";
 import { CATEGORIAS } from "~/lib/categorias";
 import { categoriaDoEvento, type Evento } from "~/lib/evento";
@@ -21,28 +22,41 @@ export const meta: Route.MetaFunction = () => [
 
 const FILTROS = ["Todos", ...CATEGORIAS];
 
-// Evento fictício no formato da API, só para mostrar o card.
+// Eventos fictícios no formato da API, só para mostrar o card e o carrossel.
 // Os dados reais chegam com a #4/#20.
-const EVENTO_EXEMPLO: Evento = {
-  id: 1,
-  title: "Hackathon de exemplo",
-  description: null,
-  startsAt: "2026-11-14T19:00:00",
-  venue: null,
-  city: "Salvador",
-  uf: "BA",
-  latitude: null,
-  longitude: null,
-  registrationUrl: null,
-  source: "exemplo",
-  bannerUrl: null,
-  tags: ["Hackathon"],
-};
+function exemplo(
+  id: number,
+  title: string,
+  startsAt: string,
+  tags: string[],
+): Evento {
+  return {
+    id,
+    title,
+    description: null,
+    startsAt,
+    venue: null,
+    city: "Salvador",
+    uf: "BA",
+    latitude: null,
+    longitude: null,
+    registrationUrl: null,
+    source: "exemplo",
+    bannerUrl: null,
+    tags,
+  };
+}
+
+const EVENTOS_EXEMPLO = [
+  exemplo(1, "Hackathon de exemplo", "2026-11-14T19:00:00", ["Hackathon"]),
+  exemplo(2, "Ideathon de exemplo", "2026-11-21T09:00:00", ["Ideathon"]),
+  exemplo(3, "Edital de exemplo", "2026-12-05T18:00:00", ["Edital"]),
+];
 
 // Página provisória: vitrine dos estilos da LAMIT até a tela Home real (#20).
 export default function Home() {
   const [filtro, setFiltro] = useState<string>("Todos");
-  const eventos = [EVENTO_EXEMPLO].filter(
+  const eventos = EVENTOS_EXEMPLO.filter(
     (evento) => filtro === "Todos" || categoriaDoEvento(evento) === filtro,
   );
 
@@ -67,6 +81,15 @@ export default function Home() {
             <span className="sr-only"> (abre em nova aba)</span>
           </Button>
         </div>
+      </section>
+
+      <section
+        className="home-section page-container"
+        aria-labelledby="titulo-destaques"
+      >
+        <Kicker>Em destaque.</Kicker>
+        <h2 id="titulo-destaques">Últimos eventos.</h2>
+        <EventCarousel eventos={EVENTOS_EXEMPLO} label="Últimos eventos" />
       </section>
 
       <section

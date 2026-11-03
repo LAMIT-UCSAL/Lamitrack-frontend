@@ -192,3 +192,21 @@
     background-color: var(--color-signal-orange);
   }
 }
+
+// No celular os controles não cabem numa linha: os dots descem para uma linha
+// própria, e o texto sobe para não ficar embaixo da barra
+@media (max-width: 599px) {
+  .event-carousel {
+    height: 360px;
+  }
+
+  .event-carousel__dots {
+    width: 100%;
+    margin-left: 0;
+    justify-content: center;
+  }
+
+  .event-carousel__info {
+    bottom: calc(2 * 44px + var(--space-xs) + 2 * var(--space-sm));
+  }
+}
