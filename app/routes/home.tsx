@@ -5,6 +5,7 @@ import { Button } from "~/components/Button";
 import { CategoryTabs } from "~/components/CategoryTabs";
 import { EventCard } from "~/components/EventCard";
 import { EventCarousel } from "~/components/EventCarousel";
+import { Globe } from "~/components/Globe";
 import { Kicker } from "~/components/Kicker";
 import { Marquee } from "~/components/Marquee";
 import { CATEGORIAS } from "~/lib/categorias";
@@ -72,24 +73,27 @@ export default function Home() {
   return (
     <main id="conteudo">
       <section className="home-intro page-container">
-        <Kicker>Vitrine de eventos.</Kicker>
-        <h1>LamiTrack</h1>
-        <p className="home-intro__lede">
-          Eventos de tecnologia e inovação reunidos pela LAMIT. Esta é uma
-          página provisória com a prévia dos estilos.
-        </p>
-        <div className="home-intro__actions">
-          <Button href="#eventos">Ver eventos</Button>
-          <Button
-            variant="secondary"
-            href="https://lamitsite.com.br"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Conhecer a LAMIT
-            <span className="sr-only"> (abre em nova aba)</span>
-          </Button>
+        <div className="home-intro__text">
+          <Kicker>Vitrine de eventos.</Kicker>
+          <h1>LamiTrack</h1>
+          <p className="home-intro__lede">
+            Eventos de tecnologia e inovação reunidos pela LAMIT. Esta é uma
+            página provisória com a prévia dos estilos.
+          </p>
+          <div className="home-intro__actions">
+            <Button href="#eventos">Ver eventos</Button>
+            <Button
+              variant="secondary"
+              href="https://lamitsite.com.br"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Conhecer a LAMIT
+              <span className="sr-only"> (abre em nova aba)</span>
+            </Button>
+          </div>
         </div>
+        <Globe />
       </section>
 
       <div className="page-container home-numbers">

@@ -90,6 +90,14 @@ describe("Home", () => {
     expect(faixa).toHaveClass("marquee--compact", "marquee--baseline");
   });
 
+  it("tem o globo na abertura", () => {
+    render(<Home />);
+
+    expect(
+      screen.getByRole("img", { name: "Globo terrestre com Salvador marcado" }),
+    ).toBeInTheDocument();
+  });
+
   it("fecha com a faixa Grainient", () => {
     const { container } = render(<Home />);
 
