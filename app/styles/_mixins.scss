@@ -1,5 +1,5 @@
 // Fundo estático do Grainient (radiais âmbar sobre cobalto): fallback da faixa
-// sem WebGL2 e fundo dos slides sem banner.
+// sem WebGL2/reduced-motion e fundo dos slides sem banner.
 @mixin grainient-fallback {
   background:
     radial-gradient(

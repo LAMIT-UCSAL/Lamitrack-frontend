@@ -2,6 +2,7 @@ import { useEffect, useRef, type PointerEvent } from "react";
 import type { Globe as CobeGlobe, Marker } from "cobe";
 
 import { corDoToken } from "~/lib/cores";
+import { usePrefersReducedMotion } from "~/lib/media";
 
 import "./Globe.scss";
 
@@ -30,8 +31,8 @@ type Rotacao = {
   inicio: { x: number; y: number } | null;
 };
 
-// Globo 3D do hero (porte do globo-eve, lib cobe): gira sozinho (sempre, por
-// decisão do produto), é arrastável e fica oculto no celular (sem criar o WebGL).
+// Globo 3D do hero (porte do globo-eve, lib cobe): gira sozinho, é arrastável,
+// não gira com reduced-motion e fica oculto no celular (sem criar o WebGL).
 // O cobe só é carregado no cliente.
 export function Globe({
   markers = MARCADORES_PADRAO,
@@ -39,6 +40,7 @@ export function Globe({
   label = "Globo terrestre com Salvador marcado",
 }: GlobeProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const reducedMotion = usePrefersReducedMotion();
   const rotacao = useRef<Rotacao>({
     phi: 0,
     phiOffset: 0,
@@ -48,11 +50,11 @@ export function Globe({
     inicio: null,
   });
   // Lida a cada quadro, sem recriar o globo
-  const velocidade = useRef(speed);
+  const velocidade = useRef(0);
 
   useEffect(() => {
-    velocidade.current = speed;
-  }, [speed]);
+    velocidade.current = reducedMotion ? 0 : speed;
+  }, [reducedMotion, speed]);
 
   useEffect(() => {
     const canvas = canvasRef.current;

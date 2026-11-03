@@ -6,7 +6,7 @@
   overflow: hidden;
   isolation: isolate;
   color: var(--color-surface);
-  // Fallback estático: HTML do servidor, sem WebGL2 ou antes do JS
+  // Fallback estático: HTML do servidor, sem WebGL2, reduced-motion ou antes do JS
   @include grainient-fallback;
 
   .kicker {

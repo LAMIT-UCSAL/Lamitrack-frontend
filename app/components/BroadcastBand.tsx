@@ -1,5 +1,7 @@
 import { useState, useSyncExternalStore, type ReactNode } from "react";
 
+import { prefersReducedMotion, REDUCED_MOTION } from "~/lib/media";
+
 import { Grainient } from "./Grainient";
 import "./BroadcastBand.scss";
 
@@ -25,13 +27,17 @@ function supportsWebGL2(): boolean {
   return webgl2;
 }
 
-// Nada a observar: o suporte a WebGL2 e os tokens não mudam com a página aberta
-const subscribe = () => () => {};
+function subscribe(onChange: () => void) {
+  if (typeof window.matchMedia !== "function") return () => {};
+  const query = window.matchMedia(REDUCED_MOTION);
+  query.addEventListener("change", onChange);
+  return () => query.removeEventListener("change", onChange);
+}
 
 // Cores do gradiente lidas dos tokens ("cobalto âmbar"), para não repetir hex
 // no componente. String vazia = sem animação, só o fallback em CSS.
 function getColors(): string {
-  if (!supportsWebGL2()) return "";
+  if (prefersReducedMotion() || !supportsWebGL2()) return "";
   const styles = getComputedStyle(document.documentElement);
   const cobalt = styles.getPropertyValue("--color-cobalt").trim();
   const amber = styles.getPropertyValue("--color-amber").trim();
@@ -41,8 +47,8 @@ function getColors(): string {
 const getServerColors = () => "";
 
 // Faixa Grainient (padrão .broadcast-band da loja). O HTML do servidor já vem
-// com o fallback em CSS; no cliente, com WebGL2, o gradiente animado aparece
-// por cima com um fade.
+// com o fallback em CSS; no cliente, com WebGL2 e sem reduced-motion, o
+// gradiente animado aparece por cima com um fade.
 export function BroadcastBand({
   children,
   className,

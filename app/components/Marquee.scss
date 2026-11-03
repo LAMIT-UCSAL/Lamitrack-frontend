@@ -43,6 +43,18 @@
   align-items: baseline;
 }
 
+// Reduced-motion: faixa parada, rolável na horizontal, sem nada escondido
+.marquee--static .marquee__viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.marquee--static .marquee__track {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  will-change: auto;
+}
+
 // Blur progressivo nas bordas: 6 camadas com blur crescente, cada uma visível
 // numa fatia da borda (máscara em gradiente). Porte do estiloCamada do EVE.
 $camadas: 6;
