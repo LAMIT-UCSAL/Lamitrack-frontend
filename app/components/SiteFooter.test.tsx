@@ -57,7 +57,7 @@ describe("SiteFooter", () => {
 
     expect(screen.getByRole("link", { name: "Eventos" })).toHaveAttribute(
       "href",
-      "/",
+      "/eventos",
     );
     expect(
       screen.getByRole("link", { name: "contato.lamit@gmail.com" }),

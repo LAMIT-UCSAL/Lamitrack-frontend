@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { Link } from "react-router";
 
 import { BroadcastBand } from "~/components/BroadcastBand";
 import { Button } from "~/components/Button";
-import { CategoryTabs } from "~/components/CategoryTabs";
 import { EventCard } from "~/components/EventCard";
 import { EventCarousel } from "~/components/EventCarousel";
 import { Globe } from "~/components/Globe";
 import { Kicker } from "~/components/Kicker";
 import { Marquee } from "~/components/Marquee";
+import { Note } from "~/components/Note";
+import { listarEventos, usandoApiSimulada } from "~/lib/api.server";
 import { CATEGORIAS } from "~/lib/categorias";
-import { categoriaDoEvento, type Evento } from "~/lib/evento";
+import { urlDosFiltros } from "~/lib/filtros-eventos";
 
 import type { Route } from "./+types/home";
 import "./home.scss";
@@ -22,56 +23,39 @@ export const meta: Route.MetaFunction = () => [
   },
 ];
 
-const FILTROS = ["Todos", ...CATEGORIAS];
-
-// Eventos fictícios no formato da API, só para mostrar o card e o carrossel.
-// Os dados reais chegam com a #4/#20.
-function exemplo(
-  id: number,
-  title: string,
-  startsAt: string,
-  tags: string[],
-): Evento {
+// Próximos eventos e o total por categoria, da API (real ou simulada)
+export async function loader() {
+  const [proximos, ...porCategoria] = await Promise.all([
+    listarEventos({ size: 6, sort: "startsAt,asc" }),
+    ...CATEGORIAS.map((tag) => listarEventos({ tag, size: 1 })),
+  ]);
   return {
-    id,
-    title,
-    description: null,
-    startsAt,
-    venue: null,
-    city: "Salvador",
-    uf: "BA",
-    latitude: null,
-    longitude: null,
-    registrationUrl: null,
-    source: "exemplo",
-    bannerUrl: null,
-    tags,
+    eventos: proximos.content,
+    numeros: CATEGORIAS.map((categoria, i) => ({
+      categoria,
+      total: porCategoria[i].totalElements,
+    })),
+    simulada: usandoApiSimulada(),
   };
 }
 
-const EVENTOS_EXEMPLO = [
-  exemplo(1, "Hackathon de exemplo", "2026-11-14T19:00:00", ["Hackathon"]),
-  exemplo(2, "Ideathon de exemplo", "2026-11-21T09:00:00", ["Ideathon"]),
-  exemplo(3, "Edital de exemplo", "2026-12-05T18:00:00", ["Edital"]),
-];
-
-// Números fictícios, só para mostrar a faixa. Os reais dependem da API (#4/#20).
-const NUMEROS_EXEMPLO = [
-  { valor: "42", rotulo: "eventos de exemplo" },
-  { valor: "5", rotulo: "categorias" },
-  { valor: "7", rotulo: "cidades de exemplo" },
-  { valor: "12", rotulo: "organizadores de exemplo" },
-];
-
 // Página provisória: vitrine dos estilos da LAMIT até a tela Home real (#20).
-export default function Home() {
-  const [filtro, setFiltro] = useState<string>("Todos");
-  const eventos = EVENTOS_EXEMPLO.filter(
-    (evento) => filtro === "Todos" || categoriaDoEvento(evento) === filtro,
-  );
+export default function Home({ loaderData }: Route.ComponentProps) {
+  const { eventos, numeros, simulada } = loaderData;
 
   return (
     <main id="conteudo">
+      {simulada && (
+        <div className="page-container home-aviso">
+          <Note>
+            <p>
+              <strong>Dados de exemplo.</strong> A API do LamiTrack ainda não
+              está no ar; os eventos e os números são fictícios.
+            </p>
+          </Note>
+        </div>
+      )}
+
       <section className="home-intro page-container">
         <div className="home-intro__text">
           <Kicker>Vitrine de eventos.</Kicker>
@@ -81,7 +65,7 @@ export default function Home() {
             página provisória com a prévia dos estilos.
           </p>
           <div className="home-intro__actions">
-            <Button href="#eventos">Ver eventos</Button>
+            <Button href="/eventos">Ver eventos</Button>
             <Button
               variant="secondary"
               href="https://lamitsite.com.br"
@@ -98,17 +82,20 @@ export default function Home() {
 
       <div className="page-container home-numbers">
         <Marquee
-          items={NUMEROS_EXEMPLO}
-          getKey={(numero) => numero.rotulo}
-          label="Números do LamiTrack (exemplo)"
+          items={numeros}
+          getKey={(numero) => numero.categoria}
+          label="Eventos por categoria"
           dividers={false}
           compact
           baseline
           renderItem={(numero) => (
-            <>
-              <span className="home-numbers__value">{numero.valor}</span>
-              <span className="home-numbers__label">{numero.rotulo}</span>
-            </>
+            <Link
+              className="home-numbers__item"
+              to={urlDosFiltros({ categoria: numero.categoria })}
+            >
+              <span className="home-numbers__value">{numero.total}</span>
+              <span className="home-numbers__label">{numero.categoria}</span>
+            </Link>
           )}
         />
       </div>
@@ -119,7 +106,7 @@ export default function Home() {
       >
         <Kicker>Em destaque.</Kicker>
         <h2 id="titulo-destaques">Últimos eventos.</h2>
-        <EventCarousel eventos={EVENTOS_EXEMPLO} label="Últimos eventos" />
+        <EventCarousel eventos={eventos.slice(0, 3)} label="Últimos eventos" />
       </section>
 
       <section
@@ -129,12 +116,6 @@ export default function Home() {
       >
         <Kicker>Agenda.</Kicker>
         <h2 id="titulo-eventos">Próximos eventos.</h2>
-        <CategoryTabs
-          options={FILTROS}
-          active={filtro}
-          onChange={setFiltro}
-          label="Filtrar por categoria"
-        />
         {eventos.length > 0 ? (
           <ul className="event-grid">
             {eventos.map((evento) => (
@@ -144,10 +125,11 @@ export default function Home() {
             ))}
           </ul>
         ) : (
-          <p className="home-note" role="status">
-            Nenhum evento de {filtro} por enquanto. Volte em breve.
-          </p>
+          <Note role="status">Nenhum evento por enquanto. Volte em breve.</Note>
         )}
+        <Link className="home-section__more" to="/eventos">
+          Ver todos os eventos <span aria-hidden="true">→</span>
+        </Link>
       </section>
 
       <BroadcastBand>

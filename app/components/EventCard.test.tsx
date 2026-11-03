@@ -50,6 +50,13 @@ describe("EventCard", () => {
     );
   });
 
+  it("em editais, a meta mostra o prazo de inscrição", () => {
+    renderCard({ tags: ["Edital"], startsAt: "2026-11-28T23:59:00" });
+
+    const meta = screen.getByRole("article").querySelector(".event-card__meta");
+    expect(meta).toHaveTextContent("Edital · Inscrições até 28 nov");
+  });
+
   it("sem tag de categoria, a meta mostra só a data", () => {
     renderCard({ tags: ["gastronomia"] });
 

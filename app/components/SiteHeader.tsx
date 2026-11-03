@@ -93,7 +93,7 @@ export function SiteHeader() {
           className={open ? "site-nav is-open" : "site-nav"}
           aria-label="Principal"
         >
-          <NavLink to="/" end onClick={close}>
+          <NavLink to="/eventos" onClick={close}>
             Eventos
           </NavLink>
           <a

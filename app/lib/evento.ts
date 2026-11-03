@@ -61,3 +61,14 @@ export function formatarCidade(
   const partes = [evento.city, evento.uf].filter(Boolean);
   return partes.length > 0 ? partes.join("/") : null;
 }
+
+// Texto da data no card e no carrossel. Em editais, startsAt é o prazo de
+// inscrição (catálogo de fontes), então a data vem com "Inscrições até".
+export function rotuloDaData(
+  evento: Pick<Evento, "startsAt" | "tags">,
+): string {
+  const data = formatarData(evento.startsAt);
+  return categoriaDoEvento(evento) === "Edital"
+    ? `Inscrições até ${data}`
+    : data;
+}

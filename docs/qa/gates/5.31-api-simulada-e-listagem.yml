@@ -1,0 +1,31 @@
+storyId: "5.31"
+story: docs/stories/5.31.api-simulada-e-listagem.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/4
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 4-api-simulada
+verdict: PASS
+summary: >
+  Cliente da API só no servidor, simulação com a mesma lógica do backend
+  (testada contra os casos do teste de integração dele) e tela /eventos com
+  filtros na URL. Caminho da API real conferido de ponta a ponta com um backend
+  falso local. Nenhum código de servidor no bundle do navegador.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS
+  security: PASS      # URL da API só no servidor
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: requirements
+    description: "Backend compara cidade com maiúsculas exatas e não filtra eventos passados (critério do catálogo)."
+    recommendation: "Abrir issue no Lamitrack-backend; o front já normaliza a cidade digitada."
+  - severity: low
+    category: requirements
+    description: "A #4 cita busca; o backend não tem busca por texto."
+    recommendation: "Adicionar parâmetro de texto na API quando o time quiser; a tela ganha um campo."

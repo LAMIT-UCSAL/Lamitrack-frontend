@@ -10,6 +10,7 @@ build/
 # Variáveis de ambiente
 .env
 .env.*
+!.env.example
 
 # Logs e sistema
 *.log

@@ -1,6 +1,11 @@
 import { describe, expect, it } from "vitest";
 
-import { categoriaDoEvento, formatarCidade, formatarData } from "./evento";
+import {
+  categoriaDoEvento,
+  formatarCidade,
+  formatarData,
+  rotuloDaData,
+} from "./evento";
 
 describe("categoriaDoEvento", () => {
   it("devolve a primeira tag que é categoria válida", () => {
@@ -48,5 +53,22 @@ describe("formatarCidade", () => {
 
   it("devolve null sem cidade nem UF", () => {
     expect(formatarCidade({ city: null, uf: null })).toBeNull();
+  });
+});
+
+describe("rotuloDaData", () => {
+  it("em editais, mostra o prazo de inscrição", () => {
+    expect(
+      rotuloDaData({ startsAt: "2026-11-28T23:59:00", tags: ["Edital"] }),
+    ).toBe("Inscrições até 28 nov");
+  });
+
+  it("nas outras categorias, só a data", () => {
+    expect(
+      rotuloDaData({ startsAt: "2026-11-14T08:00:00", tags: ["Hackathon"] }),
+    ).toBe("14 nov");
+    expect(rotuloDaData({ startsAt: "2026-11-14T08:00:00", tags: [] })).toBe(
+      "14 nov",
+    );
   });
 });
