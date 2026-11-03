@@ -20,6 +20,8 @@ type GlobeProps = {
   // Radianos por quadro (EVE: 0,0035)
   speed?: number;
   label?: string;
+  // Legenda do marcador, embaixo do globo
+  legend?: string;
 };
 
 type Rotacao = {
@@ -38,7 +40,10 @@ export function Globe({
   markers = MARCADORES_PADRAO,
   speed = 0.0035,
   label = "Globo terrestre com Salvador marcado",
+  legend = "Salvador, BA",
 }: GlobeProps) {
+  // O cobe envolve o canvas numa div própria: o "pronto" fica no contêiner
+  const rootRef = useRef<HTMLDivElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const reducedMotion = usePrefersReducedMotion();
   const rotacao = useRef<Rotacao>({
@@ -115,7 +120,7 @@ export function Globe({
         frame = requestAnimationFrame(animar);
       };
       animar();
-      canvas.classList.add("is-ready");
+      rootRef.current?.classList.add("is-ready");
     };
 
     // Oculto (celular) tem largura 0: só inicia quando aparecer; depois,
@@ -137,7 +142,7 @@ export function Globe({
       cancelAnimationFrame(frame);
       observer?.disconnect();
       globo?.destroy();
-      canvas.classList.remove("is-ready");
+      rootRef.current?.classList.remove("is-ready");
     };
   }, [markers]);
 
@@ -165,7 +170,7 @@ export function Globe({
   };
 
   return (
-    <div className="globe">
+    <div ref={rootRef} className="globe">
       <canvas
         ref={canvasRef}
         className="globe__canvas"
@@ -176,6 +181,12 @@ export function Globe({
         onPointerUp={handlePointerUp}
         onPointerCancel={handlePointerUp}
       />
+      {/* O nome acessível do canvas já diz o lugar: a legenda é só visual */}
+      {legend && (
+        <p className="globe__legend" aria-hidden="true">
+          {legend}
+        </p>
+      )}
     </div>
   );
 }
