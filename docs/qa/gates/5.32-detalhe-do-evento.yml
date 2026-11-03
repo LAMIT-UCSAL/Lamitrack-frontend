@@ -1,0 +1,26 @@
+storyId: "5.32"
+story: docs/stories/5.32.detalhe-do-evento.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/5
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 5-detalhe-evento
+verdict: PASS
+summary: >
+  Detalhe do evento com todos os campos da API e CTA para a inscrição original.
+  Meta tags de compartilhamento conferidas no HTML do servidor; 404 para ids
+  inexistentes ou inválidos; layout conferido em 375 e 1440px.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS
+  security: PASS      # links externos com noopener; descrição renderizada como texto
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: code
+    description: "Sem banner, o espaço da mídia (16:7) mostra só o fundo do Grainient e fica grande no desktop."
+    recommendation: "Avaliar proporção menor quando não houver imagem."
