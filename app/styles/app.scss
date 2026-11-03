@@ -1,0 +1,278 @@
+// Identidade visual da LAMIT, portada de eve/src/styles.scss.
+// Só entra o que o LamiTrack V1 usa (issue #19): ficaram de fora progress bar,
+// switch e modal (painel do organizador/check-in), .badge-paid (bilheteria)
+// e o zoom de 125% no desktop, que era preferência do protótipo.
+
+$eve-azul: #0a69c4;
+$eve-azul-escuro: #0c447c;
+$eve-navy: #0e1b27;
+$eve-cream: #fbfaf8;
+$eve-laranja: #e8722c;
+$eve-cinza-borda: #d3d1c7;
+$eve-cinza-texto: #5f5e5a;
+$eve-verde: #2e7d32;
+$eve-verde-bg: #e8f5e9;
+$eve-verde-escuro: #1b5e20;
+$eve-vermelho: #c62828;
+
+$primary: $eve-azul;
+$secondary: $eve-cinza-texto;
+$warning: $eve-laranja;
+$body-color: $eve-navy;
+$body-bg: $eve-cream;
+$border-radius: 0.5rem;
+$font-family-base:
+  "Inter",
+  system-ui,
+  -apple-system,
+  sans-serif;
+
+@import "bootstrap/scss/bootstrap";
+
+:root {
+  --eve-azul: #{$eve-azul};
+  --eve-azul-escuro: #{$eve-azul-escuro};
+  --eve-navy: #{$eve-navy};
+  --eve-cream: #{$eve-cream};
+  --eve-laranja: #{$eve-laranja};
+  --eve-cinza-borda: #{$eve-cinza-borda};
+  --eve-cinza-texto: #{$eve-cinza-texto};
+  --eve-verde: #{$eve-verde};
+  --eve-verde-bg: #{$eve-verde-bg};
+  --eve-verde-escuro: #{$eve-verde-escuro};
+  --eve-vermelho: #{$eve-vermelho};
+}
+
+body {
+  background-color: var(--eve-cream);
+  font-family:
+    "Inter",
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+/* ---------- Utilitários de marca ---------- */
+
+.rounded-eve-xl {
+  border-radius: 12px !important;
+}
+.rounded-eve-lg {
+  border-radius: 8px !important;
+}
+.rounded-eve-full {
+  border-radius: 999px !important;
+}
+
+$eve-ease: cubic-bezier(
+  0.165,
+  0.84,
+  0.44,
+  1
+); // ease-out-quart: hover-lift e entradas, nunca bounce
+
+.eve-card {
+  background: #fff;
+  border: 1px solid var(--eve-cinza-borda);
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(14, 27, 39, 0.06);
+  transition:
+    box-shadow 225ms $eve-ease,
+    transform 225ms $eve-ease;
+}
+.eve-card-hover:hover,
+.eve-card-hover:focus-within {
+  box-shadow: 0 12px 28px rgba(14, 27, 39, 0.14);
+  transform: translateY(-3px);
+}
+
+// Um único botão laranja (CTA primário) por tela; os demais são outline azul.
+.btn-eve-primary {
+  background-color: var(--eve-laranja);
+  border-color: var(--eve-laranja);
+  color: #fff;
+  border-radius: 8px;
+  font-weight: 600;
+  box-shadow: 0 2px 10px rgba(14, 27, 39, 0.06);
+  transition:
+    box-shadow 225ms $eve-ease,
+    transform 225ms $eve-ease;
+  &:hover,
+  &:focus-visible {
+    background-color: var(--eve-laranja);
+    color: #fff;
+    box-shadow: 0 12px 28px rgba(14, 27, 39, 0.14);
+    transform: translateY(-3px);
+  }
+  &:focus-visible {
+    box-shadow:
+      0 0 0 3px rgba(10, 105, 196, 0.18),
+      0 12px 28px rgba(14, 27, 39, 0.14);
+  }
+}
+
+.btn-eve-outline {
+  background: transparent;
+  border: 1px solid var(--eve-azul);
+  color: var(--eve-azul);
+  border-radius: 8px;
+  font-weight: 600;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    box-shadow 0.15s ease;
+  &:hover {
+    background-color: var(--eve-azul);
+    color: #fff;
+  }
+  &:focus-visible {
+    box-shadow: 0 0 0 3px rgba(10, 105, 196, 0.18);
+  }
+}
+
+.text-eve-azul {
+  color: var(--eve-azul) !important;
+}
+.text-eve-navy {
+  color: var(--eve-navy) !important;
+}
+.text-eve-secondary {
+  color: var(--eve-cinza-texto) !important;
+}
+
+/* Pills de filtro */
+.pill-filter {
+  border-radius: 999px;
+  padding: 6px 16px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1px solid var(--eve-cinza-borda);
+  background: transparent;
+  color: var(--eve-cinza-texto);
+  transition: all 0.15s ease;
+}
+.pill-filter.active {
+  background-color: var(--eve-azul);
+  border-color: var(--eve-azul);
+  color: #fff;
+}
+
+/* Badges de categoria: as 5 únicas categorias válidas (RF08) */
+.badge-cat {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.02em;
+}
+.badge-cat-hackathon {
+  background-color: #e6f1fb;
+  color: #0c447c;
+}
+.badge-cat-ideathon {
+  background-color: #fff3e0;
+  color: #a04010;
+}
+.badge-cat-maratona {
+  background-color: #e8f5e9;
+  color: #1b5e20;
+}
+.badge-cat-edital {
+  background-color: #f3e8ff;
+  color: #5b21b6;
+}
+.badge-cat-eventos-de-inovacao {
+  background-color: #fce4ec;
+  color: #ad1457;
+}
+
+.badge-free {
+  background-color: var(--eve-verde);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 2px 10px;
+  border-radius: 999px;
+}
+
+/* Navbar fixa */
+.navbar-eve-fixed {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  background-color: var(--eve-cream);
+  border-bottom: 1px solid var(--eve-cinza-borda);
+  height: 56px;
+}
+.navbar-logo {
+  height: 28px;
+}
+
+.navbar-hamburger:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(10, 105, 196, 0.18);
+  border-radius: 8px;
+}
+
+@media (max-width: 767.98px) {
+  .navbar-eve-fixed {
+    height: 72px;
+  }
+  .navbar-logo {
+    height: 36px;
+  }
+}
+
+.page-offset {
+  padding-top: 80px;
+}
+
+@media (max-width: 767.98px) {
+  .page-offset {
+    padding-top: 88px;
+  }
+}
+
+/* Entrada animada (grids de eventos) */
+@keyframes eve-entrada {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.eve-entrada {
+  animation: eve-entrada 340ms $eve-ease both;
+  animation-delay: calc(var(--i, 0) * 50ms);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .eve-entrada {
+    animation: none;
+  }
+}
+
+/* Alvos de toque: só em ponteiro grosso (touch), sem mudar a densidade no desktop */
+@media (pointer: coarse) {
+  .btn-eve-primary,
+  .btn-eve-outline,
+  .btn-sm {
+    min-height: 44px;
+  }
+  .pill-filter {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+  .navbar-hamburger {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
