@@ -65,6 +65,6 @@ describe("Home", () => {
 
     const faixa = container.querySelector(".broadcast-band");
     expect(faixa).not.toBeNull();
-    expect(faixa).toHaveTextContent("Inovação, tecnologia e comunidade.");
+    expect(faixa).toHaveTextContent("A agenda da inovação, num só lugar.");
   });
 });

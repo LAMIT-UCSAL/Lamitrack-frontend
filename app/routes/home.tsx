@@ -90,10 +90,9 @@ export default function Home() {
 
       <BroadcastBand>
         <Kicker>Não espere, construa.</Kicker>
-        <h2>Inovação, tecnologia e comunidade.</h2>
+        <h2>A agenda da inovação, num só lugar.</h2>
         <p className="home-band__text">
-          A agenda de hackathons, ideathons, maratonas, editais e eventos de
-          inovação, num só lugar.
+          Hackathons, ideathons, maratonas, editais e eventos de inovação.
         </p>
       </BroadcastBand>
     </main>
