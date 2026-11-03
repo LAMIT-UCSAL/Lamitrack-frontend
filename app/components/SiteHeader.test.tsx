@@ -4,9 +4,9 @@ import { describe, expect, it } from "vitest";
 
 import { SiteHeader } from "./SiteHeader";
 
-function renderHeader() {
+function renderHeader(caminho = "/") {
   return render(
-    <MemoryRouter initialEntries={["/"]}>
+    <MemoryRouter initialEntries={[caminho]}>
       <SiteHeader />
       <main id="conteudo">Conteúdo</main>
     </MemoryRouter>,
@@ -22,12 +22,19 @@ describe("SiteHeader", () => {
     expect(marca).toHaveTextContent("LAMIT Track");
   });
 
-  it("marca Eventos como página atual na home", () => {
-    renderHeader();
+  it("Eventos leva à lista e fica marcado como página atual nela", () => {
+    renderHeader("/eventos");
 
-    expect(screen.getByRole("link", { name: "Eventos" })).toHaveAttribute(
+    const eventos = screen.getByRole("link", { name: "Eventos" });
+    expect(eventos).toHaveAttribute("href", "/eventos");
+    expect(eventos).toHaveAttribute("aria-current", "page");
+  });
+
+  it("na home, Eventos não fica marcado", () => {
+    renderHeader("/");
+
+    expect(screen.getByRole("link", { name: "Eventos" })).not.toHaveAttribute(
       "aria-current",
-      "page",
     );
   });
 

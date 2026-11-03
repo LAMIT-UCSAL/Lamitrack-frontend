@@ -78,7 +78,7 @@ export function SiteFooter() {
           <p className="site-footer__heading">LamiTrack</p>
           <ul className="site-footer__links">
             <li>
-              <Link to="/">Eventos</Link>
+              <Link to="/eventos">Eventos</Link>
             </li>
           </ul>
         </div>
