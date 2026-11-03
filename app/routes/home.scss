@@ -49,18 +49,6 @@
   }
 }
 
-// Nota informativa: borda esquerda dourada sobre paper-2
-.home-note {
-  max-width: 68ch;
-  margin: 0;
-  padding: var(--space-sm) var(--space-md);
-  border-left: 3px solid var(--color-gold);
-  border-radius: 0 var(--radius-md) var(--radius-md) 0;
-  background: var(--color-paper-2);
-  color: var(--color-ink-muted);
-  font-size: var(--font-size-small);
-}
-
 .home-band__text {
   font-size: 1.125rem;
   font-weight: 600;

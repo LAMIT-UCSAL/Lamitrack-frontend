@@ -8,6 +8,7 @@ import { EventCarousel } from "~/components/EventCarousel";
 import { Globe } from "~/components/Globe";
 import { Kicker } from "~/components/Kicker";
 import { Marquee } from "~/components/Marquee";
+import { Note } from "~/components/Note";
 import { CATEGORIAS } from "~/lib/categorias";
 import { categoriaDoEvento, type Evento } from "~/lib/evento";
 
@@ -144,9 +145,9 @@ export default function Home() {
             ))}
           </ul>
         ) : (
-          <p className="home-note" role="status">
+          <Note role="status">
             Nenhum evento de {filtro} por enquanto. Volte em breve.
-          </p>
+          </Note>
         )}
       </section>
 
