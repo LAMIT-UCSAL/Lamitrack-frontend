@@ -1,12 +1,13 @@
 import { useRef, type PointerEvent } from "react";
 
+import type { Categoria } from "~/lib/categorias";
 import { prefersReducedMotion } from "~/lib/media";
 
 import "./EventCard.scss";
 
 export type EventCardProps = {
   title: string;
-  category: string;
+  category: Categoria;
   // Data já formatada para leitura ("14 nov") e a mesma data em ISO para o <time>
   date: string;
   dateTime: string;

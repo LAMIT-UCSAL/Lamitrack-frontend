@@ -1,5 +1,9 @@
+import { useState } from "react";
+
 import { Button } from "~/components/Button";
+import { CategoryTabs } from "~/components/CategoryTabs";
 import { Kicker } from "~/components/Kicker";
+import { CATEGORIAS } from "~/lib/categorias";
 
 import type { Route } from "./+types/home";
 
@@ -11,19 +15,13 @@ export const meta: Route.MetaFunction = () => [
   },
 ];
 
-// As 5 categorias válidas de evento e a classe de badge de cada uma.
-// Provisório: a função utilitária categoria → badge é a issue #18.
-const CATEGORIAS = [
-  { nome: "Hackathon", classe: "badge-cat-hackathon" },
-  { nome: "Ideathon", classe: "badge-cat-ideathon" },
-  { nome: "Maratona", classe: "badge-cat-maratona" },
-  { nome: "Edital", classe: "badge-cat-edital" },
-  { nome: "Eventos de Inovação", classe: "badge-cat-eventos-de-inovacao" },
-];
+const FILTROS = ["Todos", ...CATEGORIAS];
 
 // Página provisória que mostra os estilos base da LAMIT.
 // Será substituída pela tela Home (#20).
 export default function Home() {
+  const [filtro, setFiltro] = useState<string>("Todos");
+
   return (
     <main id="conteudo" className="container py-5">
       <Kicker>Vitrine de eventos.</Kicker>
@@ -37,19 +35,13 @@ export default function Home() {
         <h2 id="titulo-categorias" className="h5">
           Categorias de evento
         </h2>
-        <ul className="list-unstyled d-flex flex-wrap gap-2 my-3">
-          {CATEGORIAS.map((categoria) => (
-            <li key={categoria.nome}>
-              <span className={`badge-cat ${categoria.classe}`}>
-                {categoria.nome}
-              </span>
-            </li>
-          ))}
-          <li>
-            <span className="badge-free">Gratuito</span>
-          </li>
-        </ul>
-        <div className="d-flex flex-wrap gap-2">
+        <CategoryTabs
+          options={FILTROS}
+          active={filtro}
+          onChange={setFiltro}
+          label="Filtrar por categoria"
+        />
+        <div className="d-flex flex-wrap gap-2 mt-4">
           <Button>Botão primário</Button>
           <Button variant="secondary">Botão secundário</Button>
         </div>

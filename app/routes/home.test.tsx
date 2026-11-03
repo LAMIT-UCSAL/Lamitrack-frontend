@@ -12,19 +12,21 @@ describe("Home", () => {
     ).toBeInTheDocument();
   });
 
-  it("mostra as 5 categorias válidas, cada uma com sua classe de badge", () => {
+  it("oferece as 5 categorias válidas no filtro, mais Todos", () => {
     render(<Home />);
 
-    const esperadas = [
-      ["Hackathon", "badge-cat-hackathon"],
-      ["Ideathon", "badge-cat-ideathon"],
-      ["Maratona", "badge-cat-maratona"],
-      ["Edital", "badge-cat-edital"],
-      ["Eventos de Inovação", "badge-cat-eventos-de-inovacao"],
-    ];
-    for (const [nome, classe] of esperadas) {
-      expect(screen.getByText(nome)).toHaveClass("badge-cat", classe);
-    }
+    const filtro = screen.getByRole("group", { name: "Filtrar por categoria" });
+    const nomes = Array.from(filtro.querySelectorAll("button")).map(
+      (botao) => botao.textContent,
+    );
+    expect(nomes).toEqual([
+      "Todos",
+      "Hackathon",
+      "Ideathon",
+      "Maratona",
+      "Edital",
+      "Eventos de Inovação",
+    ]);
   });
 
   it("tem um único botão primário (Signal Blue) na tela", () => {
