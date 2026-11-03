@@ -154,3 +154,25 @@
   color: var(--color-orange-ink);
   transform: translateX(4px);
 }
+
+// Grade de cards (lista sem marcadores): 1 → 2 → 3 colunas
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .event-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .event-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
