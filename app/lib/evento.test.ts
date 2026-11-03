@@ -1,11 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import {
-  categoriaDoEvento,
-  formatarCidade,
-  formatarData,
-  formatarLocal,
-} from "./evento";
+import { categoriaDoEvento, formatarCidade, formatarData } from "./evento";
 
 describe("categoriaDoEvento", () => {
   it("devolve a primeira tag que é categoria válida", () => {
@@ -41,25 +36,17 @@ describe("formatarData", () => {
   });
 });
 
-describe("formatarCidade e formatarLocal", () => {
-  it("junta local, cidade e UF", () => {
-    const evento = { venue: "Minex Hub", city: "Salvador", uf: "BA" };
-    expect(formatarCidade(evento)).toBe("Salvador/BA");
-    expect(formatarLocal(evento)).toBe("Minex Hub · Salvador/BA");
+describe("formatarCidade", () => {
+  it("junta cidade e UF", () => {
+    expect(formatarCidade({ city: "Salvador", uf: "BA" })).toBe("Salvador/BA");
   });
 
   it("omite o que estiver faltando", () => {
-    expect(formatarLocal({ venue: null, city: "Salvador", uf: null })).toBe(
-      "Salvador",
-    );
-    expect(formatarLocal({ venue: "Online", city: null, uf: null })).toBe(
-      "Online",
-    );
+    expect(formatarCidade({ city: "Salvador", uf: null })).toBe("Salvador");
     expect(formatarCidade({ city: null, uf: "BA" })).toBe("BA");
   });
 
-  it("devolve null sem local nenhum", () => {
-    expect(formatarLocal({ venue: null, city: null, uf: null })).toBeNull();
+  it("devolve null sem cidade nem UF", () => {
     expect(formatarCidade({ city: null, uf: null })).toBeNull();
   });
 });

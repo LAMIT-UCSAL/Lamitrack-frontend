@@ -3,9 +3,10 @@ import { useState } from "react";
 import { BroadcastBand } from "~/components/BroadcastBand";
 import { Button } from "~/components/Button";
 import { CategoryTabs } from "~/components/CategoryTabs";
-import { EventCard, type EventCardProps } from "~/components/EventCard";
+import { EventCard } from "~/components/EventCard";
 import { Kicker } from "~/components/Kicker";
 import { CATEGORIAS } from "~/lib/categorias";
+import { categoriaDoEvento, type Evento } from "~/lib/evento";
 
 import type { Route } from "./+types/home";
 import "./home.scss";
@@ -20,21 +21,29 @@ export const meta: Route.MetaFunction = () => [
 
 const FILTROS = ["Todos", ...CATEGORIAS];
 
-// Evento fictício, só para mostrar o card. Os dados reais chegam com a #4/#20.
-const EVENTO_EXEMPLO: EventCardProps = {
+// Evento fictício no formato da API, só para mostrar o card.
+// Os dados reais chegam com a #4/#20.
+const EVENTO_EXEMPLO: Evento = {
+  id: 1,
   title: "Hackathon de exemplo",
-  category: "Hackathon",
-  date: "14 nov",
-  dateTime: "2026-11-14",
-  location: "Salvador, BA",
-  href: "#eventos",
+  description: null,
+  startsAt: "2026-11-14T19:00:00",
+  venue: null,
+  city: "Salvador",
+  uf: "BA",
+  latitude: null,
+  longitude: null,
+  registrationUrl: null,
+  source: "exemplo",
+  bannerUrl: null,
+  tags: ["Hackathon"],
 };
 
 // Página provisória: vitrine dos estilos da LAMIT até a tela Home real (#20).
 export default function Home() {
   const [filtro, setFiltro] = useState<string>("Todos");
   const eventos = [EVENTO_EXEMPLO].filter(
-    (evento) => filtro === "Todos" || evento.category === filtro,
+    (evento) => filtro === "Todos" || categoriaDoEvento(evento) === filtro,
   );
 
   return (
@@ -76,8 +85,8 @@ export default function Home() {
         {eventos.length > 0 ? (
           <ul className="event-grid">
             {eventos.map((evento) => (
-              <li key={evento.title}>
-                <EventCard {...evento} />
+              <li key={evento.id}>
+                <EventCard evento={evento} />
               </li>
             ))}
           </ul>

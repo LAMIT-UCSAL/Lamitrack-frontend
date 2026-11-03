@@ -61,11 +61,3 @@ export function formatarCidade(
   const partes = [evento.city, evento.uf].filter(Boolean);
   return partes.length > 0 ? partes.join("/") : null;
 }
-
-// "Minex Hub · Salvador/BA"; null sem local nenhum
-export function formatarLocal(
-  evento: Pick<Evento, "venue" | "city" | "uf">,
-): string | null {
-  const partes = [evento.venue, formatarCidade(evento)].filter(Boolean);
-  return partes.length > 0 ? partes.join(" · ") : null;
-}

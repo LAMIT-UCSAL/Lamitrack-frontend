@@ -1,53 +1,85 @@
-import { render, screen, within } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it } from "vitest";
 
-import { EventCard, type EventCardProps } from "./EventCard";
+import type { Evento } from "~/lib/evento";
 
-const EVENTO: EventCardProps = {
+import { EventCard } from "./EventCard";
+
+const EVENTO: Evento = {
+  id: 42,
   title: "Hackathon Mineração 2026",
-  category: "Hackathon",
-  date: "14 nov",
-  dateTime: "2026-11-14",
-  location: "Minex Hub, Salvador",
-  href: "/eventos/hackathon-mineracao-2026",
+  description: null,
+  startsAt: "2026-11-14T19:00:00",
+  venue: "Minex Hub",
+  city: "Salvador",
+  uf: "BA",
+  latitude: null,
+  longitude: null,
+  registrationUrl: "https://exemplo.com/inscricao",
+  source: "sympla",
+  bannerUrl: null,
+  tags: ["tecnologia", "Hackathon"],
 };
 
+function renderCard(evento: Partial<Evento> = {}) {
+  return render(
+    <MemoryRouter>
+      <EventCard evento={{ ...EVENTO, ...evento }} />
+    </MemoryRouter>,
+  );
+}
+
 describe("EventCard", () => {
-  it("o título é um link para o evento", () => {
-    render(<EventCard {...EVENTO} />);
+  it("o título leva ao detalhe do evento", () => {
+    renderCard();
 
     expect(
       screen.getByRole("link", { name: "Hackathon Mineração 2026" }),
-    ).toHaveAttribute("href", "/eventos/hackathon-mineracao-2026");
+    ).toHaveAttribute("href", "/eventos/42");
   });
 
-  it("mostra categoria e data na linha de meta", () => {
-    render(<EventCard {...EVENTO} />);
+  it("mostra a categoria (vinda das tags) e a data na meta", () => {
+    renderCard();
 
-    const card = screen.getByRole("article");
-    const meta = card.querySelector(".event-card__meta");
+    const meta = screen.getByRole("article").querySelector(".event-card__meta");
     expect(meta).toHaveTextContent("Hackathon · 14 nov");
-    expect(within(card).getByText("14 nov")).toHaveAttribute(
+    expect(screen.getByText("14 nov")).toHaveAttribute(
       "datetime",
-      "2026-11-14",
+      "2026-11-14T19:00:00",
     );
   });
 
-  it("sem preço, mostra Gratuito", () => {
-    render(<EventCard {...EVENTO} />);
+  it("sem tag de categoria, a meta mostra só a data", () => {
+    renderCard({ tags: ["gastronomia"] });
 
-    expect(screen.getByText("Gratuito")).toHaveClass("event-card__free");
+    const meta = screen.getByRole("article").querySelector(".event-card__meta");
+    expect(meta).toHaveTextContent(/^14 nov$/);
   });
 
-  it("com preço, mostra o preço em destaque", () => {
-    render(<EventCard {...EVENTO} price="R$ 40" />);
+  it("mostra o local e a cidade/UF uma vez só, em destaque no rodapé", () => {
+    renderCard();
 
-    expect(screen.getByText("R$ 40")).toHaveClass("event-card__price");
+    expect(screen.getByText("Minex Hub")).toHaveClass("event-card__location");
+    expect(screen.getAllByText(/Salvador/)).toHaveLength(1);
+    expect(screen.getByText("Salvador/BA")).toHaveClass("event-card__city");
+  });
+
+  it("sem local, some a linha de local e a cidade do rodapé", () => {
+    const { container } = renderCard({ venue: null, city: null, uf: null });
+
+    expect(container.querySelector(".event-card__location")).toBeNull();
+    expect(container.querySelector(".event-card__city")).toBeNull();
+  });
+
+  it("não mostra preço (a API não tem esse dado)", () => {
+    renderCard();
+
     expect(screen.queryByText("Gratuito")).toBeNull();
   });
 
-  it("sem imagem, usa o espaço reservado decorativo", () => {
-    const { container } = render(<EventCard {...EVENTO} />);
+  it("sem banner, usa o espaço reservado decorativo", () => {
+    const { container } = renderCard();
 
     expect(screen.queryByRole("img")).toBeNull();
     expect(container.querySelector(".event-card__placeholder")).toHaveAttribute(
@@ -56,17 +88,11 @@ describe("EventCard", () => {
     );
   });
 
-  it("com imagem, usa o texto alternativo dado", () => {
-    render(
-      <EventCard
-        {...EVENTO}
-        imageSrc="/foto.webp"
-        imageAlt="Equipes no Minex Hub"
-      />,
-    );
+  it("com banner, a imagem é decorativa (o título já descreve)", () => {
+    const { container } = renderCard({ bannerUrl: "/banner.webp" });
 
-    expect(screen.getByRole("img")).toHaveAccessibleName(
-      "Equipes no Minex Hub",
-    );
+    const imagem = container.querySelector("img.event-card__image");
+    expect(imagem).toHaveAttribute("src", "/banner.webp");
+    expect(imagem).toHaveAttribute("alt", "");
   });
 });
