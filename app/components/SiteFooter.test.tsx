@@ -44,12 +44,20 @@ describe("SiteFooter", () => {
     }
   });
 
-  it("leva de volta ao site da LAMIT", () => {
+  it("tem o ecossistema LAMIT: volta ao site e vai à loja", () => {
     renderFooter();
 
-    expect(
-      screen.getByRole("link", { name: /lamitsite\.com\.br/ }),
-    ).toHaveAttribute("href", "https://lamitsite.com.br");
+    expect(screen.getByText("Ecossistema LAMIT")).toHaveClass(
+      "site-footer__heading",
+    );
+    expect(screen.getByRole("link", { name: /Site da LAMIT/ })).toHaveAttribute(
+      "href",
+      "https://lamitsite.com.br",
+    );
+    expect(screen.getByRole("link", { name: /Lamit Store/ })).toHaveAttribute(
+      "href",
+      "https://lamitstore.netlify.app/",
+    );
   });
 
   it("tem o link de Eventos, o contato e a assinatura", () => {

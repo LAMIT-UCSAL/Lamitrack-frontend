@@ -6,6 +6,8 @@ import iconeLink from "~/assets/icons/link.png";
 import iconeLinkedin from "~/assets/icons/linkedin.png";
 import iconeTiktok from "~/assets/icons/tiktokicon.png";
 
+import { LAMIT_STORE, SITE_LAMIT } from "~/lib/ecossistema";
+
 import { BroadcastBand } from "./BroadcastBand";
 import "./SiteFooter.scss";
 
@@ -83,21 +85,28 @@ export function SiteFooter() {
           </ul>
         </div>
         <div>
+          <p className="site-footer__heading">Ecossistema LAMIT</p>
+          <ul className="site-footer__links">
+            <li>
+              <a href={SITE_LAMIT} target="_blank" rel="noopener noreferrer">
+                Site da LAMIT <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (abre em nova aba)</span>
+              </a>
+            </li>
+            <li>
+              <a href={LAMIT_STORE} target="_blank" rel="noopener noreferrer">
+                Lamit Store <span aria-hidden="true">↗</span>
+                <span className="sr-only"> (abre em nova aba)</span>
+              </a>
+            </li>
+          </ul>
+        </div>
+        <div>
           <p className="site-footer__heading">Contato</p>
           <ul className="site-footer__links">
             <li>
               <a href="mailto:contato.lamit@gmail.com">
                 contato.lamit@gmail.com
-              </a>
-            </li>
-            <li>
-              <a
-                href="https://lamitsite.com.br"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                lamitsite.com.br <span aria-hidden="true">↗</span>
-                <span className="sr-only"> (abre em nova aba)</span>
               </a>
             </li>
           </ul>

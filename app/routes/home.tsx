@@ -10,6 +10,7 @@ import { Marquee } from "~/components/Marquee";
 import { Note } from "~/components/Note";
 import { listarEventos, usandoApiSimulada } from "~/lib/api.server";
 import { CATEGORIAS } from "~/lib/categorias";
+import { SITE_LAMIT } from "~/lib/ecossistema";
 import { urlDosFiltros } from "~/lib/filtros-eventos";
 
 import type { Route } from "./+types/home";
@@ -68,7 +69,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <Button href="/eventos">Ver eventos</Button>
             <Button
               variant="secondary"
-              href="https://lamitsite.com.br"
+              href={SITE_LAMIT}
               target="_blank"
               rel="noopener noreferrer"
             >

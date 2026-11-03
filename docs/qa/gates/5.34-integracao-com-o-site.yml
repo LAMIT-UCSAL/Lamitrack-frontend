@@ -1,0 +1,26 @@
+storyId: "5.34"
+story: docs/stories/5.34.integracao-com-o-site.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/7
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 7-integracao-site
+verdict: PASS
+summary: >
+  Header e rodapé passam a ligar o LamiTrack ao resto do ecossistema (site e
+  loja), na lógica do menu do site institucional. Sem problemas novos de
+  acessibilidade; layout conferido de 375 a 1440px.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: requirements
+    description: "No site institucional, o menu LAMITRACK aponta para uma página 'Coming Soon'."
+    recommendation: "Atualizar no Lamit-site depois do deploy do LamiTrack (#8)."
