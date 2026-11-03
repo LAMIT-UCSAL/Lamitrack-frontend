@@ -6,6 +6,7 @@ import { CategoryTabs } from "~/components/CategoryTabs";
 import { EventCard } from "~/components/EventCard";
 import { EventCarousel } from "~/components/EventCarousel";
 import { Kicker } from "~/components/Kicker";
+import { Marquee } from "~/components/Marquee";
 import { CATEGORIAS } from "~/lib/categorias";
 import { categoriaDoEvento, type Evento } from "~/lib/evento";
 
@@ -53,6 +54,14 @@ const EVENTOS_EXEMPLO = [
   exemplo(3, "Edital de exemplo", "2026-12-05T18:00:00", ["Edital"]),
 ];
 
+// Números fictícios, só para mostrar a faixa. Os reais dependem da API (#4/#20).
+const NUMEROS_EXEMPLO = [
+  { valor: "42", rotulo: "eventos de exemplo" },
+  { valor: "5", rotulo: "categorias" },
+  { valor: "7", rotulo: "cidades de exemplo" },
+  { valor: "12", rotulo: "organizadores de exemplo" },
+];
+
 // Página provisória: vitrine dos estilos da LAMIT até a tela Home real (#20).
 export default function Home() {
   const [filtro, setFiltro] = useState<string>("Todos");
@@ -82,6 +91,23 @@ export default function Home() {
           </Button>
         </div>
       </section>
+
+      <div className="page-container home-numbers">
+        <Marquee
+          items={NUMEROS_EXEMPLO}
+          getKey={(numero) => numero.rotulo}
+          label="Números do LamiTrack (exemplo)"
+          dividers={false}
+          compact
+          baseline
+          renderItem={(numero) => (
+            <>
+              <span className="home-numbers__value">{numero.valor}</span>
+              <span className="home-numbers__label">{numero.rotulo}</span>
+            </>
+          )}
+        />
+      </div>
 
       <section
         className="home-section page-container"

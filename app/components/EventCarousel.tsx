@@ -16,18 +16,17 @@ type EventCarouselProps = {
 };
 
 // Carrossel de eventos no padrão do WAI-ARIA: avança a cada 4 s, para com o
-// mouse ou o foco dentro dele, tem botão de pausa (WCAG 2.2.2) e não se move
-// sozinho com reduced-motion. Só o slide visível recebe foco.
+// mouse ou o foco dentro dele e não se move sozinho com reduced-motion. Sem
+// botão de pausa, por decisão do time. Só o slide visível recebe foco.
 export function EventCarousel({ eventos, label }: EventCarouselProps) {
   const total = eventos.length;
   const [atual, setAtual] = useState(0);
-  const [pausado, setPausado] = useState(false);
   const [hover, setHover] = useState(false);
   const [foco, setFoco] = useState(false);
   const reducedMotion = usePrefersReducedMotion();
 
   const autoAvanco = total > 1 && !reducedMotion;
-  const girando = autoAvanco && !pausado && !hover && !foco;
+  const girando = autoAvanco && !hover && !foco;
 
   useEffect(() => {
     if (!girando) return;
@@ -63,15 +62,6 @@ export function EventCarousel({ eventos, label }: EventCarouselProps) {
     >
       {total > 1 && (
         <div className="event-carousel__controls">
-          {autoAvanco && (
-            <button
-              type="button"
-              className="event-carousel__button event-carousel__pause"
-              onClick={() => setPausado((valor) => !valor)}
-            >
-              {pausado ? "Retomar" : "Pausar"}
-            </button>
-          )}
           <button
             type="button"
             className="event-carousel__button"

@@ -1,0 +1,27 @@
+storyId: "5.28"
+story: docs/stories/5.28.marquee.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/16
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 16-marquee
+verdict: PASS
+summary: >
+  Marquee genérico portado do EVE, com a conta do movimento isolada e testada
+  e o comportamento real conferido no navegador (velocidades, pausa, loop sem
+  emenda, reduced-motion). Acessibilidade além do EVE: pausa por botão e foco,
+  cópia do loop fora do leitor de tela e do Tab.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS   # um rAF por faixa; transform só no track
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: code
+    description: "O botão de pausa fica sobre a ponta direita da faixa; os itens passam por baixo dele."
+    recommendation: "Avaliar na Home real (#20) se o botão fica melhor fora da faixa."

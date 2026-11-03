@@ -76,7 +76,18 @@ describe("Home", () => {
 
     const carrossel = screen.getByRole("region", { name: "Últimos eventos" });
     expect(carrossel).toHaveAttribute("aria-roledescription", "carrossel");
-    expect(screen.getByRole("button", { name: "Pausar" })).toBeInTheDocument();
+    expect(
+      screen.getByRole("button", { name: "Próximo evento" }),
+    ).toBeInTheDocument();
+  });
+
+  it("mostra a faixa de números de exemplo", () => {
+    render(<Home />);
+
+    const faixa = screen.getByRole("region", {
+      name: "Números do LamiTrack (exemplo)",
+    });
+    expect(faixa).toHaveClass("marquee--compact", "marquee--baseline");
   });
 
   it("fecha com a faixa Grainient", () => {

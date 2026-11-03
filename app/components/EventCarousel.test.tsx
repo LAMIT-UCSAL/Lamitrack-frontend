@@ -57,6 +57,12 @@ afterEach(() => {
 });
 
 describe("EventCarousel", () => {
+  it("não tem botão de pausa (decisão do time)", () => {
+    renderCarousel();
+
+    expect(screen.queryByRole("button", { name: /Pausar/ })).toBeNull();
+  });
+
   it("é uma região rotulada com um grupo por slide", () => {
     renderCarousel();
 
@@ -121,18 +127,6 @@ describe("EventCarousel", () => {
     ).not.toHaveAttribute("aria-current");
   });
 
-  it("o botão de pausa para e retoma o avanço", () => {
-    renderCarousel();
-
-    fireEvent.click(screen.getByRole("button", { name: "Pausar" }));
-    avancar(INTERVALO_MS * 3);
-    expect(slideAtual()).toHaveAccessibleName("1 de 3");
-
-    fireEvent.click(screen.getByRole("button", { name: "Retomar" }));
-    avancar(INTERVALO_MS);
-    expect(slideAtual()).toHaveAccessibleName("2 de 3");
-  });
-
   it("pausa com o mouse em cima e retoma ao sair", () => {
     renderCarousel();
     const regiao = screen.getByRole("region");
@@ -168,7 +162,7 @@ describe("EventCarousel", () => {
     expect(slideAtual()).toHaveAccessibleName("2 de 3");
   });
 
-  it("com reduced-motion, não avança sozinho nem mostra a pausa", () => {
+  it("com reduced-motion, não avança sozinho, mas as setas funcionam", () => {
     vi.stubGlobal(
       "matchMedia",
       (query: string) =>
@@ -180,7 +174,6 @@ describe("EventCarousel", () => {
     );
     renderCarousel();
 
-    expect(screen.queryByRole("button", { name: "Pausar" })).toBeNull();
     avancar(INTERVALO_MS * 2);
     expect(slideAtual()).toHaveAccessibleName("1 de 3");
     fireEvent.click(screen.getByRole("button", { name: "Próximo evento" }));
