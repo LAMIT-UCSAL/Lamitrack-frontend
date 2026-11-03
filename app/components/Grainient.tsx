@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import { hexToRgb } from "~/lib/cores";
+
 // Grainient: o gradiente granulado cobalto/âmbar do site LAMIT, portado de
 // lamit-site/src/components/Grainient.jsx. Só monta no cliente: o ogl é
 // importado dentro do useEffect, então nada de WebGL roda no servidor (SSR).
@@ -33,21 +35,6 @@ type GrainientProps = {
   // Chamado se o WebGL2 falhar: quem usa mantém só o fallback em CSS
   onError?: () => void;
 };
-
-// Aceita #RRGGBB e #RGB: o build minifica os tokens (#ffffff vira #fff)
-export function hexToRgb(hex: string): [number, number, number] {
-  let value = hex.trim().replace(/^#/, "");
-  if (/^[a-f\d]{3}$/i.test(value)) {
-    value = value.replace(/./g, (digit) => digit + digit);
-  }
-  const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(value);
-  if (!result) return [1, 1, 1];
-  return [
-    parseInt(result[1], 16) / 255,
-    parseInt(result[2], 16) / 255,
-    parseInt(result[3], 16) / 255,
-  ];
-}
 
 const vertex = `#version 300 es
 in vec2 position;

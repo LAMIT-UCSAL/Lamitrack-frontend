@@ -156,6 +156,9 @@ Recebe `eventos: Evento[]` e um `label`. Slides em faixa escura (raio de 20px): 
 ### Faixa deslizante (`Marquee`)
 Genérica: recebe `items`, `renderItem`, `getKey` e um `label`. Anda com `requestAnimationFrame` a 40 px/s, desacelera para 14 px/s no hover sem parar e tem blur progressivo nas bordas (6 camadas de `backdrop-filter`). Opções: `dividers` (filetes `hairline`), `compact` e `baseline` (número + rótulo). Neutra de cor, serve sobre papel ou `night`. Para com o foco de teclado dentro; com reduced-motion fica parada e rolável. Não tem botão de pausa (decisão do time, 2026-11-03). A cópia usada no loop fica `aria-hidden` e `inert`.
 
+### Globo (`Globe`)
+Globo 3D do hero (lib `cobe`, WebGL), até 340px, com Salvador marcado por padrão (`markers`). Base em `paper`, marcadores em `cobalt` e brilho em `paper-2`, lidos dos tokens por `corDoToken` (`app/lib/cores.ts`). Gira sozinho, é arrastável com qualquer ponteiro e entra com fade. Com reduced-motion não gira sozinho; abaixo de 768px fica oculto e o WebGL nem é criado. O canvas é uma imagem com nome ("Globo terrestre com Salvador marcado").
+
 ### Faixa Grainient (`BroadcastBand` + `Grainient`)
 Gradiente cobalto e âmbar animado em WebGL2 (`ogl`), **contido em faixas**, com texto branco centralizado sobre uma película `night`. O HTML do servidor já traz o fallback em CSS (radiais âmbar sobre cobalto). O canvas só monta no cliente, com WebGL2 e sem reduced-motion, e entra com fade. As cores vêm dos tokens. A variante `thin` (6px, estática) abre o rodapé.
 

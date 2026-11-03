@@ -1,0 +1,26 @@
+storyId: "5.29"
+story: docs/stories/5.29.globo.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/17
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 17-globo
+verdict: PASS
+summary: >
+  Globo do hero portado do EVE com cobe 2, cores dos tokens, só no cliente,
+  oculto no celular sem criar WebGL e parado com reduced-motion. 8 testes com
+  cobe mockado; comportamento real conferido no navegador.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS   # cobe carregado sob demanda; nada de WebGL no celular
+  security: PASS      # cobe sem dependências
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: code
+    description: "Em tablets (toque, ≥ 768px), arrastar sobre o globo gira o globo em vez de rolar a página (touch-action: none, como no EVE)."
+    recommendation: "Reavaliar na Home real (#20) se o globo ficar grande em tablets."

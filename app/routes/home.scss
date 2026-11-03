@@ -1,11 +1,24 @@
 // Estilos da página provisória (até a Home real, #20)
 
+// Abertura: texto à esquerda e, no desktop, o globo à direita
 .home-intro {
+  display: grid;
+  align-items: center;
+  gap: var(--space-lg);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+}
+
+@media (min-width: 768px) {
+  .home-intro {
+    grid-template-columns: 1fr minmax(240px, 340px);
+  }
+}
+
+.home-intro__text {
   display: grid;
   justify-items: start;
   gap: var(--space-sm);
-  padding-top: var(--space-xl);
-  padding-bottom: var(--space-xl);
 
   h1 {
     margin: 0;
