@@ -113,39 +113,3 @@ $fatia: math.div(100%, $camadas + 1);
     width: 20px;
   }
 }
-
-// Pausa (WCAG 2.2.2): discreta, na ponta direita, acima do blur
-.marquee__pause {
-  position: absolute;
-  z-index: 1;
-  top: 50%;
-  right: var(--space-xs);
-  transform: translateY(-50%);
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 44px;
-  height: 44px;
-  padding: 0;
-  border: none;
-  border-radius: var(--radius-pill);
-  background-color: var(--color-paper-2);
-  color: var(--color-ink);
-  font-size: 0.75rem;
-  cursor: pointer;
-  opacity: 0.85;
-  transition:
-    background-color var(--transition-fast),
-    opacity var(--transition-fast);
-
-  &:hover,
-  &:focus-visible,
-  &[aria-pressed="true"] {
-    opacity: 1;
-  }
-
-  &:hover,
-  &:focus-visible {
-    background-color: var(--color-signal-orange);
-  }
-}

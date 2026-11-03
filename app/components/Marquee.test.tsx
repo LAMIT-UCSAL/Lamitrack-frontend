@@ -1,4 +1,4 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { Marquee, passoDoMarquee } from "./Marquee";
@@ -74,6 +74,12 @@ describe("Marquee", () => {
     expect(screen.getAllByText("42 eventos")).toHaveLength(2);
   });
 
+  it("não tem botão de pausa (decisão do time)", () => {
+    renderMarquee();
+
+    expect(screen.queryByRole("button")).toBeNull();
+  });
+
   it("tem filetes por padrão e aceita compact e baseline", () => {
     const { container, rerender } = renderMarquee();
     expect(container.firstChild).toHaveClass("marquee--dividers");
@@ -96,20 +102,7 @@ describe("Marquee", () => {
     );
   });
 
-  it("o botão de pausa alterna o estado com aria-pressed", () => {
-    renderMarquee();
-
-    const botao = screen.getByRole("button", {
-      name: 'Pausar a faixa "Números do LamiTrack"',
-    });
-    expect(botao).toHaveAttribute("aria-pressed", "false");
-    fireEvent.click(botao);
-    expect(botao).toHaveAttribute("aria-pressed", "true");
-    fireEvent.click(botao);
-    expect(botao).toHaveAttribute("aria-pressed", "false");
-  });
-
-  it("com reduced-motion: parada, sem cópia, sem blur e sem botão", () => {
+  it("com reduced-motion: parada, sem cópia e sem blur", () => {
     vi.stubGlobal(
       "matchMedia",
       (query: string) =>
@@ -124,7 +117,6 @@ describe("Marquee", () => {
     expect(container.firstChild).toHaveClass("marquee--static");
     expect(container.querySelectorAll(".marquee__item")).toHaveLength(2);
     expect(container.querySelector(".marquee__blur")).toBeNull();
-    expect(screen.queryByRole("button")).toBeNull();
   });
 
   it("sem itens, não renderiza nada", () => {

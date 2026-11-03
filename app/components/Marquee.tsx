@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ReactNode } from "react";
 
 import { usePrefersReducedMotion } from "~/lib/media";
 
@@ -43,8 +43,8 @@ export function passoDoMarquee(
 }
 
 // Faixa deslizante genérica (porte do marquee do EVE): desacelera no hover sem
-// parar, para com o foco dentro ou pelo botão de pausa (WCAG 2.2.2) e, com
-// reduced-motion, vira uma faixa parada com rolagem horizontal.
+// parar, para com o foco de teclado dentro e, com reduced-motion, vira uma
+// faixa parada com rolagem horizontal. Sem botão de pausa, por decisão do time.
 export function Marquee<T>({
   items,
   renderItem,
@@ -57,15 +57,10 @@ export function Marquee<T>({
   baseline = false,
 }: MarqueeProps<T>) {
   const reducedMotion = usePrefersReducedMotion();
-  const [pausado, setPausado] = useState(false);
   const trackRef = useRef<HTMLDivElement>(null);
   // Lidos a cada quadro sem reiniciar a animação
-  const controle = useRef({ hover: false, foco: false, pausado: false });
+  const controle = useRef({ hover: false, foco: false });
   const velocidades = useRef({ speed, hoverSpeed });
-
-  useEffect(() => {
-    controle.current.pausado = pausado;
-  }, [pausado]);
 
   useEffect(() => {
     velocidades.current = { speed, hoverSpeed };
@@ -94,8 +89,8 @@ export function Marquee<T>({
     resizeObserver?.observe(track);
 
     const alvo = () => {
-      const { hover, foco, pausado: parado } = controle.current;
-      if (parado || foco) return 0;
+      const { hover, foco } = controle.current;
+      if (foco) return 0;
       return hover ? velocidades.current.hoverSpeed : velocidades.current.speed;
     };
 
@@ -179,15 +174,6 @@ export function Marquee<T>({
               <span key={camada} />
             ))}
           </div>
-          <button
-            type="button"
-            className="marquee__pause"
-            aria-label={`Pausar a faixa "${label}"`}
-            aria-pressed={pausado}
-            onClick={() => setPausado((valor) => !valor)}
-          >
-            <span aria-hidden="true">{pausado ? "▶" : "❚❚"}</span>
-          </button>
         </>
       )}
     </section>
