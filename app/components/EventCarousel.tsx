@@ -1,7 +1,7 @@
 import { useEffect, useState, type FocusEvent } from "react";
 import { Link } from "react-router";
 
-import { categoriaDoEvento, formatarData, type Evento } from "~/lib/evento";
+import { categoriaDoEvento, rotuloDaData, type Evento } from "~/lib/evento";
 import { usePrefersReducedMotion } from "~/lib/media";
 
 import "./EventCarousel.scss";
@@ -126,9 +126,7 @@ export function EventCarousel({ eventos, label }: EventCarouselProps) {
                       <span aria-hidden="true"> · </span>
                     </>
                   )}
-                  <time dateTime={evento.startsAt}>
-                    {formatarData(evento.startsAt)}
-                  </time>
+                  <time dateTime={evento.startsAt}>{rotuloDaData(evento)}</time>
                 </p>
                 <h3 className="event-carousel__title">
                   <Link

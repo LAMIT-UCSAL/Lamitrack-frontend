@@ -4,7 +4,7 @@ import { Link } from "react-router";
 import {
   categoriaDoEvento,
   formatarCidade,
-  formatarData,
+  rotuloDaData,
   type Evento,
 } from "~/lib/evento";
 import { prefersReducedMotion } from "~/lib/media";
@@ -23,7 +23,7 @@ const MAX_TILT = 6;
 // inteiro é clicável pelo link do título, que leva ao detalhe (/eventos/:id).
 export function EventCard({ evento }: EventCardProps) {
   const categoria = categoriaDoEvento(evento);
-  const data = formatarData(evento.startsAt);
+  const data = rotuloDaData(evento);
   const cidade = formatarCidade(evento);
   const cardRef = useRef<HTMLElement>(null);
   const frameRef = useRef(0);
