@@ -163,7 +163,7 @@ Borda esquerda dourada de 3px sobre `paper-2`, texto `ink-muted` (ex.: filtro se
 Sticky, em papel. Escudo + wordmark "**LAMIT** Track" em caixa alta. Nav com sublinhado laranja de 2px que cresce do centro (300ms), também marcando `aria-current="page"`; o link externo "LAMIT ↗" fica num bloco `paper-2`. Abaixo de 820px, botão hambúrguer de 44px e menu em overlay de papel na tela toda: foco no primeiro link, Esc fecha e devolve o foco, e o resto da página fica `inert`.
 
 ### Rodapé (`SiteFooter`)
-Fundo `night`, faixa Grainient fina no topo, logo horizontal branca, tagline "Inovação, tecnologia e comunidade.", redes em círculos de 44px que ficam laranja no hover, colunas com título em `gold`, "© 2026 LAMIT", "Não espere, construa." e o link de volta para `ligalamit.com.br`.
+Fundo `night`, faixa Grainient fina no topo, logo horizontal branca, tagline "Inovação, tecnologia e comunidade.", redes em círculos de 44px que ficam laranja no hover, colunas com título em `gold`, "© 2026 LAMIT", "Não espere, construa." e o link de volta para `lamitsite.com.br`.
 
 ### Logos
 No fundo claro: escudo (`public/brand/escudo.webp`) + wordmark em texto (não existe logo horizontal em tinta escura). No fundo escuro: `public/brand/logo-horizontal-white.svg`.
