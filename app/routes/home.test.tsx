@@ -27,9 +27,9 @@ describe("Home", () => {
     }
   });
 
-  it("tem um único botão primário (laranja) na tela", () => {
+  it("tem um único botão primário (Signal Blue) na tela", () => {
     const { container } = render(<Home />);
 
-    expect(container.querySelectorAll(".btn-eve-primary")).toHaveLength(1);
+    expect(container.querySelectorAll(".button--primary")).toHaveLength(1);
   });
 });

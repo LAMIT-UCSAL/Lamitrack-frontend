@@ -1,0 +1,66 @@
+// Padrão Signal Blue do site. No hover/foco o fundo vira laranja e o texto vira
+// tinta: branco sobre signal-orange não passa AA.
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  min-height: 54px;
+  padding: 0 var(--space-lg);
+  font-family: var(--font-primary);
+  font-size: var(--font-size-body);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+  text-decoration: none;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition:
+    background-color var(--transition-flip),
+    color var(--transition-flip),
+    box-shadow var(--transition-flip),
+    transform var(--transition-fast);
+
+  &:hover,
+  &:focus-visible {
+    transform: translateY(-2px);
+  }
+
+  &:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+.button--primary {
+  background-color: var(--color-signal-blue);
+  color: var(--color-surface); // branco sobre signal-blue: 9.5:1
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-signal-orange);
+    color: var(--color-ink);
+  }
+}
+
+// Secundário: contorno em tinta; no hover inverte para tinta cheia
+.button--secondary {
+  background-color: transparent;
+  color: var(--color-ink);
+  box-shadow: inset 0 0 0 2px var(--color-ink);
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+.button__arrow {
+  transition: transform var(--transition-base);
+}
+
+.button:hover .button__arrow,
+.button:focus-visible .button__arrow {
+  transform: translateX(4px);
+}
