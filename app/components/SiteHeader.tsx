@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 
 import escudo from "~/assets/brand/escudo.webp";
+import { LAMIT_STORE, SITE_LAMIT } from "~/lib/ecossistema";
 
 import "./SiteHeader.scss";
 
@@ -97,14 +98,23 @@ export function SiteHeader() {
             Eventos
           </NavLink>
           <a
-            href="https://lamitsite.com.br"
+            href={LAMIT_STORE}
+            target="_blank"
+            rel="noopener noreferrer"
+            onClick={close}
+          >
+            Shop <span aria-hidden="true">↗</span>
+            <span className="sr-only"> (Lamit Store, abre em nova aba)</span>
+          </a>
+          <a
+            href={SITE_LAMIT}
             className="site-nav__external"
             target="_blank"
             rel="noopener noreferrer"
             onClick={close}
           >
             LAMIT <span aria-hidden="true">↗</span>
-            <span className="sr-only"> (abre em nova aba)</span>
+            <span className="sr-only"> (site da LAMIT, abre em nova aba)</span>
           </a>
         </nav>
       </div>
