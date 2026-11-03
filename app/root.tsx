@@ -11,11 +11,12 @@ import type { Route } from "./+types/root";
 // Estilos globais primeiro: o CSS dos componentes vem depois e prevalece
 import "./styles/app.scss";
 
+import favicon from "./assets/brand/favicon.png";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 
 export const links: Route.LinksFunction = () => [
-  { rel: "icon", type: "image/png", href: "/brand/favicon.png" },
+  { rel: "icon", type: "image/png", href: favicon },
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
   {
     rel: "preconnect",

@@ -132,7 +132,7 @@ Profundidade leve, só onde ajuda a leitura.
 ## Motion
 
 - `--ease-broadcast: cubic-bezier(.2,.7,.2,1)`; `--transition-fast` 150ms; `--transition-base` 300ms (sublinhado da nav); `--transition-flip` 500ms (troca de cor do CTA).
-- `prefers-reduced-motion: reduce` zera animações e transições, desliga o tilt dos cards e mantém o Grainient no fallback estático.
+- `prefers-reduced-motion: reduce` zera animações e transições, desliga o tilt dos cards, para o globo, o marquee e o carrossel e mantém o Grainient no fallback estático. (O modo economia de bateria não ativa essa preferência.)
 
 ## Components
 
@@ -172,7 +172,13 @@ Sticky, em papel. Escudo + wordmark "**LAMIT** Track" em caixa alta. Nav com sub
 Fundo `night`, faixa Grainient fina no topo, logo horizontal branca, tagline "Inovação, tecnologia e comunidade.", redes em círculos de 44px que ficam laranja no hover, colunas com título em `gold`, "© 2026 LAMIT", "Não espere, construa." e o link de volta para `lamitsite.com.br`.
 
 ### Logos
-No fundo claro: escudo (`public/brand/escudo.webp`) + wordmark em texto (não existe logo horizontal em tinta escura). No fundo escuro: `public/brand/logo-horizontal-white.svg`.
+No fundo claro: escudo (`app/assets/brand/escudo.webp`) + wordmark em texto (não existe logo horizontal em tinta escura). No fundo escuro: `app/assets/brand/logo-horizontal-white.svg`.
+
+## Cache
+
+Mesma estratégia do site da LAMIT: o navegador guarda os arquivos do site por um tempo, e o HTML nunca fica em cache (as atualizações chegam na hora).
+- **Mídias (logos, ícones, imagens) ficam em `app/assets/` e são importadas no código**, não em `public/`. O build dá a elas um nome com hash em `/assets/`, que já sai com `Cache-Control: public, max-age=31536000, immutable` (1 ano). Ao trocar um arquivo, o hash muda e o navegador baixa a versão nova. Imagens pequenas (menos de 4 KB) vêm embutidas no JS.
+- `public/_headers` repete a regra de `/assets/*` para plataformas que leem esse arquivo (Cloudflare, Netlify; escolha na #8).
 
 ## Accessibility
 

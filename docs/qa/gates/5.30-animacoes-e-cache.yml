@@ -1,0 +1,25 @@
+storyId: "5.30"
+story: docs/stories/5.30.animacoes-e-cache.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/31
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 31-animacoes-cache
+verdict: PASS
+summary: >
+  Cache: além do _headers no padrão do site, as mídias passaram a ter hash e
+  1 ano de cache já no servidor atual (conferido com curl). A parte das
+  animações foi cancelada e revertida.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS   # imagens do header/rodapé carregam; 0 falhas de rede
+  performance: PASS      # mídias com cache de 1 ano
+  security: PASS
+  documentation: PASS
+
+issues: []
+
+notes:
+  - "2026-11-03: a parte das animações foi cancelada e revertida (749b09e); o risco de acessibilidade (prefers-reduced-motion ignorado) não existe mais. Gate vale para o cache."

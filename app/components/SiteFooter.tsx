@@ -1,5 +1,11 @@
 import { Link } from "react-router";
 
+import logoBranca from "~/assets/brand/logo-horizontal-white.svg";
+import iconeInstagram from "~/assets/icons/instagram.png";
+import iconeLink from "~/assets/icons/link.png";
+import iconeLinkedin from "~/assets/icons/linkedin.png";
+import iconeTiktok from "~/assets/icons/tiktokicon.png";
+
 import { BroadcastBand } from "./BroadcastBand";
 import "./SiteFooter.scss";
 
@@ -7,22 +13,22 @@ const REDES = [
   {
     nome: "Linktree",
     href: "https://linktr.ee/lamit.ucsal",
-    icone: "link.png",
+    icone: iconeLink,
   },
   {
     nome: "Instagram",
     href: "https://www.instagram.com/lamit.ucsal",
-    icone: "instagram.png",
+    icone: iconeInstagram,
   },
   {
     nome: "TikTok",
     href: "https://www.tiktok.com/@lamit.ucsal",
-    icone: "tiktokicon.png",
+    icone: iconeTiktok,
   },
   {
     nome: "LinkedIn",
     href: "https://www.linkedin.com/company/lamit-ucsal/",
-    icone: "linkedin.png",
+    icone: iconeLinkedin,
   },
 ];
 
@@ -35,7 +41,7 @@ export function SiteFooter() {
       <div className="site-footer__inner page-container">
         <div>
           <img
-            src="/brand/logo-horizontal-white.svg"
+            src={logoBranca}
             alt="LAMIT"
             className="site-footer__logo"
             width="135"
@@ -58,7 +64,7 @@ export function SiteFooter() {
                 aria-label={`${rede.nome} (abre em nova aba)`}
               >
                 <img
-                  src={`/icons/${rede.icone}`}
+                  src={rede.icone}
                   alt=""
                   width="20"
                   height="20"

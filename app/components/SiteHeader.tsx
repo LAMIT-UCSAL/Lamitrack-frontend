@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import { Link, NavLink } from "react-router";
 
+import escudo from "~/assets/brand/escudo.webp";
+
 import "./SiteHeader.scss";
 
 // Abaixo desta largura a nav vira menu em overlay (mesmo corte da loja)
@@ -62,7 +64,7 @@ export function SiteHeader() {
           aria-label="LAMIT Track, início"
         >
           <img
-            src="/brand/escudo.webp"
+            src={escudo}
             alt=""
             className="site-header__logo"
             width="158"

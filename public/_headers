@@ -1,0 +1,9 @@
+# Cache no navegador, no mesmo padrão do site da LAMIT (Lamit-site/public/_headers).
+# Vale em plataformas que leem _headers (Cloudflare, Netlify); a escolha é a #8.
+# O HTML não entra aqui: ele não fica em cache, para as atualizações chegarem na hora.
+
+# JS, CSS, imagens e ícones do build têm hash no nome: podem ficar em cache para sempre.
+# Por isso as mídias ficam em app/assets/ e são importadas no código: ao trocar um
+# arquivo, o hash muda e o navegador baixa a versão nova.
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
