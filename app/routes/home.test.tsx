@@ -118,12 +118,20 @@ describe("Home", () => {
     expect(within(proximos()).getAllByRole("article")).toHaveLength(2);
   });
 
-  it("sem parceiros confirmados, a faixa de parceiros não aparece", async () => {
-    await renderHome();
+  it("mostra os parceiros da LAMIT e o caminho para ser parceiro", async () => {
+    const { container } = await renderHome();
 
+    const secao = screen.getByRole("region", {
+      name: "Quem constrói com a gente.",
+    });
     expect(
-      screen.queryByRole("heading", { name: "Parceiros da LAMIT." }),
-    ).toBeNull();
+      within(secao).getByRole("img", { name: "GDG Salvador" }),
+    ).toBeInTheDocument();
+    expect(
+      within(secao).getByRole("link", { name: /Quero ser parceiro/ }),
+    ).toHaveAttribute("href", "https://forms.gle/VQshwDE4bDSfuNWX8");
+    // Continua com um único CTA primário na tela
+    expect(container.querySelectorAll(".button--primary")).toHaveLength(1);
   });
 
   it("fecha com a faixa Grainient", async () => {

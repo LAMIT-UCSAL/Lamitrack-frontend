@@ -13,7 +13,7 @@ import { PartnerStrip } from "~/components/PartnerStrip";
 import { listarEventos, usandoApiSimulada } from "~/lib/api.server";
 import { CATEGORIAS, type Categoria } from "~/lib/categorias";
 import { lerFiltros, urlDosFiltros } from "~/lib/filtros-eventos";
-import { PARCEIROS } from "~/lib/parceiros";
+import { FORMULARIO_PARCERIA, PARCEIROS } from "~/lib/parceiros";
 
 import type { Route } from "./+types/home";
 import "./home.scss";
@@ -185,7 +185,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
         </Link>
       </section>
 
-      <PartnerStrip parceiros={PARCEIROS} />
+      <PartnerStrip parceiros={PARCEIROS} formulario={FORMULARIO_PARCERIA} />
 
       <BroadcastBand>
         <Kicker>Feito pela LAMIT.</Kicker>

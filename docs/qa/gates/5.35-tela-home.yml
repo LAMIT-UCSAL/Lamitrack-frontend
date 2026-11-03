@@ -8,8 +8,8 @@ verdict: PASS
 summary: >
   Home definitiva montada com os componentes portados: hero com globo,
   números e próximos eventos vindos da API, filtro de categorias na URL,
-  carrossel e faixa Grainient. Faixa de parceiros pronta, oculta até o time
-  confirmar os parceiros.
+  carrossel e faixa Grainient. Faixa de parceiros com a lista do site
+  institucional.
 
 checks:
   code_review: PASS
@@ -20,8 +20,7 @@ checks:
   security: PASS
   documentation: PASS
 
-issues:
-  - severity: low
-    category: requirements
-    description: "A faixa de parceiros fica oculta até o time mandar parceiros confirmados (nome, logo, permissão)."
-    recommendation: "Preencher app/lib/parceiros.ts quando houver a lista."
+issues: []
+
+notes:
+  - "Parceiros vêm do site institucional (mesma lista e logos); manter os dois sincronizados."
