@@ -1,0 +1,178 @@
+// "Ficha de transmissão" (padrão .card + .product-card__* da loja)
+.event-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow-soft);
+  color: var(--color-ink);
+  transform: perspective(900px) rotateX(var(--tilt-x, 0deg))
+    rotateY(var(--tilt-y, 0deg));
+  transition:
+    transform 400ms var(--ease-broadcast),
+    box-shadow var(--transition-base);
+
+  &:hover,
+  &:focus-within {
+    box-shadow: var(--shadow-lift);
+  }
+
+  // O foco do link do título desenha o contorno no card inteiro
+  &:has(.event-card__link:focus-visible) {
+    outline: 2px solid var(--color-signal-orange);
+    outline-offset: 3px;
+  }
+
+  &.is-tilting {
+    transition: transform 80ms linear;
+  }
+}
+
+.event-card__media {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  flex-shrink: 0;
+  overflow: hidden;
+  background-color: var(--color-paper-2);
+}
+
+.event-card__image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 700ms var(--ease-broadcast);
+}
+
+.event-card:hover .event-card__image {
+  transform: scale(1.03);
+}
+
+.event-card__placeholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--color-ink-muted); // 7.2:1 sobre paper-2
+  font-size: var(--font-size-small);
+  font-weight: 800;
+  letter-spacing: var(--tracking-kicker);
+}
+
+.event-card__info {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  gap: 0.35rem;
+  padding: var(--space-sm) var(--space-md) var(--space-md);
+}
+
+// Categoria · data — a categoria é rótulo de meta, não badge colorido (decisão da Task 5)
+.event-card__meta {
+  margin: 0;
+  color: var(--color-gold-ink);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+}
+
+.event-card__title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  letter-spacing: -0.01em;
+}
+
+.event-card__link {
+  color: inherit;
+  text-decoration: none;
+
+  &:hover {
+    color: inherit;
+  }
+
+  &:focus-visible {
+    outline: none;
+  }
+
+  // Link esticado: o card inteiro vira área de clique
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+  }
+}
+
+.event-card__location {
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-small);
+}
+
+.event-card__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-xs);
+  margin-top: auto;
+  padding-top: var(--space-sm);
+  border-top: 1px solid var(--color-hairline);
+}
+
+.event-card__price {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-cobalt);
+  line-height: 1;
+}
+
+// Branco sobre success: 5.1:1
+.event-card__free {
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background-color: var(--color-success);
+  color: var(--color-surface);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+}
+
+.event-card__cta {
+  font-size: var(--font-size-small);
+  font-weight: 700;
+  color: var(--color-ink);
+  transition:
+    color var(--transition-fast),
+    transform var(--transition-base);
+}
+
+.event-card:hover .event-card__cta,
+.event-card:focus-within .event-card__cta {
+  color: var(--color-orange-ink);
+  transform: translateX(4px);
+}
+
+// Grade de cards (lista sem marcadores): 1 → 2 → 3 colunas
+.event-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-md);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 600px) {
+  .event-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .event-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

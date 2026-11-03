@@ -1,0 +1,176 @@
+// Barra sólida em papel, sem linha nem desfoque: separa-se do conteúdo pelo tom
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background-color: var(--color-paper);
+}
+
+.site-header__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-md);
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 0.5rem var(--gutter);
+}
+
+.site-header__brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--color-ink);
+  text-decoration: none;
+
+  &:hover {
+    color: var(--color-ink);
+  }
+}
+
+.site-header__logo {
+  height: clamp(44px, 4vw, 54px);
+  width: auto;
+}
+
+.site-header__wordmark {
+  font-weight: 500;
+  font-size: 1rem;
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  line-height: 1;
+
+  strong {
+    font-weight: 800;
+  }
+}
+
+.site-nav {
+  display: flex;
+  align-items: center;
+  gap: clamp(1rem, 2.5vw, 2.25rem);
+
+  a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    color: var(--color-ink);
+    font-weight: 600;
+    font-size: var(--font-size-small);
+    letter-spacing: var(--tracking-ui);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 0.5rem 0;
+
+    // Sublinhado laranja que cresce do centro — gesto da nav do site
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0.15rem;
+      height: 2px;
+      background: var(--color-signal-orange);
+      transform: scaleX(0);
+      transform-origin: center;
+      transition: transform var(--transition-base);
+    }
+
+    &:hover::after,
+    &:focus-visible::after,
+    &[aria-current="page"]::after {
+      transform: scaleX(1);
+    }
+  }
+}
+
+.site-nav .site-nav__external {
+  padding: 0.55rem 1.1rem;
+  background: var(--color-paper-2);
+  border-radius: var(--radius-md);
+  transition:
+    background-color var(--transition-fast),
+    color var(--transition-fast);
+
+  &::after {
+    display: none;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background: var(--color-ink);
+    color: var(--color-paper);
+  }
+}
+
+.nav-toggle {
+  display: none;
+  width: 44px;
+  height: 44px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-paper-2);
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  position: relative;
+  z-index: 60;
+
+  span {
+    display: block;
+    width: 20px;
+    height: 2px;
+    background: var(--color-ink);
+    transition:
+      transform var(--transition-base),
+      opacity var(--transition-base);
+  }
+
+  &[aria-expanded="true"] span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+  }
+  &[aria-expanded="true"] span:nth-child(2) {
+    opacity: 0;
+  }
+  &[aria-expanded="true"] span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+  }
+}
+
+@media (max-width: 820px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  // Menu mobile: overlay em papel, tela cheia
+  .site-nav {
+    position: fixed;
+    inset: 0;
+    flex-direction: column;
+    justify-content: center;
+    gap: 2rem;
+    background: var(--color-paper);
+    opacity: 0;
+    visibility: hidden;
+    transition:
+      opacity 350ms ease,
+      visibility 350ms ease;
+
+    &.is-open {
+      opacity: 1;
+      visibility: visible;
+      // visibility muda na hora ao abrir, para o foco ir direto ao primeiro link
+      transition:
+        opacity 350ms ease,
+        visibility 0s;
+    }
+
+    a {
+      font-size: 1.5rem;
+      font-weight: 700;
+    }
+  }
+}

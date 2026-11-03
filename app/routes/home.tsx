@@ -1,4 +1,14 @@
+import { useState } from "react";
+
+import { BroadcastBand } from "~/components/BroadcastBand";
+import { Button } from "~/components/Button";
+import { CategoryTabs } from "~/components/CategoryTabs";
+import { EventCard, type EventCardProps } from "~/components/EventCard";
+import { Kicker } from "~/components/Kicker";
+import { CATEGORIAS } from "~/lib/categorias";
+
 import type { Route } from "./+types/home";
+import "./home.scss";
 
 export const meta: Route.MetaFunction = () => [
   { title: "LamiTrack" },
@@ -8,55 +18,83 @@ export const meta: Route.MetaFunction = () => [
   },
 ];
 
-// As 5 categorias válidas de evento e a classe de badge de cada uma.
-// Provisório: a função utilitária categoria → badge é a issue #18.
-const CATEGORIAS = [
-  { nome: "Hackathon", classe: "badge-cat-hackathon" },
-  { nome: "Ideathon", classe: "badge-cat-ideathon" },
-  { nome: "Maratona", classe: "badge-cat-maratona" },
-  { nome: "Edital", classe: "badge-cat-edital" },
-  { nome: "Eventos de Inovação", classe: "badge-cat-eventos-de-inovacao" },
-];
+const FILTROS = ["Todos", ...CATEGORIAS];
 
-// Página provisória que mostra os estilos base portados do EVE.
-// Será substituída pela tela Home (#20).
+// Evento fictício, só para mostrar o card. Os dados reais chegam com a #4/#20.
+const EVENTO_EXEMPLO: EventCardProps = {
+  title: "Hackathon de exemplo",
+  category: "Hackathon",
+  date: "14 nov",
+  dateTime: "2026-11-14",
+  location: "Salvador, BA",
+  href: "#eventos",
+};
+
+// Página provisória: vitrine dos estilos da LAMIT até a tela Home real (#20).
 export default function Home() {
-  return (
-    <main className="container py-5">
-      <h1 className="fw-bold text-eve-navy">LamiTrack</h1>
-      <p className="text-eve-secondary mb-4">
-        Vitrine de eventos de tecnologia e inovação da LAMIT. Esta é uma página
-        provisória com a prévia dos estilos base.
-      </p>
+  const [filtro, setFiltro] = useState<string>("Todos");
+  const eventos = [EVENTO_EXEMPLO].filter(
+    (evento) => filtro === "Todos" || evento.category === filtro,
+  );
 
-      <section
-        className="eve-card eve-card-hover p-4"
-        aria-labelledby="titulo-categorias"
-      >
-        <h2 id="titulo-categorias" className="h5 fw-semibold">
-          Categorias de evento
-        </h2>
-        <ul className="list-unstyled d-flex flex-wrap gap-2 my-3">
-          {CATEGORIAS.map((categoria) => (
-            <li key={categoria.nome}>
-              <span className={`badge-cat ${categoria.classe}`}>
-                {categoria.nome}
-              </span>
-            </li>
-          ))}
-          <li>
-            <span className="badge-free">Gratuito</span>
-          </li>
-        </ul>
-        <div className="d-flex flex-wrap gap-2">
-          <button type="button" className="btn btn-eve-primary">
-            Botão primário
-          </button>
-          <button type="button" className="btn btn-eve-outline">
-            Botão secundário
-          </button>
+  return (
+    <main id="conteudo">
+      <section className="home-intro page-container">
+        <Kicker>Vitrine de eventos.</Kicker>
+        <h1>LamiTrack</h1>
+        <p className="home-intro__lede">
+          Eventos de tecnologia e inovação reunidos pela LAMIT. Esta é uma
+          página provisória com a prévia dos estilos.
+        </p>
+        <div className="home-intro__actions">
+          <Button href="#eventos">Ver eventos</Button>
+          <Button
+            variant="secondary"
+            href="https://ligalamit.com.br"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Conhecer a LAMIT
+            <span className="sr-only"> (abre em nova aba)</span>
+          </Button>
         </div>
       </section>
+
+      <section
+        id="eventos"
+        className="home-section page-container"
+        aria-labelledby="titulo-eventos"
+      >
+        <Kicker>Agenda.</Kicker>
+        <h2 id="titulo-eventos">Próximos eventos.</h2>
+        <CategoryTabs
+          options={FILTROS}
+          active={filtro}
+          onChange={setFiltro}
+          label="Filtrar por categoria"
+        />
+        {eventos.length > 0 ? (
+          <ul className="event-grid">
+            {eventos.map((evento) => (
+              <li key={evento.title}>
+                <EventCard {...evento} />
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p className="home-note" role="status">
+            Nenhum evento de {filtro} por enquanto. Volte em breve.
+          </p>
+        )}
+      </section>
+
+      <BroadcastBand>
+        <Kicker>Não espere, construa.</Kicker>
+        <h2>A agenda da inovação, num só lugar.</h2>
+        <p className="home-band__text">
+          Hackathons, ideathons, maratonas, editais e eventos de inovação.
+        </p>
+      </BroadcastBand>
     </main>
   );
 }

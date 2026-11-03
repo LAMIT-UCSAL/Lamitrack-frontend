@@ -1,0 +1,83 @@
+// Tokens de marca do ecossistema LAMIT em tema claro ("Broadcast em papel").
+// Copiados de lamit-store/css/tokens.css com os mesmos nomes: o site, a loja e o
+// LamiTrack falam a mesma língua. Só aqui (e no mapeamento do Bootstrap em
+// app.scss) pode haver hex solto; componentes usam sempre var(--…).
+
+:root {
+  /* Superfícies */
+  --color-paper: #fbfaf8; /* fundo */
+  --color-paper-2: #f2efe8; /* faixas alternadas, fundo de mídia, trilho de abas */
+  --color-surface: #ffffff; /* cards, chips, campos */
+  --color-night: #081536; /* faixas escuras e rodapé */
+
+  /* Tinta */
+  --color-ink: #0b0d12; /* texto principal — 19:1 sobre papel */
+  --color-ink-muted: #4a4f57; /* texto secundário — 7.9:1 */
+  --color-ink-subtle: #6b6f76; /* metadados — 4.8:1, nunca abaixo de 12px */
+  --color-line: #0b0d12; /* linha assinatura de 1–2px */
+  --color-hairline: rgba(11, 13, 18, 0.16);
+
+  /* Marca */
+  --color-cobalt: #0a3383; /* links, números de destaque — 11.1:1 */
+  --color-signal-blue: #164194; /* CTA primário — branco sobre ele 9.5:1 */
+  --color-signal-orange: #e84b13; /* só estados: hover, foco, sublinhado, ativo */
+  --color-orange-ink: #b83a0c; /* laranja como texto sobre papel — 5.5:1 */
+  --color-amber: #c17402; /* só dentro do gradiente */
+  --color-gold: #d7c06b; /* decorativo; texto só sobre night */
+  --color-gold-ink: #7d6310; /* ouro como texto sobre papel — 5.5:1 */
+
+  /* Estados funcionais (acréscimo do LamiTrack; não existem na loja).
+     Branco sobre success: 5.1:1 · branco sobre danger: 5.6:1 */
+  --color-success: #2e7d32;
+  --color-danger: #c62828;
+
+  /* Aliases legados da loja, mantidos por paridade. Em código novo, prefira os nomes acima. */
+  --color-primary: var(--color-cobalt);
+  --color-secondary: var(--color-ink);
+  --color-accent: var(--color-signal-orange);
+  --color-bg: var(--color-paper);
+  --color-text: var(--color-ink);
+  --color-border: var(--color-hairline);
+
+  /* Tipografia — Montserrat */
+  --font-primary:
+    "Montserrat", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-size-base: 1rem;
+  --font-size-display: clamp(1.75rem, 8.4vw, 7rem);
+  --font-size-h1: clamp(2rem, 5vw, 3.5rem);
+  --font-size-h2: clamp(1.75rem, 4vw, 3rem);
+  --font-size-title: clamp(1.25rem, 2.4vw, 1.75rem);
+  --font-size-body: 1rem;
+  --font-size-small: 0.875rem;
+  --font-size-xs: 0.875rem;
+  --tracking-kicker: 0.18em;
+  --tracking-ui: 0.06em;
+
+  /* Espaçamento */
+  --space-xs: 0.5rem;
+  --space-sm: 1rem;
+  --space-md: 1.5rem;
+  --space-lg: 2.5rem;
+  --space-xl: 4rem;
+  --space-section: clamp(4rem, 10vw, 8rem);
+  --gutter: clamp(1rem, 4vw, 3rem);
+
+  /* Forma — sombras só em cards, no tema claro */
+  --radius-sm: 8px; /* chips, badges */
+  --radius-md: 12px; /* botões, campos, miniaturas */
+  --radius-lg: 20px; /* cards, fotos, painéis */
+  --radius-pill: 999px; /* trilho de abas */
+  --radius-glass: var(--radius-md);
+  --border-ui: 1px solid var(--color-hairline);
+  --border-strong: 2px solid var(--color-ink);
+  --shadow-soft:
+    0 1px 2px rgba(11, 13, 18, 0.04), 0 8px 24px rgba(11, 13, 18, 0.06);
+  --shadow-lift:
+    0 2px 4px rgba(11, 13, 18, 0.05), 0 16px 40px rgba(10, 51, 131, 0.12);
+
+  /* Movimento */
+  --ease-broadcast: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --transition-fast: 150ms ease-out;
+  --transition-base: 300ms ease-in-out; /* sublinhado da nav */
+  --transition-flip: 500ms ease-in-out; /* troca de cor do CTA */
+}

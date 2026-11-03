@@ -1,0 +1,55 @@
+// Estilos da página provisória (até a Home real, #20)
+
+.home-intro {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-sm);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-xl);
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.home-intro__lede {
+  max-width: 46ch;
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 1.125rem;
+}
+
+.home-intro__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.home-section {
+  display: grid;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-section);
+
+  h2 {
+    margin: 0 0 var(--space-xs);
+  }
+}
+
+// Nota informativa: borda esquerda dourada sobre paper-2
+.home-note {
+  max-width: 68ch;
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  border-left: 3px solid var(--color-gold);
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--color-paper-2);
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-small);
+}
+
+.home-band__text {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.55;
+}

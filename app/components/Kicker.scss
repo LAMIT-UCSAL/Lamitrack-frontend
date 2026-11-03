@@ -1,0 +1,21 @@
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin: 0;
+  color: var(--color-gold-ink);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-kicker);
+  text-transform: uppercase;
+  line-height: 1.4;
+
+  &::before {
+    content: "";
+    flex-shrink: 0;
+    width: 1.75rem;
+    height: 3px;
+    border-radius: 3px;
+    background: var(--color-gold);
+  }
+}

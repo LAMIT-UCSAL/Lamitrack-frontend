@@ -1,0 +1,86 @@
+// Faixa Grainient: o gradiente do site, contido numa faixa (nunca fundo de página)
+.broadcast-band {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  color: var(--color-surface);
+  // Fallback estático: HTML do servidor, sem WebGL2, reduced-motion ou antes do JS
+  background:
+    radial-gradient(
+      ellipse 60% 120% at 30% 50%,
+      color-mix(in srgb, var(--color-amber) 85%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 140% at 85% 40%,
+      color-mix(in srgb, var(--color-amber) 55%, transparent),
+      transparent 70%
+    ),
+    var(--color-cobalt);
+
+  .kicker {
+    color: var(--color-gold); // ouro como texto só sobre fundo escuro
+  }
+
+  h2,
+  h3,
+  strong {
+    color: inherit;
+  }
+}
+
+.broadcast-band__canvas {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  opacity: 0;
+  transition: opacity 800ms ease;
+
+  &.is-ready {
+    opacity: 1;
+  }
+}
+
+.broadcast-band__inner {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  gap: var(--space-md);
+  padding-top: clamp(4rem, 12vw, 9rem);
+  padding-bottom: clamp(4rem, 12vw, 9rem);
+  text-align: center;
+
+  // Película night atrás do texto: mantém o AA onde o Grainient chega ao dourado
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0 calc(-1 * var(--gutter));
+    z-index: -1;
+    background: radial-gradient(
+      ellipse 58% 48% at 50% 50%,
+      color-mix(in srgb, var(--color-night) 72%, transparent) 45%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  > * {
+    margin: 0;
+    max-width: 52ch;
+  }
+}
+
+// No celular o texto ocupa mais linhas: a película cresce junto
+@media (max-width: 599px) {
+  .broadcast-band__inner::before {
+    background: radial-gradient(
+      ellipse 80% 62% at 50% 52%,
+      color-mix(in srgb, var(--color-night) 72%, transparent) 50%,
+      transparent 100%
+    );
+  }
+}
+
+.broadcast-band--thin {
+  height: 6px;
+}
