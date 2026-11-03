@@ -1,4 +1,4 @@
-import { useRef, type PointerEvent } from "react";
+import { useEffect, useRef, type PointerEvent } from "react";
 
 import type { Categoria } from "~/lib/categorias";
 import { prefersReducedMotion } from "~/lib/media";
@@ -37,6 +37,9 @@ export function EventCard({
 }: EventCardProps) {
   const cardRef = useRef<HTMLElement>(null);
   const frameRef = useRef(0);
+
+  // Não deixa um quadro do tilt pendente depois que o card sai da tela
+  useEffect(() => () => cancelAnimationFrame(frameRef.current), []);
 
   // Tilt sutil só com mouse e sem reduced-motion (versão React do TiltedCard do site)
   function handlePointerMove(event: PointerEvent<HTMLElement>) {

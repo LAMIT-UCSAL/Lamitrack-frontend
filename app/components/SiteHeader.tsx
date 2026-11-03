@@ -59,7 +59,7 @@ export function SiteHeader() {
         <Link
           to="/"
           className="site-header__brand"
-          aria-label="LamiTrack, início"
+          aria-label="LAMIT Track, início"
         >
           <img
             src="/brand/escudo.webp"

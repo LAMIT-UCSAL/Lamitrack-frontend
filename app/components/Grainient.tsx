@@ -34,8 +34,13 @@ type GrainientProps = {
   onError?: () => void;
 };
 
+// Aceita #RRGGBB e #RGB: o build minifica os tokens (#ffffff vira #fff)
 export function hexToRgb(hex: string): [number, number, number] {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex.trim());
+  let value = hex.trim().replace(/^#/, "");
+  if (/^[a-f\d]{3}$/i.test(value)) {
+    value = value.replace(/./g, (digit) => digit + digit);
+  }
+  const result = /^([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(value);
   if (!result) return [1, 1, 1];
   return [
     parseInt(result[1], 16) / 255,

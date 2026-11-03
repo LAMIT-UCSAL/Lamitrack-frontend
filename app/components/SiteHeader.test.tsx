@@ -17,7 +17,7 @@ describe("SiteHeader", () => {
   it("mostra a marca LAMIT Track com link para o início", () => {
     renderHeader();
 
-    const marca = screen.getByRole("link", { name: "LamiTrack, início" });
+    const marca = screen.getByRole("link", { name: "LAMIT Track, início" });
     expect(marca).toHaveAttribute("href", "/");
     expect(marca).toHaveTextContent("LAMIT Track");
   });
