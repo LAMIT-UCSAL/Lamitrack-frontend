@@ -19,6 +19,16 @@ $headings-font-weight: 800;
 $focus-ring-color: #e84b13; // signal-orange
 $focus-ring-opacity: 1;
 
-@import "bootstrap/scss/bootstrap";
+// Só o necessário do Bootstrap: variáveis, :root e o reset (Reboot). O app
+// não usa componentes nem utilitários dele (ver story 5.33); se precisar de
+// algum, importe o módulo aqui.
+@import "bootstrap/scss/functions";
+@import "bootstrap/scss/variables";
+@import "bootstrap/scss/variables-dark";
+@import "bootstrap/scss/maps";
+@import "bootstrap/scss/mixins";
+@import "bootstrap/scss/root";
+@import "bootstrap/scss/reboot";
 @import "tokens";
 @import "base";
+@import "erro";

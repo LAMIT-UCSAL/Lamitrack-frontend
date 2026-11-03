@@ -13,7 +13,8 @@
     "test": "vitest run",
     "lint": "eslint app \"*.{js,ts}\"",
     "format": "prettier --write app \"*.{js,ts,json}\"",
-    "format:check": "prettier --check app \"*.{js,ts,json}\""
+    "format:check": "prettier --check app \"*.{js,ts,json}\"",
+    "test:a11y": "node scripts/auditoria-a11y.mjs"
   },
   "dependencies": {
     "@react-router/node": "^8.4.0",
@@ -27,6 +28,7 @@
     "react-router": "^8.4.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
     "@eslint/js": "^9.39.5",
     "@react-router/dev": "^8.4.0",
     "@testing-library/dom": "^10.4.1",

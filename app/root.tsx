@@ -12,6 +12,8 @@ import type { Route } from "./+types/root";
 import "./styles/app.scss";
 
 import favicon from "./assets/brand/favicon.png";
+import { Button } from "./components/Button";
+import { Kicker } from "./components/Kicker";
 import { SiteFooter } from "./components/SiteFooter";
 import { SiteHeader } from "./components/SiteHeader";
 
@@ -56,28 +58,40 @@ export default function App() {
   return <Outlet />;
 }
 
+// Página de erro (404 e falhas inesperadas), na identidade LAMIT e com
+// caminho de volta. O <title> o React leva para o <head>.
 export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
-  let message = "Ops!";
-  let details = "Aconteceu um erro inesperado.";
+  let kicker = "Erro.";
+  let titulo = "Algo deu errado.";
+  let detalhes = "Aconteceu um erro inesperado. Tente de novo em instantes.";
   let stack: string | undefined;
 
-  if (isRouteErrorResponse(error)) {
-    message = error.status === 404 ? "404" : "Erro";
-    details =
-      error.status === 404
-        ? "A página que você procura não existe."
-        : error.statusText || details;
-  } else if (import.meta.env.DEV && error && error instanceof Error) {
-    details = error.message;
+  if (isRouteErrorResponse(error) && error.status === 404) {
+    kicker = "Erro 404.";
+    titulo = "Página não encontrada.";
+    detalhes = "O endereço pode ter mudado, ou o evento saiu da agenda.";
+  } else if (isRouteErrorResponse(error)) {
+    kicker = `Erro ${error.status}.`;
+    detalhes = error.statusText || detalhes;
+  } else if (import.meta.env.DEV && error instanceof Error) {
+    detalhes = error.message;
     stack = error.stack;
   }
 
   return (
-    <main id="conteudo" className="container py-5">
-      <h1>{message}</h1>
-      <p>{details}</p>
+    <main id="conteudo" className="erro page-container">
+      <title>{`${titulo.replace(/\.$/, "")} · LamiTrack`}</title>
+      <Kicker>{kicker}</Kicker>
+      <h1>{titulo}</h1>
+      <p className="erro__texto">{detalhes}</p>
+      <div className="erro__acoes">
+        <Button href="/eventos">Ver eventos</Button>
+        <Button variant="secondary" href="/">
+          Ir para o início
+        </Button>
+      </div>
       {stack && (
-        <pre className="p-3 overflow-auto">
+        <pre className="erro__stack">
           <code>{stack}</code>
         </pre>
       )}

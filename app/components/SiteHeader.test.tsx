@@ -38,13 +38,28 @@ describe("SiteHeader", () => {
     );
   });
 
-  it("o link da LAMIT abre em nova aba com segurança", () => {
+  it("leva ao site da LAMIT e à loja, em nova aba e com segurança", () => {
     renderHeader();
 
-    const lamit = screen.getByRole("link", { name: /LAMIT.*nova aba/ });
-    expect(lamit).toHaveAttribute("href", "https://lamitsite.com.br");
-    expect(lamit).toHaveAttribute("target", "_blank");
-    expect(lamit).toHaveAttribute("rel", "noopener noreferrer");
+    const site = screen.getByRole("link", { name: /site da LAMIT/ });
+    expect(site).toHaveAttribute("href", "https://lamitsite.com.br");
+    const loja = screen.getByRole("link", { name: /Shop.*Lamit Store/ });
+    expect(loja).toHaveAttribute("href", "https://lamitstore.netlify.app/");
+    for (const link of [site, loja]) {
+      expect(link).toHaveAttribute("target", "_blank");
+      expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    }
+  });
+
+  it("a nav segue a ordem do site: Eventos, Shop, LAMIT", () => {
+    renderHeader();
+
+    const nav = screen.getByRole("navigation", { name: "Principal" });
+    expect(
+      Array.from(nav.querySelectorAll("a")).map((a) =>
+        a.textContent?.replace(/\s*↗.*$/, ""),
+      ),
+    ).toEqual(["Eventos", "Shop", "LAMIT"]);
   });
 
   it("abre e fecha o menu, travando a página por trás", () => {

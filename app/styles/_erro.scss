@@ -1,0 +1,36 @@
+// Página de erro (ErrorBoundary do root)
+.erro {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-sm);
+  padding-top: var(--space-xl);
+  padding-bottom: var(--space-section);
+
+  h1 {
+    margin: 0;
+  }
+}
+
+.erro__texto {
+  max-width: 52ch;
+  margin: 0;
+  color: var(--color-ink-muted);
+  font-size: 1.125rem;
+}
+
+.erro__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  margin-top: var(--space-sm);
+}
+
+.erro__stack {
+  max-width: 100%;
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  overflow: auto;
+  border-radius: var(--radius-md);
+  background: var(--color-paper-2);
+  font-size: var(--font-size-small);
+}

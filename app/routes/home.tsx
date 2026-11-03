@@ -12,6 +12,7 @@ import { Note } from "~/components/Note";
 import { PartnerStrip } from "~/components/PartnerStrip";
 import { listarEventos, usandoApiSimulada } from "~/lib/api.server";
 import { CATEGORIAS, type Categoria } from "~/lib/categorias";
+import { SITE_LAMIT } from "~/lib/ecossistema";
 import { lerFiltros, urlDosFiltros } from "~/lib/filtros-eventos";
 import { FORMULARIO_PARCERIA, PARCEIROS } from "~/lib/parceiros";
 
@@ -109,7 +110,7 @@ export default function Home({ loaderData }: Route.ComponentProps) {
             <Button href="/eventos">Ver eventos</Button>
             <Button
               variant="secondary"
-              href="https://lamitsite.com.br"
+              href={SITE_LAMIT}
               target="_blank"
               rel="noopener noreferrer"
             >

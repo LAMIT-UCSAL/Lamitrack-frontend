@@ -59,7 +59,11 @@
 .home-numbers {
   margin-top: calc(-1 * var(--space-lg));
   margin-bottom: var(--space-xl);
-  border-top: 1px solid var(--color-hairline);
+
+  // Filete na largura do conteúdo (no container, passaria do texto)
+  > .marquee {
+    border-top: 1px solid var(--color-hairline);
+  }
 }
 
 .home-numbers__value {
