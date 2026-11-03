@@ -1,0 +1,34 @@
+// Globo do hero: quadrado, até 340px, entra com fade quando o WebGL está pronto
+.globe {
+  position: relative;
+  width: 100%;
+  max-width: 340px;
+  aspect-ratio: 1 / 1;
+  margin: 0 auto;
+}
+
+.globe__canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+  // O arrasto com o dedo gira o globo em vez de rolar a página
+  touch-action: none;
+
+  &:active {
+    cursor: grabbing;
+  }
+
+  &.is-ready {
+    opacity: 1;
+  }
+}
+
+// Oculto no celular: sem largura, o WebGL nem é criado
+@media (max-width: 767.98px) {
+  .globe {
+    display: none;
+  }
+}
