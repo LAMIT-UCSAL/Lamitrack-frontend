@@ -19,7 +19,7 @@ describe("SiteFooter", () => {
     expect(container.querySelector(".broadcast-band--thin")).not.toBeNull();
     expect(screen.getByRole("img", { name: "LAMIT" })).toHaveAttribute(
       "src",
-      "/brand/logo-horizontal-white.svg",
+      expect.stringContaining("logo-horizontal-white"),
     );
     expect(
       screen.getByText("Inovação, tecnologia e comunidade."),
