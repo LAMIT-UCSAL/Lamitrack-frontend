@@ -1,0 +1,27 @@
+storyId: "5.30"
+story: docs/stories/5.30.animacoes-e-cache.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/31
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 31-animacoes-cache
+verdict: PASS
+summary: >
+  Animações iguais com e sem reduced-motion, conferidas no navegador. Cache:
+  além do _headers no padrão do site, as mídias passaram a ter hash e 1 ano de
+  cache já no servidor atual (conferido com curl). Risco de acessibilidade
+  aceito pelo produto e registrado.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS   # imagens do header/rodapé carregam; 0 falhas de rede
+  performance: PASS      # mídias com cache de 1 ano
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: medium
+    category: requirements
+    description: "Animações contínuas ignoram prefers-reduced-motion (WCAG 2.3.3, nível AAA; e afeta 2.2.2 junto com a ausência de pausa)."
+    recommendation: "Decisão do produto (issue #31), registrada no DESIGN.md. Revisitar na auditoria de acessibilidade (#6)."

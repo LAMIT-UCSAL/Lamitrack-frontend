@@ -46,10 +46,11 @@ app/
 ├── root.tsx        # layout base (html, head, body) e tela de erro
 ├── routes.ts       # lista de rotas
 ├── routes/         # uma tela por arquivo, com o teste ao lado (*.test.tsx)
+├── assets/         # escudo, logo, favicon e ícones (importados no código; o build dá hash e cache longo)
 ├── components/     # componentes de marca (Button, EventCard, SiteHeader…), com SCSS e teste
-├── lib/            # utilitários sem interface (categorias, media queries)
+├── lib/            # utilitários sem interface (categorias, evento da API, cores)
 └── styles/         # tokens, Bootstrap remapeado e estilos globais
-public/brand/       # escudo, logo e favicon da LAMIT
+public/_headers     # cache no navegador, no padrão do site da LAMIT
 eve/                # protótipo antigo em Angular, só como referência para o porte
 ```
 
