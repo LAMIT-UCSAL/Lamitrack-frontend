@@ -1,0 +1,30 @@
+storyId: "5.27"
+story: docs/stories/5.27.carrossel-eventos.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/15
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 15-carrossel-eventos
+verdict: PASS
+summary: >
+  Carrossel acessível no padrão WAI-ARIA, com pausa visível (WCAG 2.2.2) e
+  respeito a reduced-motion. 11 testes com relógio falso; comportamento real
+  conferido no navegador em 320–1440px. Bug de sobreposição no celular
+  encontrado na conferência visual e corrigido antes do gate.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: code
+    description: "Depois de clicar numa seta com o mouse, o foco fica no botão e o carrossel segue parado até o foco sair (padrão WAI-ARIA)."
+    recommendation: "Manter; revisar só se o time preferir retomar ao tirar o mouse."
+
+process:
+  - "Branch empilhada sobre 13-evento-card: o PR deve entrar depois do #25."
