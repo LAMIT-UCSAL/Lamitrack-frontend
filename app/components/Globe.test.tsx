@@ -47,6 +47,24 @@ describe("Globe", () => {
     ).toHaveClass("globe__canvas");
   });
 
+  it("tem a legenda Salvador, BA, visual (o canvas já diz o lugar)", () => {
+    const { container } = render(<Globe />);
+
+    const legenda = container.querySelector(".globe__legend");
+    expect(legenda).toHaveTextContent("Salvador, BA");
+    expect(legenda).toHaveAttribute("aria-hidden", "true");
+  });
+
+  it("aceita outra legenda ou nenhuma", () => {
+    const { container, rerender } = render(<Globe legend="Bahia" />);
+    expect(container.querySelector(".globe__legend")).toHaveTextContent(
+      "Bahia",
+    );
+
+    rerender(<Globe legend="" />);
+    expect(container.querySelector(".globe__legend")).toBeNull();
+  });
+
   it("cria o globo com as cores dos tokens, Salvador marcado e entra com fade", async () => {
     render(<Globe />);
 
@@ -61,7 +79,7 @@ describe("Globe", () => {
       { location: [-12.9718, -38.5017], size: 0.09 },
     ]);
     await waitFor(() =>
-      expect(screen.getByRole("img")).toHaveClass("is-ready"),
+      expect(screen.getByRole("img").closest(".globe")).toHaveClass("is-ready"),
     );
   });
 
@@ -126,7 +144,9 @@ describe("Globe", () => {
     render(<Globe />);
 
     await waitFor(() => expect(createGlobe).toHaveBeenCalled());
-    expect(screen.getByRole("img")).not.toHaveClass("is-ready");
+    expect(screen.getByRole("img").closest(".globe")).not.toHaveClass(
+      "is-ready",
+    );
   });
 
   it("destrói o globo ao sair da tela", async () => {

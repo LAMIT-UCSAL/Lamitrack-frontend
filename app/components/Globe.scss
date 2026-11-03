@@ -3,14 +3,13 @@
   position: relative;
   width: 100%;
   max-width: 340px;
-  aspect-ratio: 1 / 1;
   margin: 0 auto;
 }
 
 .globe__canvas {
   display: block;
   width: 100%;
-  height: 100%;
+  aspect-ratio: 1 / 1;
   cursor: grab;
   opacity: 0;
   transition: opacity 1.2s ease;
@@ -20,8 +19,36 @@
   &:active {
     cursor: grabbing;
   }
+}
 
-  &.is-ready {
+// Legenda do marcador: ponto na cor do marcador + rótulo em caixa alta.
+// Entra junto com o globo; sem WebGL, some com ele
+.globe__legend {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: var(--space-xs) 0 0;
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  letter-spacing: var(--tracking-ui);
+  text-transform: uppercase;
+  opacity: 0;
+  transition: opacity 1.2s ease;
+
+  &::before {
+    content: "";
+    width: 0.625rem;
+    height: 0.625rem;
+    border-radius: 50%;
+    background: var(--color-cobalt);
+  }
+}
+
+.globe.is-ready {
+  .globe__canvas,
+  .globe__legend {
     opacity: 1;
   }
 }
