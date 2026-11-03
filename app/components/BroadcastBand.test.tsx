@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import { afterEach, describe, expect, it, vi } from "vitest";
 
 import { BroadcastBand } from "./BroadcastBand";
@@ -43,6 +43,42 @@ describe("BroadcastBand", () => {
       expect(container.querySelector(".broadcast-band__canvas")).toBeNull(),
     );
     expect(screen.getByText("Faixa")).toBeInTheDocument();
+
+    vi.unstubAllGlobals();
+    document.documentElement.removeAttribute("style");
+  });
+
+  it("só liga o WebGL quando a faixa chega perto da tela", async () => {
+    vi.resetModules();
+    vi.stubGlobal("WebGL2RenderingContext", class {});
+    vi.spyOn(console, "warn").mockImplementation(() => {});
+    vi.spyOn(console, "error").mockImplementation(() => {});
+    vi.spyOn(HTMLCanvasElement.prototype, "getContext").mockReturnValue(
+      {} as RenderingContext,
+    );
+    let avisar: (entradas: { isIntersecting: boolean }[]) => void = () => {};
+    const opcoes: IntersectionObserverInit[] = [];
+    vi.stubGlobal(
+      "IntersectionObserver",
+      class {
+        constructor(callback: typeof avisar, init: IntersectionObserverInit) {
+          avisar = callback;
+          opcoes.push(init);
+        }
+        observe() {}
+        disconnect() {}
+      },
+    );
+    document.documentElement.style.setProperty("--color-cobalt", "#0A3383");
+    document.documentElement.style.setProperty("--color-amber", "#C17402");
+    const { BroadcastBand: BandaNova } = await import("./BroadcastBand");
+
+    const { container } = render(<BandaNova>Faixa</BandaNova>);
+    expect(container.querySelector(".broadcast-band__canvas")).toBeNull();
+    expect(opcoes[0].rootMargin).toBe("200px");
+
+    act(() => avisar([{ isIntersecting: true }]));
+    expect(container.querySelector(".broadcast-band__canvas")).not.toBeNull();
 
     vi.unstubAllGlobals();
     document.documentElement.removeAttribute("style");
