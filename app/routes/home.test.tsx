@@ -54,21 +54,29 @@ describe("Home", () => {
     ]);
   });
 
-  it("mostra o card de exemplo e o filtra pela categoria", () => {
+  it("mostra os cards de exemplo e os filtra pela categoria", () => {
     render(<Home />);
 
-    expect(screen.getByRole("article")).toHaveTextContent(
-      "Hackathon de exemplo",
-    );
+    expect(screen.getAllByRole("article")).toHaveLength(3);
 
-    fireEvent.click(screen.getByRole("button", { name: "Edital" }));
+    fireEvent.click(screen.getByRole("button", { name: "Ideathon" }));
+    const cards = screen.getAllByRole("article");
+    expect(cards).toHaveLength(1);
+    expect(cards[0]).toHaveTextContent("Ideathon de exemplo");
+
+    fireEvent.click(screen.getByRole("button", { name: "Maratona" }));
     expect(screen.queryByRole("article")).toBeNull();
     expect(screen.getByRole("status")).toHaveTextContent(
-      "Nenhum evento de Edital por enquanto.",
+      "Nenhum evento de Maratona por enquanto.",
     );
+  });
 
-    fireEvent.click(screen.getByRole("button", { name: "Hackathon" }));
-    expect(screen.getByRole("article")).toBeInTheDocument();
+  it("destaca os últimos eventos no carrossel", () => {
+    render(<Home />);
+
+    const carrossel = screen.getByRole("region", { name: "Últimos eventos" });
+    expect(carrossel).toHaveAttribute("aria-roledescription", "carrossel");
+    expect(screen.getByRole("button", { name: "Pausar" })).toBeInTheDocument();
   });
 
   it("fecha com a faixa Grainient", () => {

@@ -1,3 +1,5 @@
+@use "../styles/mixins" as *;
+
 // Faixa Grainient: o gradiente do site, contido numa faixa (nunca fundo de página)
 .broadcast-band {
   position: relative;
@@ -5,18 +7,7 @@
   isolation: isolate;
   color: var(--color-surface);
   // Fallback estático: HTML do servidor, sem WebGL2, reduced-motion ou antes do JS
-  background:
-    radial-gradient(
-      ellipse 60% 120% at 30% 50%,
-      color-mix(in srgb, var(--color-amber) 85%, transparent),
-      transparent 70%
-    ),
-    radial-gradient(
-      ellipse 50% 140% at 85% 40%,
-      color-mix(in srgb, var(--color-amber) 55%, transparent),
-      transparent 70%
-    ),
-    var(--color-cobalt);
+  @include grainient-fallback;
 
   .kicker {
     color: var(--color-gold); // ouro como texto só sobre fundo escuro

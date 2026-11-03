@@ -1,0 +1,16 @@
+// Fundo estático do Grainient (radiais âmbar sobre cobalto): fallback da faixa
+// sem WebGL2/reduced-motion e fundo dos slides sem banner.
+@mixin grainient-fallback {
+  background:
+    radial-gradient(
+      ellipse 60% 120% at 30% 50%,
+      color-mix(in srgb, var(--color-amber) 85%, transparent),
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 140% at 85% 40%,
+      color-mix(in srgb, var(--color-amber) 55%, transparent),
+      transparent 70%
+    ),
+    var(--color-cobalt);
+}
