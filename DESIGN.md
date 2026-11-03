@@ -49,7 +49,7 @@ Onde mora cada coisa:
 |---|---|
 | `app/styles/_tokens.scss` | Todos os tokens (`--color-*`, `--font-size-*`, `--radius-*`, `--shadow-*`, movimento). Único lugar com hex. |
 | `app/styles/app.scss` | Bootstrap remapeado para a marca (antes do `@import`), depois tokens e base. |
-| `app/styles/_base.scss` | Títulos, links, foco, seleção, `.sr-only`, skip link. |
+| `app/styles/_base.scss` | Títulos, links, foco, seleção, `.sr-only`, skip link, reduced-motion. |
 | `app/components/` | Componentes de marca, cada um com `.tsx`, `.scss` e `.test.tsx`. |
 
 ## Colors
@@ -132,7 +132,7 @@ Profundidade leve, só onde ajuda a leitura.
 ## Motion
 
 - `--ease-broadcast: cubic-bezier(.2,.7,.2,1)`; `--transition-fast` 150ms; `--transition-base` 300ms (sublinhado da nav); `--transition-flip` 500ms (troca de cor do CTA).
-- **Movimento igual para todo mundo (decisão do produto, 2026-11-03, issue #31):** o globo, o marquee, o carrossel, a faixa Grainient, o tilt dos cards e as transições não mudam com `prefers-reduced-motion`. Nenhum componente consulta essa preferência. Atenção: ela é uma preferência de acessibilidade, usada por quem sente enjoo ou tontura com movimento, e não um modo de economia de bateria. A decisão foi tomada sabendo disso. Se for revista, o histórico do repositório tem a versão anterior (stories 5.25 a 5.29).
+- `prefers-reduced-motion: reduce` zera animações e transições, desliga o tilt dos cards, para o globo, o marquee e o carrossel e mantém o Grainient no fallback estático. (O modo economia de bateria não ativa essa preferência.)
 
 ## Components
 
@@ -148,19 +148,19 @@ Abre toda seção. Rótulo em `gold-ink`, caixa alta, tracking largo, com filete
 Trilho `paper-2` em pílula. Item ativo em `ink` com texto `paper`; hover com sublinhado laranja interno. Cada item é um botão com `aria-pressed`, todos dentro de um `role="group"` rotulado. No celular rola para o lado e a borda direita esmaece enquanto houver itens escondidos. Alvos de 44px.
 
 ### Card de evento (`EventCard`) — "ficha de transmissão"
-Recebe o evento como a API devolve (`<EventCard evento={evento} />`, tipo `Evento` em `app/lib/evento.ts`). Fundo branco, borda hairline, raio de 20px, `shadow-soft` → `shadow-lift`, tilt 3D sutil (até 6°) só com mouse. Meta "CATEGORIA · DATA" em `gold-ink` (categoria = primeira tag que for uma das 5 válidas; sem ela, só a data), título com link esticado para `/eventos/:id` (o card inteiro é clicável e o foco contorna o card), local (`venue`) em `ink-muted`, rodapé separado por hairline com a cidade/UF (só ali, sem repetir) em `cobalt` 800 e "Ver evento →". Sem preço: a API não tem o dado (`--color-success` fica reservado para quando tiver).
+Recebe o evento como a API devolve (`<EventCard evento={evento} />`, tipo `Evento` em `app/lib/evento.ts`). Fundo branco, borda hairline, raio de 20px, `shadow-soft` → `shadow-lift`, tilt 3D sutil (até 6°) só com mouse e sem reduced-motion. Meta "CATEGORIA · DATA" em `gold-ink` (categoria = primeira tag que for uma das 5 válidas; sem ela, só a data), título com link esticado para `/eventos/:id` (o card inteiro é clicável e o foco contorna o card), local (`venue`) em `ink-muted`, rodapé separado por hairline com a cidade/UF (só ali, sem repetir) em `cobalt` 800 e "Ver evento →". Sem preço: a API não tem o dado (`--color-success` fica reservado para quando tiver).
 
 ### Carrossel de eventos (`EventCarousel`)
-Recebe `eventos: Evento[]` e um `label`. Slides em faixa escura (raio de 20px): banner do evento ou o fundo estático do Grainient (mixin `grainient-fallback`), película `night` de baixo para cima, meta em `gold` e título branco com link para `/eventos/:id`. Avança a cada 4 s e para com o mouse em cima ou com o foco dentro. Não tem botão de pausa (decisão do time, 2026-11-03). Controles de 44px em `paper` com hover/foco `signal-orange` + `ink`; dot atual em `signal-orange` com `aria-current`. Segue o padrão de carrossel do WAI-ARIA: região com `aria-roledescription="carrossel"`, slides "N de total", só o visível no Tab (`inert`) e `aria-live` só quando parado. No celular, os dots descem para uma linha própria.
+Recebe `eventos: Evento[]` e um `label`. Slides em faixa escura (raio de 20px): banner do evento ou o fundo estático do Grainient (mixin `grainient-fallback`), película `night` de baixo para cima, meta em `gold` e título branco com link para `/eventos/:id`. Avança a cada 4 s e para com o mouse em cima ou com o foco dentro; com reduced-motion não se move sozinho. Não tem botão de pausa (decisão do time, 2026-11-03). Controles de 44px em `paper` com hover/foco `signal-orange` + `ink`; dot atual em `signal-orange` com `aria-current`. Segue o padrão de carrossel do WAI-ARIA: região com `aria-roledescription="carrossel"`, slides "N de total", só o visível no Tab (`inert`) e `aria-live` só quando parado. No celular, os dots descem para uma linha própria.
 
 ### Faixa deslizante (`Marquee`)
-Genérica: recebe `items`, `renderItem`, `getKey` e um `label`. Anda com `requestAnimationFrame` a 40 px/s, desacelera para 14 px/s no hover sem parar e tem blur progressivo nas bordas (6 camadas de `backdrop-filter`). Opções: `dividers` (filetes `hairline`), `compact` e `baseline` (número + rótulo). Neutra de cor, serve sobre papel ou `night`. Para com o foco de teclado dentro. Não tem botão de pausa (decisão do time, 2026-11-03). A cópia usada no loop fica `aria-hidden` e `inert`.
+Genérica: recebe `items`, `renderItem`, `getKey` e um `label`. Anda com `requestAnimationFrame` a 40 px/s, desacelera para 14 px/s no hover sem parar e tem blur progressivo nas bordas (6 camadas de `backdrop-filter`). Opções: `dividers` (filetes `hairline`), `compact` e `baseline` (número + rótulo). Neutra de cor, serve sobre papel ou `night`. Para com o foco de teclado dentro; com reduced-motion fica parada e rolável. Não tem botão de pausa (decisão do time, 2026-11-03). A cópia usada no loop fica `aria-hidden` e `inert`.
 
 ### Globo (`Globe`)
-Globo 3D do hero (lib `cobe`, WebGL), até 340px, com Salvador marcado por padrão (`markers`). Base em `paper`, marcadores em `cobalt` e brilho em `paper-2`, lidos dos tokens por `corDoToken` (`app/lib/cores.ts`). Gira sozinho, é arrastável com qualquer ponteiro e entra com fade. Abaixo de 768px fica oculto e o WebGL nem é criado. O canvas é uma imagem com nome ("Globo terrestre com Salvador marcado").
+Globo 3D do hero (lib `cobe`, WebGL), até 340px, com Salvador marcado por padrão (`markers`). Base em `paper`, marcadores em `cobalt` e brilho em `paper-2`, lidos dos tokens por `corDoToken` (`app/lib/cores.ts`). Gira sozinho, é arrastável com qualquer ponteiro e entra com fade. Com reduced-motion não gira sozinho; abaixo de 768px fica oculto e o WebGL nem é criado. O canvas é uma imagem com nome ("Globo terrestre com Salvador marcado").
 
 ### Faixa Grainient (`BroadcastBand` + `Grainient`)
-Gradiente cobalto e âmbar animado em WebGL2 (`ogl`), **contido em faixas**, com texto branco centralizado sobre uma película `night`. O HTML do servidor já traz o fallback em CSS (radiais âmbar sobre cobalto). O canvas só monta no cliente, com WebGL2, e entra com fade. As cores vêm dos tokens. A variante `thin` (6px, estática) abre o rodapé.
+Gradiente cobalto e âmbar animado em WebGL2 (`ogl`), **contido em faixas**, com texto branco centralizado sobre uma película `night`. O HTML do servidor já traz o fallback em CSS (radiais âmbar sobre cobalto). O canvas só monta no cliente, com WebGL2 e sem reduced-motion, e entra com fade. As cores vêm dos tokens. A variante `thin` (6px, estática) abre o rodapé.
 
 ### Nota informativa
 Borda esquerda dourada de 3px sobre `paper-2`, texto `ink-muted` (ex.: filtro sem resultados, `.home-note`).
