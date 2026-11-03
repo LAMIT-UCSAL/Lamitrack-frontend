@@ -40,6 +40,7 @@ Os eventos vêm da API do [Lamitrack-backend](https://github.com/LAMIT-UCSAL/Lam
 | `npm run typecheck` | Confere os tipos do TypeScript |
 | `npm run format` | Formata o código com o Prettier |
 | `npm run build` | Gera a versão de produção em `build/` |
+| `npm run test:a11y` | Auditoria de acessibilidade e responsivo (axe-core) nas telas principais. Precisa do app rodando: `npm run build && npm start` em outro terminal |
 | `npm start` | Serve a versão de produção (rode `npm run build` antes) |
 
 O CI roda `lint`, `format:check`, `typecheck`, `test` e `build` em todo PR. Rode esses comandos antes de abrir o seu.

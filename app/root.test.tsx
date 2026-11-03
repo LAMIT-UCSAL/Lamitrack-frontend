@@ -2,12 +2,13 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { describe, expect, it } from "vitest";
 
+import type { Route } from "./+types/root";
 import { ErrorBoundary } from "./root";
 
 function renderErro(error: unknown) {
   return render(
     <MemoryRouter>
-      <ErrorBoundary {...({ error } as never)} />
+      <ErrorBoundary {...({ error } as Route.ErrorBoundaryProps)} />
     </MemoryRouter>,
   );
 }
