@@ -1,18 +1,21 @@
-import { render, screen, within } from "@testing-library/react";
+import { fireEvent, render, screen, within } from "@testing-library/react";
 import { createRoutesStub } from "react-router";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 import Home, { loader } from "./home";
 
 // Home com o loader de verdade, sobre os dados simulados (sem LAMITRACK_API_URL)
-async function renderHome() {
+async function renderHome(url = "/") {
   const Stub = createRoutesStub([
     { path: "/", Component: Home as never, loader: loader as never },
   ]);
-  const resultado = render(<Stub initialEntries={["/"]} />);
-  await screen.findByRole("heading", { level: 1, name: "LamiTrack" });
+  const resultado = render(<Stub initialEntries={[url]} />);
+  await screen.findByRole("heading", { level: 1 });
   return resultado;
 }
+
+const proximos = () =>
+  screen.getByRole("region", { name: "Próximos eventos." });
 
 beforeEach(() => {
   vi.stubEnv("LAMITRACK_API_URL", "");
@@ -23,19 +26,20 @@ afterEach(() => {
 });
 
 describe("Home", () => {
-  it("abre com o kicker e o título do LamiTrack", async () => {
-    await renderHome();
+  it("abre com o hero definitivo, sem texto de página provisória", async () => {
+    const { container } = await renderHome();
 
-    expect(screen.getByText("Vitrine de eventos.")).toHaveClass("kicker");
+    expect(
+      screen.getByRole("heading", {
+        level: 1,
+        name: "A agenda da inovação na Bahia.",
+      }),
+    ).toBeInTheDocument();
+    expect(screen.getByText("LamiTrack.")).toHaveClass("kicker");
+    expect(container).not.toHaveTextContent(/provisória/i);
   });
 
-  it("avisa que os dados são de exemplo enquanto a API não está no ar", async () => {
-    await renderHome();
-
-    expect(screen.getByRole("note")).toHaveTextContent("Dados de exemplo.");
-  });
-
-  it("tem um único CTA primário, que leva à lista de eventos", async () => {
+  it("tem um único CTA primário, para a lista de eventos", async () => {
     const { container } = await renderHome();
 
     expect(container.querySelectorAll(".button--primary")).toHaveLength(1);
@@ -43,53 +47,98 @@ describe("Home", () => {
       "href",
       "/eventos",
     );
-    expect(screen.getByRole("link", { name: /Conhecer a LAMIT/ })).toHaveClass(
-      "button--secondary",
-    );
   });
 
-  it("mostra os 6 próximos eventos e o caminho para todos", async () => {
-    await renderHome();
-
-    const secao = screen.getByRole("region", { name: "Próximos eventos." });
-    expect(within(secao).getAllByRole("article")).toHaveLength(6);
-    expect(
-      within(secao).getByRole("link", { name: /Ver todos os eventos/ }),
-    ).toHaveAttribute("href", "/eventos");
-  });
-
-  it("destaca os 3 primeiros no carrossel", async () => {
-    await renderHome();
-
-    const carrossel = screen.getByRole("region", { name: "Últimos eventos" });
-    expect(carrossel).toHaveAttribute("aria-roledescription", "carrossel");
-    expect(
-      within(carrossel).getAllByRole("group", { hidden: true }),
-    ).toHaveLength(3);
-  });
-
-  it("a faixa de números conta os eventos de cada categoria", async () => {
-    await renderHome();
-
-    const faixa = screen.getByRole("region", { name: "Eventos por categoria" });
-    expect(faixa).toHaveClass("marquee--compact", "marquee--baseline");
-    const edital = within(faixa).getAllByRole("link", { name: /Edital/ })[0];
-    expect(edital).toHaveTextContent("3Edital");
-    expect(edital).toHaveAttribute("href", "/eventos?categoria=Edital");
-  });
-
-  it("tem o globo na abertura", async () => {
+  it("tem o globo no hero e o aviso de dados de exemplo", async () => {
     await renderHome();
 
     expect(
       screen.getByRole("img", { name: "Globo terrestre com Salvador marcado" }),
     ).toBeInTheDocument();
+    expect(screen.getByRole("note")).toHaveTextContent("Dados de exemplo.");
+  });
+
+  it("os números vêm da API: total e por categoria, com link para a lista", async () => {
+    await renderHome();
+
+    const faixa = screen.getByRole("region", { name: "A agenda em números" });
+    const links = within(faixa).getAllByRole("link");
+    expect(links[0]).toHaveTextContent("14eventos na agenda");
+    expect(links[0]).toHaveAttribute("href", "/eventos");
+    const edital = links.find((l) => /Edital/.test(l.textContent ?? ""));
+    expect(edital).toHaveTextContent("3Edital");
+    expect(edital).toHaveAttribute("href", "/eventos?categoria=Edital");
+  });
+
+  it("destaca os 3 próximos no carrossel", async () => {
+    await renderHome();
+
+    const carrossel = screen.getByRole("region", {
+      name: "Próximos da agenda",
+    });
+    expect(
+      within(carrossel).getAllByRole("group", { hidden: true }),
+    ).toHaveLength(3);
+  });
+
+  it("mostra os 6 próximos e o caminho para todos", async () => {
+    await renderHome();
+
+    expect(within(proximos()).getAllByRole("article")).toHaveLength(6);
+    expect(
+      within(proximos()).getByRole("link", { name: /Ver todos os eventos/ }),
+    ).toHaveAttribute("href", "/eventos");
+  });
+
+  it("filtra os próximos pela categoria da URL", async () => {
+    await renderHome("/?categoria=Edital");
+
+    const cards = within(proximos()).getAllByRole("article");
+    expect(cards).toHaveLength(3);
+    for (const card of cards) expect(card).toHaveTextContent(/Inscrições até/);
+    expect(screen.getByRole("button", { name: "Edital" })).toHaveAttribute(
+      "aria-pressed",
+      "true",
+    );
+    expect(
+      within(proximos()).getByRole("link", { name: /Ver todos de Edital/ }),
+    ).toHaveAttribute("href", "/eventos?categoria=Edital");
+  });
+
+  it("trocar a aba filtra sem sair da Home", async () => {
+    await renderHome();
+
+    fireEvent.click(screen.getByRole("button", { name: "Maratona" }));
+
+    expect(
+      await within(proximos()).findByRole("link", {
+        name: /Ver todos de Maratona/,
+      }),
+    ).toBeInTheDocument();
+    expect(within(proximos()).getAllByRole("article")).toHaveLength(2);
+  });
+
+  it("mostra os parceiros da LAMIT e o caminho para ser parceiro", async () => {
+    const { container } = await renderHome();
+
+    const secao = screen.getByRole("region", {
+      name: "Quem constrói com a gente.",
+    });
+    expect(
+      within(secao).getByRole("img", { name: "GDG Salvador" }),
+    ).toBeInTheDocument();
+    expect(
+      within(secao).getByRole("link", { name: /Quero ser parceiro/ }),
+    ).toHaveAttribute("href", "https://forms.gle/VQshwDE4bDSfuNWX8");
+    // Continua com um único CTA primário na tela
+    expect(container.querySelectorAll(".button--primary")).toHaveLength(1);
   });
 
   it("fecha com a faixa Grainient", async () => {
     const { container } = await renderHome();
 
-    const faixa = container.querySelector(".broadcast-band");
-    expect(faixa).toHaveTextContent("A agenda da inovação, num só lugar.");
+    expect(container.querySelector(".broadcast-band")).toHaveTextContent(
+      "Não espere, construa.",
+    );
   });
 });

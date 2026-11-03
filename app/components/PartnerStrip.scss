@@ -1,0 +1,54 @@
+.partner-strip {
+  display: grid;
+  // minmax(0, 1fr): sem isso o marquee estica a coluna até a largura do trilho
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--space-sm);
+  padding-bottom: var(--space-section);
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.partner-strip__texto {
+  max-width: 52ch;
+  margin: 0 0 var(--space-xs);
+  color: var(--color-ink-muted);
+}
+
+// Cartão branco com o logo nas cores originais (padrão do site da LAMIT)
+.partner-strip__item {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 11rem;
+  aspect-ratio: 16 / 9;
+  padding: 0.9rem 1.1rem;
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+
+  img {
+    display: block;
+    width: auto;
+    height: auto;
+    max-width: 85%;
+    max-height: 56px;
+    object-fit: contain;
+  }
+}
+
+// Logos verticais (GDGs): ocupam a altura útil do cartão
+.partner-strip__item--alto {
+  padding-top: 0.6rem;
+  padding-bottom: 0.6rem;
+
+  img {
+    max-height: 100%;
+  }
+}
+
+.partner-strip__cta {
+  justify-self: start;
+  margin-top: var(--space-sm);
+}
