@@ -130,6 +130,19 @@ describe("EVENTOS_SIMULADOS (critérios do catálogo de fontes)", () => {
     expect(EVENTOS_SIMULADOS.some((e) => e.venue === "Online")).toBe(true);
   });
 
+  it("cobrem os campos da tela de detalhe", () => {
+    expect(EVENTOS_SIMULADOS.every((e) => e.description)).toBe(true);
+    expect(EVENTOS_SIMULADOS.some((e) => e.registrationUrl === null)).toBe(
+      true,
+    );
+    expect(EVENTOS_SIMULADOS.some((e) => e.latitude !== null)).toBe(true);
+    for (const e of EVENTOS_SIMULADOS) {
+      if (e.registrationUrl) {
+        expect(new URL(e.registrationUrl).hostname).toBe("example.com");
+      }
+    }
+  });
+
   it("têm ids únicos", () => {
     const ids = EVENTOS_SIMULADOS.map((e) => e.id);
     expect(new Set(ids).size).toBe(ids.length);
