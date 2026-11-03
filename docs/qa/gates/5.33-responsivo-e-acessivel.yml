@@ -1,0 +1,30 @@
+storyId: "5.33"
+story: docs/stories/5.33.responsivo-e-acessivel.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/6
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 6-responsivo-acessivel
+verdict: PASS
+summary: >
+  Auditoria repetível (axe-core) limpa em 24 combinações de tela e largura;
+  Lighthouse celular com acessibilidade, boas práticas e SEO em 100 e a home
+  de 72 para 96 em desempenho. Foco visível em todos os interativos.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS   # capturas após remover o Bootstrap
+  performance: PASS
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: performance
+    description: "Desempenho da lista varia entre 72 e 92 entre rodadas (hidratação do React, CPU 4x mais lenta, sem GPU)."
+    recommendation: "Medir num celular real após o deploy (#8); considerar Lighthouse no CI."
+  - severity: low
+    category: requirements
+    description: "Carrossel e marquee sem botão de pausa (decisão do time) ficam abaixo do WCAG 2.2.2 para quem usa só o mouse."
+    recommendation: "Registrado no relatório; revisitar se o projeto buscar conformidade formal."
