@@ -1,0 +1,172 @@
+@use "../styles/mixins" as *;
+
+// Tela /eventos/:id. No celular: cabeça, ficha (com o CTA), corpo.
+// No desktop: ficha numa coluna lateral fixa, ao lado da cabeça e do corpo.
+
+.evento {
+  display: grid;
+  gap: var(--space-md);
+  padding-top: var(--space-lg);
+  padding-bottom: var(--space-section);
+}
+
+.evento__voltar {
+  justify-self: start;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 44px;
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-small);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.evento__grade {
+  display: grid;
+  gap: var(--space-lg);
+}
+
+@media (min-width: 992px) {
+  .evento__grade {
+    grid-template-columns: minmax(0, 1fr) 340px;
+    grid-template-areas:
+      "cabeca ficha"
+      "corpo ficha";
+    column-gap: var(--space-xl);
+    align-items: start;
+  }
+
+  .evento__cabeca {
+    grid-area: cabeca;
+  }
+
+  .evento__ficha {
+    grid-area: ficha;
+    position: sticky;
+    top: 6rem;
+  }
+
+  .evento__corpo {
+    grid-area: corpo;
+  }
+}
+
+.evento__cabeca {
+  display: grid;
+  justify-items: start;
+  gap: var(--space-sm);
+
+  h1 {
+    margin: var(--space-xs) 0 0;
+  }
+}
+
+// Banner do evento ou, sem ele, o fundo estático do Grainient
+.evento__midia {
+  width: 100%;
+  aspect-ratio: 16 / 7;
+  margin-bottom: var(--space-sm);
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  @include grainient-fallback;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+}
+
+// Ficha: card branco, como a "ficha de transmissão" dos cards
+.evento__ficha {
+  display: grid;
+  gap: var(--space-md);
+  padding: var(--space-md);
+  background-color: var(--color-surface);
+  border: 1px solid var(--color-hairline);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-soft);
+}
+
+.evento__dados {
+  display: grid;
+  gap: var(--space-sm);
+  margin: 0;
+
+  > div + div {
+    padding-top: var(--space-sm);
+    border-top: 1px solid var(--color-hairline);
+  }
+
+  dt {
+    color: var(--color-gold-ink);
+    font-size: var(--font-size-xs);
+    font-weight: 700;
+    letter-spacing: var(--tracking-kicker);
+    text-transform: uppercase;
+  }
+
+  dd {
+    display: grid;
+    gap: 0.15rem;
+    margin: 0.25rem 0 0;
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  a {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    min-height: 44px;
+    font-size: var(--font-size-small);
+  }
+}
+
+.evento__cta {
+  width: 100%;
+}
+
+.evento__externo {
+  margin: calc(-1 * var(--space-xs)) 0 0;
+  color: var(--color-ink-muted);
+  font-size: var(--font-size-small);
+  text-align: center;
+}
+
+.evento__corpo {
+  display: grid;
+  gap: var(--space-lg);
+
+  h2 {
+    margin: 0 0 var(--space-sm);
+    font-size: var(--font-size-title);
+  }
+}
+
+.evento__descricao {
+  max-width: 68ch;
+  margin: 0 0 var(--space-sm);
+  color: var(--color-ink-muted);
+  white-space: pre-line;
+}
+
+// Temas: chips neutros (o nome diferencia, não a cor)
+.evento__temas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-xs);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 0.35rem 0.85rem;
+    border-radius: var(--radius-sm);
+    background-color: var(--color-paper-2);
+    color: var(--color-ink);
+    font-size: var(--font-size-small);
+    font-weight: 600;
+  }
+}
