@@ -33,6 +33,9 @@ export function Layout({ children }: { children: React.ReactNode }) {
         <Links />
       </head>
       <body>
+        <a className="skip-link" href="#conteudo">
+          Pular para o conteúdo
+        </a>
         {children}
         <ScrollRestoration />
         <Scripts />
@@ -62,7 +65,7 @@ export function ErrorBoundary({ error }: Route.ErrorBoundaryProps) {
   }
 
   return (
-    <main className="container py-5">
+    <main id="conteudo" className="container py-5">
       <h1>{message}</h1>
       <p>{details}</p>
       {stack && (

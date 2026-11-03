@@ -22,7 +22,7 @@ const CATEGORIAS = [
 // Será substituída pela tela Home (#20).
 export default function Home() {
   return (
-    <main className="container py-5">
+    <main id="conteudo" className="container py-5">
       <h1 className="fw-bold text-eve-navy">LamiTrack</h1>
       <p className="text-eve-secondary mb-4">
         Vitrine de eventos de tecnologia e inovação da LAMIT. Esta é uma página
