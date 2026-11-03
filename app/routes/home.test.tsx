@@ -1,7 +1,18 @@
-import { fireEvent, render, screen } from "@testing-library/react";
+import {
+  fireEvent,
+  render as renderBase,
+  screen,
+} from "@testing-library/react";
+import type { ReactElement } from "react";
+import { MemoryRouter } from "react-router";
 import { describe, expect, it } from "vitest";
 
 import Home from "./home";
+
+// O card de evento usa o Link do React Router
+function render(ui: ReactElement) {
+  return renderBase(<MemoryRouter>{ui}</MemoryRouter>);
+}
 
 describe("Home", () => {
   it("abre com o kicker e o título do LamiTrack", () => {

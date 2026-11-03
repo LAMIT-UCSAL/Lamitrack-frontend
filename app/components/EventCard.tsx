@@ -1,40 +1,30 @@
 import { useEffect, useRef, type PointerEvent } from "react";
+import { Link } from "react-router";
 
-import type { Categoria } from "~/lib/categorias";
+import {
+  categoriaDoEvento,
+  formatarCidade,
+  formatarData,
+  type Evento,
+} from "~/lib/evento";
 import { prefersReducedMotion } from "~/lib/media";
 
 import "./EventCard.scss";
 
 export type EventCardProps = {
-  title: string;
-  category: Categoria;
-  // Data já formatada para leitura ("14 nov") e a mesma data em ISO para o <time>
-  date: string;
-  dateTime: string;
-  location: string;
-  href: string;
-  // Sem preço informado, o evento é gratuito
-  price?: string;
-  imageSrc?: string;
-  imageAlt?: string;
+  evento: Evento;
 };
 
 // Inclinação máxima do tilt, em graus (mesmo valor da loja)
 const MAX_TILT = 6;
 
-// Card "ficha de transmissão": meta em ouro, título, local e um rodapé com o
-// dado principal em cobalto. O card inteiro é clicável pelo link do título.
-export function EventCard({
-  title,
-  category,
-  date,
-  dateTime,
-  location,
-  href,
-  price,
-  imageSrc,
-  imageAlt = "",
-}: EventCardProps) {
+// Card "ficha de transmissão": meta em ouro (categoria · data), título, o local
+// (venue) e um rodapé com a cidade/UF em cobalto, sem repetir a cidade. Recebe o evento como a API devolve; o card
+// inteiro é clicável pelo link do título, que leva ao detalhe (/eventos/:id).
+export function EventCard({ evento }: EventCardProps) {
+  const categoria = categoriaDoEvento(evento);
+  const data = formatarData(evento.startsAt);
+  const cidade = formatarCidade(evento);
   const cardRef = useRef<HTMLElement>(null);
   const frameRef = useRef(0);
 
@@ -75,11 +65,12 @@ export function EventCard({
       onPointerLeave={handlePointerLeave}
     >
       <div className="event-card__media">
-        {imageSrc ? (
+        {evento.bannerUrl ? (
+          // Decorativa: o título ao lado já diz do que se trata
           <img
             className="event-card__image"
-            src={imageSrc}
-            alt={imageAlt}
+            src={evento.bannerUrl}
+            alt=""
             loading="lazy"
           />
         ) : (
@@ -90,22 +81,22 @@ export function EventCard({
       </div>
       <div className="event-card__info">
         <p className="event-card__meta">
-          <span>{category}</span>
-          <span aria-hidden="true"> · </span>
-          <time dateTime={dateTime}>{date}</time>
+          {categoria && (
+            <>
+              <span>{categoria}</span>
+              <span aria-hidden="true"> · </span>
+            </>
+          )}
+          <time dateTime={evento.startsAt}>{data}</time>
         </p>
         <h3 className="event-card__title">
-          <a className="event-card__link" href={href}>
-            {title}
-          </a>
+          <Link className="event-card__link" to={`/eventos/${evento.id}`}>
+            {evento.title}
+          </Link>
         </h3>
-        <p className="event-card__location">{location}</p>
+        {evento.venue && <p className="event-card__location">{evento.venue}</p>}
         <div className="event-card__footer">
-          {price ? (
-            <span className="event-card__price">{price}</span>
-          ) : (
-            <span className="event-card__free">Gratuito</span>
-          )}
+          {cidade && <span className="event-card__city">{cidade}</span>}
           <span className="event-card__cta" aria-hidden="true">
             Ver evento →
           </span>
