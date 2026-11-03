@@ -6,7 +6,7 @@ Lamitrack — front-end: vitrine de eventos de tecnologia e inovação (React + 
 
 - [React Router](https://reactrouter.com/) 8 em modo framework, com renderização no servidor (SSR)
 - React 19, TypeScript e Vite
-- Bootstrap 5 + SCSS, com os tokens de cor da LAMIT em `app/styles/app.scss`
+- Bootstrap 5 + SCSS na identidade visual do ecossistema LAMIT (a mesma do site e da Lamit Store): tokens em `app/styles/_tokens.scss` e o sistema descrito no [DESIGN.md](DESIGN.md)
 - Vitest + Testing Library para testes
 - ESLint + Prettier
 
@@ -46,7 +46,10 @@ app/
 ├── root.tsx        # layout base (html, head, body) e tela de erro
 ├── routes.ts       # lista de rotas
 ├── routes/         # uma tela por arquivo, com o teste ao lado (*.test.tsx)
-└── styles/         # estilos globais e tokens da LAMIT
+├── components/     # componentes de marca (Button, EventCard, SiteHeader…), com SCSS e teste
+├── lib/            # utilitários sem interface (categorias, media queries)
+└── styles/         # tokens, Bootstrap remapeado e estilos globais
+public/brand/       # escudo, logo e favicon da LAMIT
 eve/                # protótipo antigo em Angular, só como referência para o porte
 ```
 
