@@ -1,4 +1,10 @@
-import { useState, useSyncExternalStore, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+  type ReactNode,
+} from "react";
 
 import { prefersReducedMotion, REDUCED_MOTION } from "~/lib/media";
 
@@ -47,8 +53,8 @@ function getColors(): string {
 const getServerColors = () => "";
 
 // Faixa Grainient (padrão .broadcast-band da loja). O HTML do servidor já vem
-// com o fallback em CSS; no cliente, com WebGL2 e sem reduced-motion, o
-// gradiente animado aparece por cima com um fade.
+// com o fallback em CSS; no cliente, com WebGL2, sem reduced-motion e quando a
+// faixa chega perto da tela, o gradiente animado aparece por cima com um fade.
 export function BroadcastBand({
   children,
   className,
@@ -58,6 +64,29 @@ export function BroadcastBand({
   const [failed, setFailed] = useState(false);
   const isThin = variant === "thin";
   const [cobalt, amber] = colors.split(" ");
+  const bandRef = useRef<HTMLDivElement>(null);
+  // O WebGL só liga quando a faixa chega perto da tela: no celular, a faixa do
+  // fim da página não gasta CPU nem bateria enquanto ninguém a vê
+  const [perto, setPerto] = useState(
+    () => typeof IntersectionObserver === "undefined",
+  );
+
+  useEffect(() => {
+    const band = bandRef.current;
+    if (perto || isThin || !band) return;
+    if (typeof IntersectionObserver === "undefined") return;
+    const observer = new IntersectionObserver(
+      (entradas) => {
+        if (entradas.some((entrada) => entrada.isIntersecting)) {
+          setPerto(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "200px" },
+    );
+    observer.observe(band);
+    return () => observer.disconnect();
+  }, [perto, isThin]);
 
   const classes = [
     "broadcast-band",
@@ -70,8 +99,8 @@ export function BroadcastBand({
   if (isThin) return <div className={classes} aria-hidden="true" />;
 
   return (
-    <div className={classes}>
-      {colors && !failed && (
+    <div ref={bandRef} className={classes}>
+      {colors && perto && !failed && (
         <Grainient
           className="broadcast-band__canvas"
           color1={cobalt}
