@@ -1,0 +1,27 @@
+storyId: "5.35"
+story: docs/stories/5.35.tela-home.md
+issue: https://github.com/LAMIT-UCSAL/Lamitrack-frontend/issues/20
+reviewer: "@qa (Quinn)"
+date: 2026-11-03
+branch: 20-tela-home
+verdict: PASS
+summary: >
+  Home definitiva montada com os componentes portados: hero com globo,
+  números e próximos eventos vindos da API, filtro de categorias na URL,
+  carrossel e faixa Grainient. Faixa de parceiros pronta, oculta até o time
+  confirmar os parceiros.
+
+checks:
+  code_review: PASS
+  unit_tests: PASS
+  acceptance_criteria: PASS
+  no_regressions: PASS
+  performance: PASS
+  security: PASS
+  documentation: PASS
+
+issues:
+  - severity: low
+    category: requirements
+    description: "A faixa de parceiros fica oculta até o time mandar parceiros confirmados (nome, logo, permissão)."
+    recommendation: "Preencher app/lib/parceiros.ts quando houver a lista."

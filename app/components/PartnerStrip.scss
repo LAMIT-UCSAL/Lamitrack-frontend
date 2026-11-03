@@ -1,0 +1,22 @@
+.partner-strip {
+  display: grid;
+  gap: var(--space-sm);
+  padding-bottom: var(--space-section);
+
+  h2 {
+    margin: 0 0 var(--space-xs);
+  }
+}
+
+.partner-strip__item {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+
+  img {
+    height: 40px;
+    width: auto;
+    max-width: 160px;
+    object-fit: contain;
+  }
+}

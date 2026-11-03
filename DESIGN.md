@@ -185,6 +185,9 @@ Mesma estratégia do site da LAMIT: o navegador guarda os arquivos do site por u
 
 ## Telas
 
+### Home (`/`)
+Hero (kicker "LamiTrack.", título, texto curto, CTA primário "Ver eventos" e secundário "Conhecer a LAMIT", globo ao lado no desktop); faixa de números (marquee compacto, sem filetes) com o total e o total por categoria, **sempre da API**; "Em destaque" com o carrossel dos 3 próximos; "Próximos eventos" com o trilho de categorias (filtro na URL, `/?categoria=…`) e 6 cards; faixa de parceiros (só com parceiros confirmados em `app/lib/parceiros.ts`); faixa Grainient no fim.
+
 ### Lista de eventos (`/eventos`)
 Kicker + título; trilho de categorias; campos de cidade e data (`.campo`); total em caixa alta; grade de `EventCard` de 12 em 12 com paginação "← Anterior · Página X de Y · Próxima →". Os filtros ficam na URL. Sem resultado: `Note` com "Limpar filtros e ver todos".
 
