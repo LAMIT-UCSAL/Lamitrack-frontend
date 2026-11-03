@@ -9,6 +9,8 @@ function matches(query: string): boolean {
   );
 }
 
+export const REDUCED_MOTION = "(prefers-reduced-motion: reduce)";
+
 export function prefersReducedMotion(): boolean {
-  return matches("(prefers-reduced-motion: reduce)");
+  return matches(REDUCED_MOTION);
 }
