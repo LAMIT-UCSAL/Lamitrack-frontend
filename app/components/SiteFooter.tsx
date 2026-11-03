@@ -86,11 +86,11 @@ export function SiteFooter() {
             </li>
             <li>
               <a
-                href="https://ligalamit.com.br"
+                href="https://lamitsite.com.br"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                ligalamit.com.br <span aria-hidden="true">↗</span>
+                lamitsite.com.br <span aria-hidden="true">↗</span>
                 <span className="sr-only"> (abre em nova aba)</span>
               </a>
             </li>

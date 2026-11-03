@@ -95,7 +95,7 @@ export function SiteHeader() {
             Eventos
           </NavLink>
           <a
-            href="https://ligalamit.com.br"
+            href="https://lamitsite.com.br"
             className="site-nav__external"
             target="_blank"
             rel="noopener noreferrer"

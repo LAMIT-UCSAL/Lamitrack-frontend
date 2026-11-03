@@ -73,7 +73,7 @@ export default function Home() {
           <Button href="#eventos">Ver eventos</Button>
           <Button
             variant="secondary"
-            href="https://ligalamit.com.br"
+            href="https://lamitsite.com.br"
             target="_blank"
             rel="noopener noreferrer"
           >

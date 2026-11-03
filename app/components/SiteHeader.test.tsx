@@ -35,7 +35,7 @@ describe("SiteHeader", () => {
     renderHeader();
 
     const lamit = screen.getByRole("link", { name: /LAMIT.*nova aba/ });
-    expect(lamit).toHaveAttribute("href", "https://ligalamit.com.br");
+    expect(lamit).toHaveAttribute("href", "https://lamitsite.com.br");
     expect(lamit).toHaveAttribute("target", "_blank");
     expect(lamit).toHaveAttribute("rel", "noopener noreferrer");
   });

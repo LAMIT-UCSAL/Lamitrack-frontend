@@ -48,8 +48,8 @@ describe("SiteFooter", () => {
     renderFooter();
 
     expect(
-      screen.getByRole("link", { name: /ligalamit\.com\.br/ }),
-    ).toHaveAttribute("href", "https://ligalamit.com.br");
+      screen.getByRole("link", { name: /lamitsite\.com\.br/ }),
+    ).toHaveAttribute("href", "https://lamitsite.com.br");
   });
 
   it("tem o link de Eventos, o contato e a assinatura", () => {
