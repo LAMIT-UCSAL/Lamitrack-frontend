@@ -1,0 +1,151 @@
+@use "sass:math";
+
+// Faixa deslizante. Neutra de cor: serve sobre papel ou sobre night.
+.marquee {
+  position: relative;
+  width: 100%;
+}
+
+.marquee--dividers {
+  border-top: 1px solid var(--color-hairline);
+  border-bottom: 1px solid var(--color-hairline);
+}
+
+.marquee__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  gap: 2.5rem;
+  padding: var(--space-sm) 0;
+  will-change: transform;
+}
+
+.marquee--compact .marquee__track {
+  gap: 2rem;
+}
+
+.marquee--baseline .marquee__track {
+  align-items: baseline;
+}
+
+.marquee__item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.marquee--baseline .marquee__item {
+  align-items: baseline;
+}
+
+// Reduced-motion: faixa parada, rolável na horizontal, sem nada escondido
+.marquee--static .marquee__viewport {
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+}
+
+.marquee--static .marquee__track {
+  padding-left: var(--gutter);
+  padding-right: var(--gutter);
+  will-change: auto;
+}
+
+// Blur progressivo nas bordas: 6 camadas com blur crescente, cada uma visível
+// numa fatia da borda (máscara em gradiente). Porte do estiloCamada do EVE.
+$camadas: 6;
+$fatia: math.div(100%, $camadas + 1);
+
+.marquee__blur {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: 96px;
+  pointer-events: none;
+
+  span {
+    position: absolute;
+    inset: 0;
+  }
+
+  @for $i from 0 through $camadas - 1 {
+    span:nth-child(#{$i + 1}) {
+      backdrop-filter: blur(#{$i * 1.1}px);
+      -webkit-backdrop-filter: blur(#{$i * 1.1}px);
+    }
+  }
+}
+
+@each $lado, $angulo in (left: 270deg, right: 90deg) {
+  .marquee__blur--#{$lado} {
+    #{$lado}: 0;
+
+    @for $i from 0 through $camadas - 1 {
+      span:nth-child(#{$i + 1}) {
+        $mascara: linear-gradient(
+          $angulo,
+          transparent ($i * $fatia),
+          black (($i + 1) * $fatia),
+          black (($i + 2) * $fatia),
+          transparent (($i + 3) * $fatia)
+        );
+        -webkit-mask-image: $mascara;
+        mask-image: $mascara;
+      }
+    }
+  }
+}
+
+.marquee--compact .marquee__blur {
+  width: 32px;
+}
+
+@media (max-width: 575.98px) {
+  .marquee__blur {
+    width: 48px;
+  }
+
+  .marquee--compact .marquee__blur {
+    width: 20px;
+  }
+}
+
+// Pausa (WCAG 2.2.2): discreta, na ponta direita, acima do blur
+.marquee__pause {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  right: var(--space-xs);
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: none;
+  border-radius: var(--radius-pill);
+  background-color: var(--color-paper-2);
+  color: var(--color-ink);
+  font-size: 0.75rem;
+  cursor: pointer;
+  opacity: 0.85;
+  transition:
+    background-color var(--transition-fast),
+    opacity var(--transition-fast);
+
+  &:hover,
+  &:focus-visible,
+  &[aria-pressed="true"] {
+    opacity: 1;
+  }
+
+  &:hover,
+  &:focus-visible {
+    background-color: var(--color-signal-orange);
+  }
+}
